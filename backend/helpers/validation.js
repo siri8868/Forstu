@@ -9,6 +9,12 @@ const signUpValidationSchema = [
     .withMessage("name should not be empty")
     .isLength({ max: 15, min: 3 })
     .withMessage("name should be between 3 - 15 characters"),
+  body("email")
+    .isEmail()
+    .withMessage("Invalid email")
+    .notEmpty()
+    .withMessage("email should not be empty"),
+
   body("password")
     .notEmpty()
     .withMessage("Password should not be empty")
