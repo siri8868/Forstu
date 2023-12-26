@@ -23,6 +23,7 @@ router.use(express.urlencoded({ extended: true }));
 router.post("/signup", signup);
 
 // router.post("/signin", signInValidationSchema, signin);
+router.post("/signin", signin);
 
 // router.put(
 //   "/changePassword",

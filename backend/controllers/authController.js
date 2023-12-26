@@ -112,66 +112,66 @@ exports.signup = (req, res) => {
   }
 };
 
-// exports.signin = (req, res) => {
-//   try {
-//     const { username, password } = req.body;
+exports.signin = (req, res) => {
+  try {
+    const { username, password } = req.body;
+console.log(username,password);
+    const errors = validationResult(req);
 
-//     const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: errors.array()[0].msg,
+      });
+    }
 
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({
-//         success: false,
-//         message: errors.array()[0].msg,
-//       });
-//     }
+    User.findOne({ where: { username } })
+      .then((data) => {
+        data = data.toJSON();
 
-//     User.findOne({ where: { username } })
-//       .then((data) => {
-//         data = data.toJSON();
-
-//         const hashPassword = pass_encryptor(
-//           password,
-//           process.env.HASH_SECRET_KEY
-//         );
-//         if (hashPassword === data.password) {
-//           const accessToken = jwt.sign(
-//             {
-//               id: data.id,
-//             },
-//             process.env.ACCESS_TOKEN_SECRET,
-//             {
-//               expiresIn: "2h",
-//             }
-//           );
-//           data.password = undefined;
-//           return res.json({
-//             accessToken: accessToken,
-//             success: true,
-//             user: data,
-//           });
-//         } else {
-//           return res.status(401).json({
-//             status: false,
-//             message: "Invalid Password",
-//           });
-//         }
-//       })
-//       .catch((error) => {
-//         return res.status(500).json({
-//           status: false,
-//           message: "Invalid Details",
-//           error: error,
-//         });
-//       });
-//   } catch (error) {
-//     // 500 This communicates that there was an unexpected error on the server side.
-//     return res.status(500).json({
-//       success: false,
-//       error,
-//       message: "An error occurred while processing the request!",
-//     });
-//   }
-// };
+        const hashPassword = pass_encryptor(
+          password,
+          process.env.HASH_SECRET_KEY
+        );
+        if (hashPassword === data.password) {
+          const accessToken = jwt.sign(
+            {
+              id: data.id,
+            },
+            process.env.ACCESS_TOKEN_SECRET,
+            {
+              expiresIn: "2h",
+            }
+          );
+          data.password = undefined;
+          return res.json({
+            accessToken: accessToken,
+            success: true,
+            user: data,
+          });
+        } else {
+          return res.status(401).json({
+            status: false,
+            message: "Invalid Password",
+          });
+        }
+      })
+      .catch((error) => {
+        return res.status(500).json({
+          status: false,
+          message: "Invalid Details",
+          error: error,
+        });
+      });
+  } catch (error) {
+    // 500 This communicates that there was an unexpected error on the server side.
+    return res.status(500).json({
+      success: false,
+      error,
+      message: "An error occurred while processing the request!",
+    });
+  }
+};
 
 // exports.changePassword = (req, res) => {
 //   try {
