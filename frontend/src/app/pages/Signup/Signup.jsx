@@ -13,7 +13,9 @@ import {
   } from "@chakra-ui/react";
   import React, { useState } from "react";
   import { useHistory } from "react-router-dom";
-  import { FcLock } from "react-icons/fc";
+  import { FcBusinessman,FcAndroidOs, FcLock } from "react-icons/fc";
+  import { GrUserSettings } from "react-icons/gr";
+
   import { MdOutlineEmail } from "react-icons/md";
 
   import { ViewOffIcon, ViewIcon } from "@chakra-ui/icons";
@@ -26,7 +28,10 @@ import {
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
     const[email, setEmail] = useState("");
+    const [mobile,setMobile] = useState("");
+    const [role,setRole] = useState("");
     const [showPassword, setShowPassword] = useState(false);
+    
   
     const handleShowClick = () => setShowPassword(!showPassword);
   
@@ -126,7 +131,7 @@ import {
                         flexDirection={"column"}
                       >
                         <Heading as="h5" size={"lg"} color="primary.200" m={2}>
-                          Create Us er Account 
+                          Create User Account 
                         </Heading>
                         <Heading as="h6" size="sm" color="secondary.main" m={2}>
                           Forstu
@@ -145,7 +150,7 @@ import {
                             <InputGroup>
                               <InputLeftElement
                                 pointerEvents="none"
-                                children={<MdOutlineEmail size={20} />}
+                                children={<FcBusinessman size={20} />}
                               />
   
                               <Input
@@ -175,6 +180,48 @@ import {
                                 value={email}
                                 onChange={(e) => {
                                   setUsername(e.target.value);
+                                }}
+                                required
+                              />
+                              <br />
+                              <br />
+                            </InputGroup>
+                          </FormControl>
+
+                          <FormControl>
+                            <InputGroup>
+                              <InputLeftElement
+                                pointerEvents="none"
+                                children={<FcAndroidOs size={20} />}
+                              />
+  
+                              <Input
+                                type="number"
+                                placeholder="Mobile Number"
+                                value={mobile}
+                                onChange={(e) => {
+                                  setMobile(e.target.value);
+                                }}
+                                required
+                              />
+                              <br />
+                              <br />
+                            </InputGroup>
+                          </FormControl>
+
+                          <FormControl>
+                            <InputGroup>
+                              <InputLeftElement
+                                pointerEvents="none"
+                                children={<GrUserSettings size={20} />}
+                              />
+  
+                              <Input
+                                type="text"
+                                placeholder="Role"
+                                value={role}
+                                onChange={(e) => {
+                                  setRole(e.target.value);
                                 }}
                                 required
                               />
