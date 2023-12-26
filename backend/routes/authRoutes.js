@@ -20,7 +20,7 @@ const router = express.Router();
 router.use(express.json());
 router.use(express.urlencoded({ extended: true }));
 
-router.post("/signup", signup);
+router.post("/signup", signUpValidationSchema, signup);
 
 // router.post("/signin", signInValidationSchema, signin);
 router.post("/signin", signin);
