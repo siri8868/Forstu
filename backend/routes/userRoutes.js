@@ -3,8 +3,9 @@ const {
   getAllUsers,
   getUserProfile,
   getUser,
-  // addUser,
-  // deleteUser,
+  addUser,
+  deleteUser,
+  deleteUsers,
   // updateUser,
   // getAllUsersByRole,
   // getUserCountByRole,
@@ -15,11 +16,12 @@ const {
 const { isSignedIn, isAdmin } = require("../controllers/authController");
 const {
   getUserValidationSchema,
+  deleteUserValidationSchema,
+  UsersValidationSchemaForIds,
   // addUserValidationSchema,
   // updateUserValidationSchema,
   // deleteUserValidationSchema,
   // globalRoleValidation,
-  // UsersValidationSchemaForIds,
 } = require("../helpers/validation");
 
 const router = express.Router();
@@ -38,7 +40,7 @@ router.get("/user", isSignedIn, isAdmin, getUserValidationSchema, getUser);
 
 // router.get("/user/recent", isSignedIn, isAdmin, getrecentUsers);
 
-// router.post("/user", isSignedIn, isAdmin, addUserValidationSchema, addUser);
+router.post("/user", isSignedIn, isAdmin, addUser);
 
 // router.put(
 //   "/user",
@@ -48,21 +50,21 @@ router.get("/user", isSignedIn, isAdmin, getUserValidationSchema, getUser);
 //   updateUser
 // );
 
-// router.delete(
-//   "/user",
-//   isSignedIn,
-//   isAdmin,
-//   deleteUserValidationSchema,
-//   deleteUser
-// );
+router.delete(
+  "/user",
+  isSignedIn,
+  isAdmin,
+  deleteUserValidationSchema,
+  deleteUser
+);
 
-// router.delete(
-//   "/users",
-//   isSignedIn,
-//   isAdmin,
-//   UsersValidationSchemaForIds,
-//   deleteUsers
-// );
+router.delete(
+  "/users",
+  isSignedIn,
+  isAdmin,
+  UsersValidationSchemaForIds,
+  deleteUsers
+);
 
 router.get("/profile", isSignedIn, getUserProfile);
 
