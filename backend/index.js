@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const { sequelize } = require("./database/database");
 
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 dotenv.config();
 // comment
@@ -24,6 +25,7 @@ app.use(cors());
 app.use(morgan("tiny"));
 
 app.use("/api", authRoutes);
+app.use("/api", userRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World");

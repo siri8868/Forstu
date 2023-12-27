@@ -14,7 +14,6 @@ const signUpValidationSchema = [
     .withMessage("Invalid email")
     .notEmpty()
     .withMessage("email should not be empty"),
-
   body("password")
     .notEmpty()
     .withMessage("Password should not be empty")
@@ -38,11 +37,11 @@ const signUpValidationSchema = [
 ];
 
 const signInValidationSchema = [
-  body("username")
+  body("name")
     .notEmpty()
-    .withMessage("Username should not be empty")
+    .withMessage("name should not be empty")
     .isLength({ max: 15, min: 3 })
-    .withMessage("Username should be between 3 - 15 characters"),
+    .withMessage("name should be between 3 - 15 characters"),
   body("password")
     .notEmpty()
     .withMessage("Password should not be empty")
