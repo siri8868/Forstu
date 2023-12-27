@@ -7,6 +7,7 @@ import AdminDashboard from "./pages/Admin/AdminDashboard";
 import ROLES from "./helpers/Roles";
 import UserDashboard from "./pages/User/UserDashboard";
 import YearAndCourses from "./pages/YearAndCourses/YearAndCourses";
+import Signup from "./pages/Signup/Signup";
 
 function App() {
   return (
@@ -19,6 +20,9 @@ function App() {
         </Route>
         <Route exact path="/signin">
           <Login />
+        </Route>
+        <Route exact path="/signup">
+          <Signup />
         </Route>
         <Route exact path="/profile">
           {/* <Profile /> */}
