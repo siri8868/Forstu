@@ -107,6 +107,10 @@ const addUserValidationSchema = [
     }),
 ];
 
+const UsersValidationSchemaForIds = [
+  body("Ids").isArray({ min: 1 }).withMessage("Please select min one item"),
+];
+
 const deleteUserValidationSchema = [
   body("id")
     .notEmpty()
@@ -163,4 +167,5 @@ module.exports = {
   updateUserValidationSchema,
   deleteUserValidationSchema,
   changePasswordValidationSchema,
+  UsersValidationSchemaForIds,
 };

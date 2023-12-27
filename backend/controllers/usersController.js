@@ -38,6 +38,7 @@ exports.getAllUsers = (req, res) => {
     });
 };
 
+// done
 exports.getUserProfile = (req, res) => {
   const data = req.profile;
   return res.json({
@@ -46,6 +47,7 @@ exports.getUserProfile = (req, res) => {
   });
 };
 
+// done
 exports.getUser = (req, res) => {
   try {
     const errors = validationResult(req);
@@ -105,9 +107,10 @@ exports.getUser = (req, res) => {
   }
 };
 
+// done
 exports.addUser = (req, res) => {
   try {
-    const { name, email, mobile, role, ref_code, password } = req.body;
+    const { name, email, mobile, role, ref_code } = req.body;
 
     // console.log(name, email, mobile, role, ref_code, password);
 
@@ -170,97 +173,99 @@ exports.addUser = (req, res) => {
   }
 };
 
-// exports.deleteUser = (req, res) => {
-//   try {
-//     const errors = validationResult(req);
+// done
+exports.deleteUser = (req, res) => {
+  try {
+    const errors = validationResult(req);
 
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({
-//         success: false,
-//         message: errors.array()[0].msg,
-//       });
-//     }
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: errors.array()[0].msg,
+      });
+    }
 
-//     User.destroy({
-//       where: {
-//         id: req.body.id,
-//       },
-//     })
-//       .then((data) => {
-//         if (data) {
-//           return res.status(200).json({
-//             success: true,
-//             message: "User deleted successfully",
-//           });
-//         } else {
-//           return res.status(404).json({
-//             success: false,
-//             message: "User not found",
-//           });
-//         }
-//       })
-//       .catch((error) => {
-//         return res.status(500).json({
-//           success: false,
-//           message: "Failed to delete user",
-//           error: error,
-//         });
-//       });
-//   } catch (error) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "An error occurred while processing the request",
-//       error: error,
-//     });
-//   }
-// };
+    User.destroy({
+      where: {
+        id: req.body.id,
+      },
+    })
+      .then((data) => {
+        if (data) {
+          return res.status(200).json({
+            success: true,
+            message: "User deleted successfully",
+          });
+        } else {
+          return res.status(404).json({
+            success: false,
+            message: "User not found",
+          });
+        }
+      })
+      .catch((error) => {
+        return res.status(500).json({
+          success: false,
+          message: "Failed to delete user",
+          error: error,
+        });
+      });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while processing the request",
+      error: error,
+    });
+  }
+};
 
-// exports.deleteUsers = (req, res) => {
-//   try {
-//     const errors = validationResult(req);
+// not tested
+exports.deleteUsers = (req, res) => {
+  try {
+    const errors = validationResult(req);
 
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({
-//         success: false,
-//         message: errors.array()[0].msg,
-//       });
-//     }
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: errors.array()[0].msg,
+      });
+    }
 
-//     User.destroy({
-//       where: {
-//         id: {
-//           [Op.in]: req.body.Ids,
-//         },
-//       },
-//     })
-//       .then((data) => {
-//         if (data) {
-//           return res.status(200).json({
-//             success: true,
-//             message: "Users deleted successfully",
-//           });
-//         } else {
-//           return res.status(404).json({
-//             success: false,
-//             message: "Users not found",
-//           });
-//         }
-//       })
-//       .catch((error) => {
-//         return res.status(500).json({
-//           success: false,
-//           message: "Failed to delete users",
-//           error: error,
-//         });
-//       });
-//   } catch (error) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "An error occurred while processing the request",
-//       error: error,
-//     });
-//   }
-// };
+    User.destroy({
+      where: {
+        id: {
+          [Op.in]: req.body.Ids,
+        },
+      },
+    })
+      .then((data) => {
+        if (data) {
+          return res.status(200).json({
+            success: true,
+            message: "Users deleted successfully",
+          });
+        } else {
+          return res.status(404).json({
+            success: false,
+            message: "Users not found",
+          });
+        }
+      })
+      .catch((error) => {
+        return res.status(500).json({
+          success: false,
+          message: "Failed to delete users",
+          error: error,
+        });
+      });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while processing the request",
+      error: error,
+    });
+  }
+};
 
 // exports.updateUser = (req, res) => {
 //   try {

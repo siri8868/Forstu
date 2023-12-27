@@ -77,26 +77,25 @@ dotenv.config();
 // };
 
 exports.signup = (req, res) => {
+  // console.log("Hello World");
+  const { name, email, mobile, role, ref_code } = req.body;
+  console.log(name, email, mobile, role, ref_code);
+  console.log();
   try {
-    const { name, email, mobile, role, ref_code, password } = req.body;
-
-    // console.log(name, email, mobile, role, ref_code, password);
-
+    const { name, email, mobile, role, ref_code } = req.body;
+    // console.log(name, email, mobile, role, ref_code);
     const hashPassword = pass_encryptor(
       req.body.password,
       process.env.HASH_SECRET_KEY
     );
-
-    // console.log(name, email, mobile, role, ref_code, hashPassword);
+    console.log(name, email, mobile, role, ref_code, hashPassword);
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
       return res.status(400).json({
         success: false,
         message: errors.array()[0].msg,
       });
     }
-
     User.create({
       name,
       email,
