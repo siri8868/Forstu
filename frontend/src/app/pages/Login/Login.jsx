@@ -15,6 +15,13 @@ import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { FcBusinessman, FcLock } from "react-icons/fc";
 import { ViewOffIcon, ViewIcon } from "@chakra-ui/icons";
+import { signin } from "../../api/Auth";
+import ROLES from "../../helpers/Roles";
+import {
+  authenticate,
+  isAuthenticated,
+  signout,
+} from "../../helpers/AuthHelpers";
 
 const Login = () => {
   const toast = useToast();
@@ -41,53 +48,50 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(username, password);
-    navigate.replace("/dashboard/admin");
-    // signin({
-    //   username,
-    //   password,
-    // })
-    //   .then((res) => {
-    //     if (res.success) {
-    //       authenticate(res, () => {
-    //         const { role } = isAuthenticated().user;
-    //         switch (role) {
-    //           case ROLES.ADMIN:
-    //             return navigate.replace("/dashboard/admin");
-    //           case ROLES.ANALYST:
-    //             return navigate.replace("/dashboard/analyst");
-    //           case ROLES.COMMITTEE:
-    //             return navigate.replace("/dashboard/committee");
-    //           case ROLES.UMPIRE:
-    //             return navigate.replace("/dashboard/umpire");
-    //           default:
-    //             return navigate.replace("/");
-    //         }
-    //       });
-    //     } else {
-    //       signout();
-    //       toast({
-    //         title: "Operation failed!",
-    //         description: res.message,
-    //         status: "error",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast({
-    //       title: "Error",
-    //       description: "Operation Failed!",
-    //       status: "error",
-    //       duration: 9000,
-    //       isClosable: true,
-    //       position: "top-right",
-    //     });
+    let name = username;
+    console.log("JJJJJ", name, password);
+    signin({
+      name,
+      password,
+    })
+      .then((res) => {
+        if (res.success) {
+          console.log("res", res);
+          authenticate(res, () => {
+            const { role } = isAuthenticated().user;
+            switch (role) {
+              case ROLES.ADMIN:
+                return navigate.replace("/dashboard/admin");
+              case ROLES.STUDENT:
+                return navigate.replace("/dashboard/student");
+              default:
+                return navigate.replace("/");
+            }
+          });
+        } else {
+          signout();
+          toast({
+            title: "Operation failed!",
+            description: res.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: "Operation Failed!",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
 
-    //     console.error(error);
-    //   });
+        console.error(error);
+      });
   };
 
   return (
