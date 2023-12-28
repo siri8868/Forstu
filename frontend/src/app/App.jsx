@@ -8,6 +8,7 @@ import ROLES from "./helpers/Roles";
 import UserDashboard from "./pages/User/UserDashboard";
 import YearAndCourses from "./pages/YearAndCourses/YearAndCourses";
 import Signup from "./pages/Signup/Signup";
+import CollageDashboard from "./pages/Collage/CollegeDashboard";
 
 function App() {
   return (
@@ -48,6 +49,13 @@ function App() {
           exact
           path="/dashboard/admin/year_course"
           component={YearAndCourses}
+          role={ROLES.ADMIN}
+        ></ProtectedRoute>
+
+        <ProtectedRoute
+          exact
+          path="/dashboard/admin/colleges"
+          component={CollageDashboard}
           role={ROLES.ADMIN}
         ></ProtectedRoute>
         {/* <Route path="/dashboard/admin">

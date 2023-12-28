@@ -34,10 +34,10 @@ export async function signin(user) {
 //   return response.json();
 // }
 
-// export function redirectOnTokenExpire() {
-//   signout(() => {
-//     setTimeout(function () {
-//       window.location.replace("/signin");
-//     }, import.meta.env.VITE_REDIRECTION_DURATION);
-//   });
-// }
+export function redirectOnTokenExpire() {
+  signout(() => {
+    setTimeout(function () {
+      window.location.replace("/signin");
+    }, import.meta.env.VITE_REDIRECTION_DURATION);
+  });
+}
