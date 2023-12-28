@@ -51,7 +51,7 @@ const AdminMenu = [
     path: "/dashboard/admin/year_course",
   },
 
-  { name: "Collages", icon: MdGroup, path: "/dashboard/admin/collages" },
+  { name: "Colleges", icon: MdGroup, path: "/dashboard/admin/colleges" },
   // { name: "Tagging", icon: BsFillTagsFill, path: "/dashboard/admin/tags" },
 
   // { name: "Seasons", icon: MdSportsCricket, path: "/dashboard/admin/seasons" },
