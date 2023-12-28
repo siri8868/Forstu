@@ -1,7 +1,5 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Table as AntTable } from "antd";
-
-import Base from "../../components/Base";
 
 import {
   Box,
@@ -28,49 +26,41 @@ import {
   ModalBody,
   ModalCloseButton,
 } from "@chakra-ui/react";
-// import UserForm from "./UserForm";
-// import { getAllUserApi } from "../../api/User";
-// import ConformDelete from "../../components/conformButtons/ConformDelete";
 
-// Check wheather you need uuid or else uninstall it!
-// import ConformEditUser from "../../components/conformButtons/ConformEditUser";
+import Base from "../../components/Base";
+
 import { HiCheckCircle } from "react-icons/hi";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom/cjs/react-router-dom";
 import { IoMdAdd } from "react-icons/io";
-// import { convertToIst } from "../../helpers/Time";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { isAuthenticated } from "../../helpers/AuthHelpers";
-import { getAllUserApi } from "../../api/User";
 import { convertToIst } from "../../helpers/Time";
-import ConformEditUser from "./UserComponents/ConformEditUser";
-import AddUserForm from "./UserComponents/AddUserForm";
+import { getAllCollegesApi } from "../../api/College";
 
-export default function UserDashboard() {
+function CollegeDashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [userList, setUserList] = useState([]);
+  const [college, setCollegeList] = useState([]);
   const currentUser = isAuthenticated().user.username;
-  const [userNameFilterList, setUserNameFilterList] = useState([]);
-  const [userRoleFilterList, setUserRoleFilterList] = useState([]);
-  const [userIdFilterList, setUserIdFilterList] = useState([]);
 
   const columns = [
     {
       title: "ID",
       dataIndex: "id",
       filterSearch: true,
-      filters: userIdFilterList,
+      // filters: userIdFilterList,
       onFilter: (value, record) => record.id.toString().indexOf(value) === 0,
       sorter: (a, b) => a.id - b.id,
       sortDirections: ["descend"],
     },
     {
-      title: "USERNAME",
-      dataIndex: "name",
+      title: "Institute Choice Code",
+      dataIndex: "institute_choice_code",
       filterSearch: true,
-      filters: userNameFilterList,
+      // filters: userNameFilterList,
 
-      onFilter: (value, record) => record.name.indexOf(value) === 0,
+      onFilter: (value, record) =>
+        record.institute_choice_code.indexOf(value) === 0,
       sorter: (a, b) => {
         // Compare names as strings for alphabetical order
         return a.name.localeCompare(b.name);
@@ -79,29 +69,29 @@ export default function UserDashboard() {
     },
 
     {
-      title: "ROLE",
-      dataIndex: "role",
+      title: "Institute Name",
+      dataIndex: "institute_name",
       filterSearch: true,
-      filters: userRoleFilterList,
+      // filters: userRoleFilterList,
 
-      onFilter: (value, record) => record.role.indexOf(value) === 0,
+      onFilter: (value, record) => record.institute_name.indexOf(value) === 0,
       sorter: (a, b) => {
         // Compare usernames as strings for alphabetical order
-        return a.role.localeCompare(b.role);
+        return a.institute_name.localeCompare(b.role);
       },
       sortDirections: ["ascend", "descend"],
     },
 
     {
-      title: "Referral Code",
-      dataIndex: "ref_code",
+      title: "Institute State",
+      dataIndex: "institute_state",
       filterSearch: true,
       // filters: userRoleFilterList,
 
-      onFilter: (value, record) => record.ref_code.indexOf(value) === 0,
+      onFilter: (value, record) => record.institute_state.indexOf(value) === 0,
       sorter: (a, b) => {
         // Compare usernames as strings for alphabetical order
-        return a.role.localeCompare(b.role);
+        return a.institute_state.localeCompare(b.role);
       },
       sortDirections: ["ascend", "descend"],
     },
@@ -172,23 +162,22 @@ export default function UserDashboard() {
 
   const onChange = (pagination, filters, sorter, extra) => {};
 
-  const getAllUsers = async () => {
-    const res = await getAllUserApi();
+  const getAllColleges = async () => {
+    const res = await getAllCollegesApi();
     if (res.success) {
-      setUserList(res.data);
-      setUserNameFilterList(generateFilterList(res.data, "name"));
-      setUserRoleFilterList(generateFilterList(res.data, "role"));
-      setUserIdFilterList(generateFilterList(res.data, "id"));
+      console.log("MEMEMEMEME", res.data);
+      setCollegeList(res.data);
+      // setUserNameFilterList(generateFilterList(res.data, "name"));
+      // setUserRoleFilterList(generateFilterList(res.data, "role"));
+      // setUserIdFilterList(generateFilterList(res.data, "id"));
     } else {
-      setUserList([]);
+      setCollegeList([]);
     }
   };
 
   useEffect(() => {
-    getAllUsers();
+    getAllColleges();
   }, []);
-
-  // To change color depends on roles for table
 
   const generateFilterList = (list, key) => {
     let data = list.map((item) => item[key]);
@@ -209,7 +198,7 @@ export default function UserDashboard() {
           <Flex>
             <Box>
               <Heading as="h4" size={"md"} my={2}>
-                User List
+                College List
               </Heading>
               <Breadcrumb
                 spacing="8px"
@@ -223,7 +212,7 @@ export default function UserDashboard() {
                 </BreadcrumbItem>
 
                 <BreadcrumbItem>
-                  <NavLink to="/dashboard/admin/users">Users</NavLink>
+                  <NavLink to="/dashboard/admin/colleges">Colleges</NavLink>
                 </BreadcrumbItem>
 
                 <BreadcrumbItem isCurrentPage>
@@ -245,7 +234,7 @@ export default function UserDashboard() {
                     marginRight: "5px",
                   }}
                 />
-                New User
+                New College
               </Button>
 
               <Modal
@@ -254,14 +243,14 @@ export default function UserDashboard() {
                 onClose={onClose}
               >
                 <ModalOverlay />
-                <ModalContent>
+                {/* <ModalContent>
                   <ModalHeader>Add User</ModalHeader>
                   <ModalCloseButton />
                   <ModalBody>
                     <AddUserForm onClose={onClose} getAllUsers={getAllUsers} />
                   </ModalBody>
                   <ModalFooter></ModalFooter>
-                </ModalContent>
+                </ModalContent> */}
               </Modal>
             </Box>
           </Flex>
@@ -271,7 +260,7 @@ export default function UserDashboard() {
           <AntTable
             rowKey={"id"}
             columns={columns}
-            dataSource={userList}
+            dataSource={college}
             onChange={onChange}
             bordered={true}
             loading={false}
@@ -281,3 +270,5 @@ export default function UserDashboard() {
     </>
   );
 }
+
+export default CollegeDashboard;
