@@ -10,7 +10,7 @@ const collegeprofile = sequelize.define("mahadbt_college_profiles", {
     allowNull: false,
   },
 
-  instutute_choice_code: {
+  institute_choice_code: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
   },
