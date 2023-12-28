@@ -14,6 +14,7 @@ exports.getAllCollegeProfile = (req, res) => {
 
   })
     .then((data) => {
+      console.log("your data req", data)
       data = JSON.stringify(data);
       data = JSON.parse(data);
       res.json({
@@ -31,7 +32,6 @@ exports.getAllCollegeProfile = (req, res) => {
 };
 
 
-
 exports.getSingleCollegeProfile = (req, res) => {
   try {
     const errors = validationResult(req);
@@ -46,7 +46,7 @@ exports.getSingleCollegeProfile = (req, res) => {
     collegeprofile.findOne({
       attributes: [
         "id",
-        "instutute_choice_code",
+        "institute_choice_code",
         "institute_name",
         "institute_state",
         "institute_district",
@@ -91,14 +91,14 @@ exports.getSingleCollegeProfile = (req, res) => {
 exports.addCollegeProfile = (req, res) => {
   try {
     const {
-      instutute_choice_code,
+      institute_choice_code,
       institute_name,
       institute_state,
       institute_district,
       institute_taluka,
     } = req.body;
 
-    console.log(instutute_choice_code, institute_name, institute_state, institute_district, institute_taluka);
+    console.log(institute_choice_code, institute_name, institute_state, institute_district, institute_taluka);
 
     const errors = validationResult(req);
 
@@ -110,7 +110,7 @@ exports.addCollegeProfile = (req, res) => {
     }
 
     collegeprofile.create({
-      instutute_choice_code,
+      institute_choice_code,
       institute_name,
       institute_district,
       institute_taluka,
@@ -151,97 +151,103 @@ exports.addCollegeProfile = (req, res) => {
   }
 };
 
-// exports.updateCollegeProfile = (req, res) => {
-//   try {
-//     const errors = validationResult(req);
+exports.updateCollegeProfile = (req, res) => {
+  try {
+    const errors = validationResult(req);
 
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({
-//         success: false,
-//         message: errors.array()[0].msg,
-//       });
-//     }
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: errors.array()[0].msg,
+      });
+    }
 
-//     const body = req.body;
-//     collegeprofile.update(body, {
-//       where: {
-//         id: req.body.id,
-//         name: 
-//       },
-//     })
-//       .then((data) => {
-//         if (data[0]) {
-//           return res.status(200).json({
-//             success: true,
-//             message: "User updated successfully",
-//           });
-//         } else {
-//           return res.status(404).json({
-//             success: false,
-//             message: "User not found",
-//           });
-//         }
-//       })
-//       .catch((errors) => {
-//         return res.status(500).json({
-//           success: false,
-//           message: "Failed to update user",
-//           errors,
-//         });
-//       });
-//   } catch (error) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "An error occurred while processing the request",
-//       error: error,
-//     });
-//   }
-// };
+    const { institute_choice_code, institute_name, institute_state, institute_district, institute_taluka } = req.body;
+    // const body = req.body;
+    collegeprofile.update(req.body, {
+      where: {
+        id: req.body.id,
+        // institute_choice_code: req.body.institute_choice_code,
+        // institute_name: req.body.institute_name,
+        // institute_state: req.body.institute_state,
+        // institute_district: req.body.institute_district,
+        // institute_taluka: institute_taluka
+      },
+      // console.log("your body data", body);
+    })
+      .then((data) => {
+        if (data[0]) {
+          return res.status(200).json({
+            success: true,
+            message: "College Profile updated successfully",
+          });
+        } else {
+          return res.status(404).json({
+            success: false,
+            message: "College Profile not found",
+          });
+        }
+      })
+      .catch((errors) => {
+        return res.status(500).json({
+          success: false,
+          message: "Failed to update College Profile",
+          errors,
+        });
+      });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while processing the request",
+      error: error,
+    });
+  }
+};
 
-// exports.deleteCollegeProfile = (req, res) => {
-//   try {
-//     const errors = validationResult(req);
+exports.deleteCollegeProfile = (req, res) => {
+  try {
+    const errors = validationResult(req);
 
-//     if (!errors.isEmpty()) {
-//       return res.status(400).json({
-//         success: false,
-//         message: errors.array()[0].msg,
-//       });
-//     }
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: errors.array()[0].msg,
+      });
+    }
 
-//     collegeprofile.destroy({
-//       where: {
-//         id: req.body.id,
-//       },
-//     })
-//       .then((data) => {
-//         if (data) {
-//           return res.status(200).json({
-//             success: true,
-//             message: "College profile deleted successfully",
-//           });
-//         } else {
-//           return res.status(404).json({
-//             success: false,
-//             message: "College profile not found",
-//           });
-//         }
-//       })
-//       .catch((error) => {
-//         return res.status(500).json({
-//           success: false,
-//           message: "Failed to delete College profile",
-//           error: error,
-//         });
-//       });
-//   } catch (error) {
-//     return res.status(500).json({
-//       success: false,
-//       message: "An error occurred while processing the request",
-//       error: error,
-//     });
-//   }
-// };
+    collegeprofile.destroy({
+      where: {
+        id: req.body.id,
+      },
+    })
+      .then((data) => {
+        if (data) {
+          return res.status(200).json({
+            success: true,
+            message: "College profile deleted successfully",
+          });
+        } else {
+          return res.status(404).json({
+            success: false,
+            message: "College profile not found",
+          });
+        }
+      })
+      .catch((error) => {
+        return res.status(500).json({
+          success: false,
+          message: "Failed to delete College profile",
+          error: error,
+        });
+      });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while processing the request",
+      error: error,
+    });
+  }
+};
 
 // exports.deleteUsers = (req, res) => {
 //   try {
