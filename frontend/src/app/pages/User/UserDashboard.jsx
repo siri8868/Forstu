@@ -66,14 +66,14 @@ export default function UserDashboard() {
     },
     {
       title: "USERNAME",
-      dataIndex: "name",
+      dataIndex: "username",
       filterSearch: true,
       filters: userNameFilterList,
 
-      onFilter: (value, record) => record.name.indexOf(value) === 0,
+      onFilter: (value, record) => record.username.indexOf(value) === 0,
       sorter: (a, b) => {
-        // Compare names as strings for alphabetical order
-        return a.name.localeCompare(b.name);
+        // Compare usernames as strings for alphabetical order
+        return a.username.localeCompare(b.username);
       },
       sortDirections: ["ascend", "descend"],
     },

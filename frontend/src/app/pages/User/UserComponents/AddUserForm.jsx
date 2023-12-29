@@ -45,7 +45,7 @@ const AddUserForm = ({ getAllUsers, onClose }) => {
     // Do something with the form data, such as submit it to a backend server
 
     addUserApi({
-      name: username,
+      username,
       email,
       mobile,
       password,
