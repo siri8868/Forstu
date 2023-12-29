@@ -218,8 +218,6 @@ const NavItem = ({ icon, children, history, path, ...rest }) => {
 const MobileNav = ({ onOpen, ...rest }) => {
   const navigate = useHistory();
 
-  // const { username } = isAuthenticated().user;
-
   return (
     <Flex
       ml={{ base: 0, md: 60 }}

@@ -114,11 +114,25 @@
 
 import React from "react";
 import Base from "../../components/Base";
+import TotalStudentsComponent from "./AdminDashboardComponents/TotalStudentsComponent";
+import { Grid, GridItem } from "@chakra-ui/react";
+import ApplicationStatus from "./AdminDashboardComponents/ApplicationStatus";
 
 const AdminDashboard = () => {
   return (
     <Base>
-      <h1>Helloooooo</h1>
+      {/* <h1>Helloooooo</h1> */}
+      <Grid templateColumns="repeat(3, 1fr)" gap={6}>
+        <GridItem w="100%" bg={"#FFFBF5"} borderRadius={"10px"}>
+          <TotalStudentsComponent />
+        </GridItem>
+        <GridItem w="100%" bg={"#FFFBF5"} borderRadius={"10px"}>
+          <ApplicationStatus />
+        </GridItem>
+        <GridItem w="100%" h="10" bg="blue.500" />
+        {/* <GridItem w="100%" h="10" bg="blue.500" />
+        <GridItem w="100%" h="10" bg="blue.500" /> */}
+      </Grid>
     </Base>
   );
 };
