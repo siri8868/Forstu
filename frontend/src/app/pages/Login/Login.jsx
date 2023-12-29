@@ -48,10 +48,9 @@ const Login = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    let name = username;
-    console.log("JJJJJ", name, password);
+    console.log("JJJJJ", username, password);
     signin({
-      name,
+      username,
       password,
     })
       .then((res) => {

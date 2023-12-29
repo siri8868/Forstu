@@ -78,13 +78,13 @@ const getUserValidationSchema = [
 ];
 
 const addUserValidationSchema = [
-  body("userusername")
+  body("username")
     .notEmpty()
-    .withMessage("Userusername should not be empty")
+    .withMessage("username should not be empty")
     .isAlphanumeric()
-    .withMessage("Userusername should only contain alphabets and numbers")
+    .withMessage("username should only contain alphabets and numbers")
     .isLength({ max: 15, min: 3 })
-    .withMessage("Userusername should be between 3 - 15 characters"),
+    .withMessage("username should be between 3 - 15 characters"),
   body("password")
     .notEmpty()
     .withMessage("Password should not be empty")
@@ -139,11 +139,11 @@ const updateUserValidationSchema = [
         throw new Error("Invalid ID!");
       }
     }),
-  body("userusername")
+  body("username")
     .notEmpty()
-    .withMessage("Userusername should not be empty")
+    .withMessage("username should not be empty")
     .isLength({ max: 15, min: 3 })
-    .withMessage("Userusername should be between 3 - 15 characters"),
+    .withMessage("username should be between 3 - 15 characters"),
   body("role")
     .notEmpty()
     .withMessage("Role should not be empty")

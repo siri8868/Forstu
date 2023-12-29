@@ -11,7 +11,7 @@ exports.getAllUsers = (req, res) => {
   User.findAll({
     attributes: [
       "id",
-      "name",
+      "username",
       "email",
       "mobile",
       "password",
@@ -62,7 +62,7 @@ exports.getUser = (req, res) => {
     User.findOne({
       attributes: [
         "id",
-        "name",
+        "username",
         "email",
         "mobile",
         "password",
@@ -110,7 +110,7 @@ exports.getUser = (req, res) => {
 // done
 exports.addUser = (req, res) => {
   try {
-    const { name, email, mobile, role, ref_code } = req.body;
+    const { username, email, mobile, role, ref_code } = req.body;
 
     // console.log(name, email, mobile, role, ref_code, password);
 
@@ -130,7 +130,7 @@ exports.addUser = (req, res) => {
     }
 
     User.create({
-      name,
+      username,
       email,
       mobile,
       role,
@@ -143,7 +143,7 @@ exports.addUser = (req, res) => {
           success: true,
           data: {
             id: data.id,
-            name: data.name,
+            username: data.username,
           },
         });
       })
