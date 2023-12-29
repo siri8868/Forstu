@@ -11,7 +11,7 @@ dotenv.config();
 //   // console.log("Hello World");
 //   // res.send("Hello World");
 //   try {
-//     const name = req.body.name;
+//     const username = req.body.username;
 //     const email = req.body.email;
 //     const mobile = req.body.mobile;
 //     const role = req.body.role;
@@ -22,7 +22,7 @@ dotenv.config();
 //       process.env.HASH_SECRET_KEY
 //     );
 
-//     console.log(name, email, mobile, role, ref_code, hashPassword);
+//     console.log(username, email, mobile, role, ref_code, hashPassword);
 //     const errors = validationResult(req);
 
 //     if (!errors.isEmpty()) {
@@ -33,7 +33,7 @@ dotenv.config();
 //     }
 
 //     User.create({
-//       name,
+//       username,
 //       email,
 //       mobile,
 //       role,
@@ -46,7 +46,7 @@ dotenv.config();
 //           success: true,
 //           data: {
 //             id: data.id,
-//             name: data.name,
+//             username: data.username,
 //           },
 //         });
 //       })
@@ -78,17 +78,17 @@ dotenv.config();
 
 exports.signup = (req, res) => {
   // console.log("Hello World");
-  const { name, email, mobile, role, ref_code } = req.body;
-  console.log(name, email, mobile, role, ref_code);
+  const { username, email, mobile, role, ref_code } = req.body;
+  console.log(username, email, mobile, role, ref_code);
   console.log();
   try {
-    const { name, email, mobile, role, ref_code } = req.body;
-    // console.log(name, email, mobile, role, ref_code);
+    const { username, email, mobile, role, ref_code } = req.body;
+    // console.log(username, email, mobile, role, ref_code);
     const hashPassword = pass_encryptor(
       req.body.password,
       process.env.HASH_SECRET_KEY
     );
-    console.log(name, email, mobile, role, ref_code, hashPassword);
+    console.log(username, email, mobile, role, ref_code, hashPassword);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -97,7 +97,7 @@ exports.signup = (req, res) => {
       });
     }
     User.create({
-      name,
+      username,
       email,
       mobile,
       role,
@@ -110,7 +110,7 @@ exports.signup = (req, res) => {
           success: true,
           data: {
             id: data.id,
-            name: data.name,
+            username: data.username,
           },
         });
       })
@@ -142,9 +142,9 @@ exports.signup = (req, res) => {
 
 exports.signin = (req, res) => {
   try {
-    const { name, password } = req.body;
+    const { username, password } = req.body;
 
-    // console.log(name, password);
+    // console.log(username, password);
 
     const errors = validationResult(req);
 
@@ -155,7 +155,7 @@ exports.signin = (req, res) => {
       });
     }
 
-    User.findOne({ where: { name } })
+    User.findOne({ where: { username } })
       .then((data) => {
         data = data.toJSON();
 

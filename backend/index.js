@@ -8,6 +8,7 @@ const { sequelize } = require("./database/database");
 const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const collegeRoutes = require("./routes/collegeRoutes");
+const mahadbtRoutes = require("./routes/mahadbtRoutes");
 
 dotenv.config();
 // comment
@@ -28,6 +29,7 @@ app.use(morgan("tiny"));
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", collegeRoutes)
+app.use("/api", mahadbtRoutes);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
