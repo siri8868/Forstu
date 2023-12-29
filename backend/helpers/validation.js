@@ -2,13 +2,13 @@ const { body } = require("express-validator");
 const ROLES = require("./roles");
 
 const signUpValidationSchema = [
-  body("name")
+  body("username")
     .isAlpha()
-    .withMessage("name should only contain alphabets")
+    .withMessage("username should only contain alphabets")
     .notEmpty()
-    .withMessage("name should not be empty")
+    .withMessage("username should not be empty")
     .isLength({ max: 15, min: 3 })
-    .withMessage("name should be between 3 - 15 characters"),
+    .withMessage("username should be between 3 - 15 characters"),
   body("email")
     .isEmail()
     .withMessage("Invalid email")
@@ -37,11 +37,11 @@ const signUpValidationSchema = [
 ];
 
 const signInValidationSchema = [
-  body("name")
+  body("username")
     .notEmpty()
-    .withMessage("name should not be empty")
+    .withMessage("username should not be empty")
     .isLength({ max: 15, min: 3 })
-    .withMessage("name should be between 3 - 15 characters"),
+    .withMessage("username should be between 3 - 15 characters"),
   body("password")
     .notEmpty()
     .withMessage("Password should not be empty")
@@ -78,13 +78,13 @@ const getUserValidationSchema = [
 ];
 
 const addUserValidationSchema = [
-  body("username")
+  body("userusername")
     .notEmpty()
-    .withMessage("Username should not be empty")
+    .withMessage("Userusername should not be empty")
     .isAlphanumeric()
-    .withMessage("Username should only contain alphabets and numbers")
+    .withMessage("Userusername should only contain alphabets and numbers")
     .isLength({ max: 15, min: 3 })
-    .withMessage("Username should be between 3 - 15 characters"),
+    .withMessage("Userusername should be between 3 - 15 characters"),
   body("password")
     .notEmpty()
     .withMessage("Password should not be empty")
@@ -139,11 +139,11 @@ const updateUserValidationSchema = [
         throw new Error("Invalid ID!");
       }
     }),
-  body("username")
+  body("userusername")
     .notEmpty()
-    .withMessage("Username should not be empty")
+    .withMessage("Userusername should not be empty")
     .isLength({ max: 15, min: 3 })
-    .withMessage("Username should be between 3 - 15 characters"),
+    .withMessage("Userusername should be between 3 - 15 characters"),
   body("role")
     .notEmpty()
     .withMessage("Role should not be empty")
