@@ -2,7 +2,9 @@ const express = require("express");
 const {
   getAllMahadbtProfiles,
   findMahadbtProfCount,
-  totalEligibleCount
+  totalEligibleCount,
+  totalSubmitCount,
+  totalSubmitCountbyCaste
 } = require("../controllers/mahadbtController");
 
 const { isSignedIn, isAdmin } = require("../controllers/authController");
@@ -20,6 +22,10 @@ const router = express.Router();
 router.get("/getListAllMahadbtprofiles", getAllMahadbtProfiles);
 router.get("/getProfileCount", findMahadbtProfCount);
 router.get("/getElgCount", totalEligibleCount);
+router.get("/totalSubCount", totalSubmitCount);
+router.get("/totalsubcountbycaste", totalSubmitCountbyCaste);
+
+
 
 
 module.exports = router;

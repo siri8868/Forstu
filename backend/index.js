@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv");
 const cors = require("cors");
 const morgan = require("morgan");
+const fileupload = require("express-fileupload");
 
 const { sequelize } = require("./database/database");
 
@@ -9,6 +10,7 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const collegeRoutes = require("./routes/collegeRoutes");
 const mahadbtRoutes = require("./routes/mahadbtRoutes");
+const uploadRoute = require("./routes/uploadRoute");
 
 dotenv.config();
 // comment
@@ -25,11 +27,13 @@ sequelize
 
 app.use(cors());
 app.use(morgan("tiny"));
+app.use(fileupload());
 
 app.use("/api", authRoutes);
 app.use("/api", userRoutes);
 app.use("/api", collegeRoutes)
 app.use("/api", mahadbtRoutes);
+app.use('/api', uploadRoute);
 
 app.get("/", (req, res) => {
   res.send("Hello World");
