@@ -142,10 +142,10 @@ function CollegeDashboard() {
                 <MenuList minWidth="50px">
                   <>
                     <MenuItem py={"-0.3"}>
-                      <ConformEditUser
+                      {/* <ConformEditUser
                         user={record}
                         getAllUsers={getAllUsers}
-                      />
+                      /> */}
                     </MenuItem>
                     <MenuItem py={"-0.3"}>
                       {/* <ConformDelete id={record.id} getAllUsers={getAllUsers} /> */}

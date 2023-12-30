@@ -2,17 +2,21 @@ import { Box } from "@chakra-ui/layout";
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-function ApplicationStatus() {
+function CasteWiseApplicationSubmit() {
   //   const [chartData, setChartData] = useState();
 
   const optionsForPie = {
-    series: [10, 20],
+    series: [44, 55, 13, 43, 22],
     options: {
-      series: [55, 55],
+      series: [44, 55, 41, 17, 15],
       options: {
         chart: {
-          type: "donut",
+          type: "pie",
         },
+        legend: {
+          show: false,
+        },
+
         responsive: [
           {
             breakpoint: 480,
@@ -44,7 +48,7 @@ function ApplicationStatus() {
           options={optionsForPie.options}
           series={optionsForPie.series}
           //   type="bar"
-          type="donut"
+          type="pie"
           // width={380}
           height={350}
         />
@@ -53,4 +57,4 @@ function ApplicationStatus() {
   );
 }
 
-export default ApplicationStatus;
+export default CasteWiseApplicationSubmit;
