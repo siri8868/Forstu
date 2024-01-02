@@ -10,6 +10,7 @@ const { validationResult } = require("express-validator");
 const { createHmac } = require("crypto");
 
 const dotenv = require("dotenv");
+const sequelize = require("../database/connection");
 // const { Json } = require("sequelize/types/utils");
 dotenv.config();
 
@@ -121,6 +122,56 @@ exports.totalSubmitCountbyCaste = (req, res) => {
       const data = results.map(result => ({
         CasteCategory: result.CasteCategory,
         count_per_category: result.get('count_per_category')
+      }));
+
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch(error => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve count of Mahadbt Profiles",
+        error: error.message,
+      });
+    });
+}
+
+exports.totalCourseAndYear = (req, res) => {
+  console.log("hellooooooo from course and year");
+  // console.log("requesed body", req.body)
+  const userSelectedCoursename = req.body.courseName; // Replace with the actual user input
+  const userSelectedCourseyear = req.body.courseYear;
+  // res.send("course year coming ");
+  Mahadbtprofiles.findAll({
+    //   where: {
+    //     coursename: userSelectedCoursename,
+    //     current_year: userSelectedCourseyear,
+    //     applicationStatus: ['pending', 'submitted']
+    //   },
+    //   group: ['coursename']
+    // })
+    attributes: [
+      'coursename',
+      'current_year',
+      'applicationStatus',
+      [sequelize.fn('COUNT', sequelize.col('id')), 'count_per_status']
+    ],
+    where: {
+      coursename: userSelectedCoursename,
+      current_year: userSelectedCourseyear,
+      applicationStatus: ['pending', 'submitted']
+    },
+    group: ['coursename', 'current_year', 'applicationStatus']
+  })
+    .then(results => {
+      const data = results.map(result => ({
+        coursename: result.count_per_course,
+        coursename: result.get('coursename'),
+        courseYear: result.get('current_year'),
+        // courseYear : result.get('current_year'),
+
       }));
 
       res.json({
