@@ -56,7 +56,7 @@ exports.uploadFile = (req, res) => {
   const sheetName = workbook.SheetNames[0]; // Assuming you want the first sheet
   const sheet = workbook.Sheets[sheetName];
   console.log("SHEETNAME :: ", sheetName)
-  console.log("sheet", sheet)
+  // console.log("sheet", sheet)
 
 
   const data = xlsx.utils.sheet_to_json(sheet);
@@ -78,9 +78,16 @@ exports.uploadFile = (req, res) => {
 
   //Insert data into Mahadbt profiles table 
   // console.log("daatatatat", data)
-  ExcelInfo.bulkCreate(data);
+  // console.log("Data from Excel:", data);
+  // ExcelInfo.bulkCreate(data);
 
-  res.status(200).json({ message: 'File Uploaded and Data Insertion successfully' })
+  res.status(200).json({ message: 'File Uploaded and Data Insertion successfully' });
+  try {
+    ExcelInfo.bulkCreate(data);
+    console.log("Data inserted successfully");
+  } catch (error) {
+    console.error("Error inserting data:", error);
+  }
 }
 // catch (error) {
 //   console.log(`Error in file upload ${error}`);

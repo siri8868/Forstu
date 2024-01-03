@@ -460,8 +460,7 @@ const Mahadbtprofiles = sequelize.define("mahadbt_profiles", {
     field: 'AdmissionType',
   },
 
-  cetPercentAage: {
-
+  cetPercentAge: {
     type: Sequelize.DataTypes.DECIMAL(5, 2),
     allowNull: false,
     field: 'CET_Percentage',
@@ -787,6 +786,14 @@ const Mahadbtprofiles = sequelize.define("mahadbt_profiles", {
     unique: true,
     field: 'email',
   },
+  mahadbt_username: {
+    type: Sequelize.DataTypes.STRING,
+    allowNull: true,
+  },
+  mahadbt_password: {
+    type: Sequelize.DataTypes.STRING,
+    allowNull: true,
+  }
 });
 
 module.exports = Mahadbtprofiles;

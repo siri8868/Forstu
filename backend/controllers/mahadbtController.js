@@ -155,6 +155,78 @@ exports.totalSubmitCountbyCaste = (req, res) => {
 }
 
 
+// Get course List
+exports.getCourseList = (req, res) => {
+  console.log("hellooooooo from course and year");
+  // console.log("requesed body", req.body)
+  // const selectedCourse = req.body.courseName; // Replace with the actual user input
+  // const selectedYear = req.body.courseYear;
+  // res.send("course year coming ");
+  Mahadbtprofiles.findAll({
+    attributes: [
+      'coursename',
+    ],
+    // where: {
+    //   coursename: selectedCourse,
+    //   current_year: selectedYear,
+    //   applicationStatus: ['pending', 'submitted']
+    // },
+    // group: ['coursename', 'current_year', 'applicationStatus']
+  })
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve Mahadbt Profiles",
+        error: error,
+      });
+    });
+}
+
+// get Course Yer
+exports.getCourseYear = (req, res) => {
+  console.log("hellooooooo from course and year");
+  // console.log("requesed body", req.body)
+  // const selectedCourse = req.body.courseName; // Replace with the actual user input
+  // const selectedYear = req.body.courseYear;
+  // res.send("course year coming ");
+  Mahadbtprofiles.findAll({
+    attributes: [
+      'coursename',
+      'current_year'
+    ],
+    // where: {
+    //   coursename: selectedCourse,
+    //   current_year: selectedYear,
+    //   applicationStatus: ['pending', 'submitted']
+    // },
+    // group: ['coursename', 'current_year', 'applicationStatus']
+  })
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve Mahadbt Profiles",
+        error: error,
+      });
+    });
+}
+
+
 // select course and year route and data get persisted
 exports.totalCourseAndYear = (req, res) => {
   console.log("hellooooooo from course and year");
@@ -171,7 +243,8 @@ exports.totalCourseAndYear = (req, res) => {
       'coursename',
       'current_year',
       'applicationStatus',
-      // [sequelize.fn('COUNT', sequelize.col('id')), 'count_per_status']
+      'application_failed_reason'
+      // [sequelize.fn('COUNT', sequelize.col('id')), 'applicationStatus']
     ],
     where: {
       coursename: selectedCourse,
