@@ -5,6 +5,8 @@ const {
   totalEligibleCount,
   totalSubmitCount,
   totalSubmitCountbyCaste,
+  getCourseList,
+  getCourseYear,
   totalCourseAndYear
 } = require("../controllers/mahadbtController");
 
@@ -26,6 +28,8 @@ router.get("/getElgCount", totalEligibleCount);
 router.get("/totalSubCount", totalSubmitCount);
 router.get("/totalsubcountbycaste", totalSubmitCountbyCaste);
 
+router.get("/getcourseslist", getCourseList);
+router.get("/getcoursesyear", getCourseYear);
 router.get("/courseandyear", totalCourseAndYear);
 
 
