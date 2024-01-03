@@ -774,6 +774,12 @@ const Mahadbtprofiles = sequelize.define("mahadbt_profiles", {
     allowNull: true,
     field: 'eligible_scheme_1',
   },
+  email: {
+    type: Sequelize.DataTypes.STRING(30),
+    allowNull: false,
+    unique: true,
+    field: 'email',
+  },
 });
 
 module.exports = Mahadbtprofiles;

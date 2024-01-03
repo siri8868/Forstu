@@ -105,7 +105,7 @@ exports.totalSubmitCount = (req, res) => {
     });
 }
 
-
+// Total submit count as per Caste
 exports.totalSubmitCountbyCaste = (req, res) => {
   console.log("hellooooooo");
   Mahadbtprofiles.findAll({
@@ -118,15 +118,31 @@ exports.totalSubmitCountbyCaste = (req, res) => {
     },
     group: ['CasteCategory']
   })
+    // .then(results => {
+    //   const data = results.map(result => ({
+    //     CasteCategory: result.CasteCategory,
+    //     count_per_category: result.get('count_per_category')
+    //   }));
+
+    //   res.json({
+    //     success: true,
+    //     data,
+    //   });
+    // })
+
     .then(results => {
-      const data = results.map(result => ({
-        CasteCategory: result.CasteCategory,
-        count_per_category: result.get('count_per_category')
-      }));
+      const formattedData = {};
+
+      results.forEach(result => {
+        const casteCategory = result.get('CasteCategory');
+        const count = result.get('count_per_category');
+
+        formattedData[`CasteCategory - ${casteCategory}`] = count;
+      });
 
       res.json({
         success: true,
-        data,
+        data: formattedData,
       });
     })
     .catch(error => {
@@ -138,52 +154,45 @@ exports.totalSubmitCountbyCaste = (req, res) => {
     });
 }
 
+
+// select course and year route and data get persisted
 exports.totalCourseAndYear = (req, res) => {
   console.log("hellooooooo from course and year");
   // console.log("requesed body", req.body)
-  const userSelectedCoursename = req.body.courseName; // Replace with the actual user input
-  const userSelectedCourseyear = req.body.courseYear;
+  const selectedCourse = req.body.courseName; // Replace with the actual user input
+  const selectedYear = req.body.courseYear;
   // res.send("course year coming ");
   Mahadbtprofiles.findAll({
-    //   where: {
-    //     coursename: userSelectedCoursename,
-    //     current_year: userSelectedCourseyear,
-    //     applicationStatus: ['pending', 'submitted']
-    //   },
-    //   group: ['coursename']
-    // })
     attributes: [
+      'id',
+      'candidate_name',
+      'whatsapp_number',
+      'email',
       'coursename',
       'current_year',
       'applicationStatus',
-      [sequelize.fn('COUNT', sequelize.col('id')), 'count_per_status']
+      // [sequelize.fn('COUNT', sequelize.col('id')), 'count_per_status']
     ],
     where: {
-      coursename: userSelectedCoursename,
-      current_year: userSelectedCourseyear,
+      coursename: selectedCourse,
+      current_year: selectedYear,
       applicationStatus: ['pending', 'submitted']
     },
-    group: ['coursename', 'current_year', 'applicationStatus']
+    // group: ['coursename', 'current_year', 'applicationStatus']
   })
-    .then(results => {
-      const data = results.map(result => ({
-        coursename: result.count_per_course,
-        coursename: result.get('coursename'),
-        courseYear: result.get('current_year'),
-        // courseYear : result.get('current_year'),
-
-      }));
-
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
       res.json({
         success: true,
         data,
       });
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(500).json({
         success: false,
-        message: "Failed to retrieve count of Mahadbt Profiles",
-        error: error.message,
+        message: "Failed to retrieve Mahadbt Profiles",
+        error: error,
       });
     });
 }
