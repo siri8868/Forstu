@@ -459,7 +459,9 @@ const Mahadbtprofiles = sequelize.define("mahadbt_profiles", {
     allowNull: false,
     field: 'AdmissionType',
   },
-  cetPercentage: {
+
+  cetPercentAage: {
+
     type: Sequelize.DataTypes.DECIMAL(5, 2),
     allowNull: false,
     field: 'CET_Percentage',
@@ -654,6 +656,11 @@ const Mahadbtprofiles = sequelize.define("mahadbt_profiles", {
     allowNull: true,
     field: 'class12_mode',
   },
+  class12SeatNumber: {
+    type: Sequelize.DataTypes.STRING(100),
+    allowNull: true,
+    field: 'class12_seatnumber',
+  },
   class12AdmissionYear: {
     type: Sequelize.DataTypes.INTEGER,
     allowNull: false,
@@ -773,6 +780,12 @@ const Mahadbtprofiles = sequelize.define("mahadbt_profiles", {
     type: Sequelize.DataTypes.STRING(100),
     allowNull: true,
     field: 'eligible_scheme_1',
+  },
+  email: {
+    type: Sequelize.DataTypes.STRING(30),
+    allowNull: false,
+    unique: true,
+    field: 'email',
   },
 });
 

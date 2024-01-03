@@ -14,7 +14,7 @@ collegeprofile.sync({
 
 
 Mahadbtprofiles.sync({
-  alter: false
+  alter: false,
 });
 
 ExcelInfo.sync({
@@ -24,5 +24,5 @@ ExcelInfo.sync({
 module.exports = {
   sequelize,
   User,
-  collegeprofile
+  collegeprofile,
 };

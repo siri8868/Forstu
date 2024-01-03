@@ -4,7 +4,8 @@ const {
   findMahadbtProfCount,
   totalEligibleCount,
   totalSubmitCount,
-  totalSubmitCountbyCaste
+  totalSubmitCountbyCaste,
+  totalCourseAndYear
 } = require("../controllers/mahadbtController");
 
 const { isSignedIn, isAdmin } = require("../controllers/authController");
@@ -24,6 +25,9 @@ router.get("/getProfileCount", findMahadbtProfCount);
 router.get("/getElgCount", totalEligibleCount);
 router.get("/totalSubCount", totalSubmitCount);
 router.get("/totalsubcountbycaste", totalSubmitCountbyCaste);
+
+router.get("/courseandyear", totalCourseAndYear);
+
 
 
 
