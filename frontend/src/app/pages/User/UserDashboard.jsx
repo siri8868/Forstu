@@ -29,22 +29,18 @@ import {
   ModalCloseButton,
 } from "@chakra-ui/react";
 // import UserForm from "./UserForm";
-// import { getAllUserApi } from "../../api/User";
-// import ConformDelete from "../../components/conformButtons/ConformDelete";
 
-// Check wheather you need uuid or else uninstall it!
-// import ConformEditUser from "../../components/conformButtons/ConformEditUser";
 import { HiCheckCircle } from "react-icons/hi";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom/cjs/react-router-dom";
 import { IoMdAdd } from "react-icons/io";
-// import { convertToIst } from "../../helpers/Time";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { isAuthenticated } from "../../helpers/AuthHelpers";
 import { getAllUserApi } from "../../api/User";
 import { convertToIst } from "../../helpers/Time";
 import ConformEditUser from "./UserComponents/ConformEditUser";
 import AddUserForm from "./UserComponents/AddUserForm";
+import ConformDelete from "./UserComponents/ConformDelete";
 
 export default function UserDashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -158,7 +154,7 @@ export default function UserDashboard() {
                       />
                     </MenuItem>
                     <MenuItem py={"-0.3"}>
-                      {/* <ConformDelete id={record.id} getAllUsers={getAllUsers} /> */}
+                      <ConformDelete id={record.id} getAllUsers={getAllUsers} />
                     </MenuItem>
                   </>
                 </MenuList>
