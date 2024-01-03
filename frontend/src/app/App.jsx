@@ -6,9 +6,9 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import AdminDashboard from "./pages/Admin/AdminDashboard";
 import ROLES from "./helpers/Roles";
 import UserDashboard from "./pages/User/UserDashboard";
-import YearAndCourses from "./pages/YearAndCourses/YearAndCourses";
 import Signup from "./pages/Signup/Signup";
 import CollageDashboard from "./pages/Collage/CollegeDashboard";
+import YearAndCoursesDashboard from "./pages/YearAndCourses/YearAndCoursesDashboard";
 
 function App() {
   return (
@@ -48,7 +48,7 @@ function App() {
         <ProtectedRoute
           exact
           path="/dashboard/admin/year_course"
-          component={YearAndCourses}
+          component={YearAndCoursesDashboard}
           role={ROLES.ADMIN}
         ></ProtectedRoute>
 

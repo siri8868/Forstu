@@ -40,3 +40,23 @@ export async function addUserApi(user) {
 
   return response.json();
 }
+
+export async function deleteUserApi(id) {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/user`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: accessToken,
+    },
+    body: JSON.stringify(id),
+  });
+
+  if (response.status == 401) {
+    redirectOnTokenExpire();
+  }
+
+  return response.json();
+}
