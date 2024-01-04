@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/layout";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Stat,
   StatLabel,
@@ -8,8 +8,50 @@ import {
   StatArrow,
   StatGroup,
 } from "@chakra-ui/react";
+import {
+  getTotalEligibleStudentsApi,
+  getTotalStudentsApi,
+} from "../../../api/DashboardApi/DashboardApi";
 
 function TotalStudentsComponent() {
+  const [totalStudent, setTotalStudent] = React.useState(0);
+  const [totalEligible, setTotalEligible] = React.useState(0);
+
+  const getTotalEligibleStudents = () => {
+    getTotalEligibleStudentsApi()
+      .then((res) => {
+        if (res.success) {
+          // console.log("getTotalEligibleStudentsApi", res.data);
+          setTotalEligible(res.data);
+        } else {
+          setTotalEligible([]);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const getTotalStudents = () => {
+    getTotalStudentsApi()
+      .then((res) => {
+        if (res.success) {
+          // console.log("getTotalStudentsApi", res.data);
+          setTotalStudent(res.data);
+        } else {
+          setTotalStudent([]);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    getTotalStudents();
+    getTotalEligibleStudents();
+  }, []);
+
   return (
     <Box
       h="400px"
@@ -25,14 +67,14 @@ function TotalStudentsComponent() {
       <Box mb={"20px"} bg={"#FFE7C1"} p={"20px"} borderRadius={"20px"}>
         <Stat>
           <StatLabel>Total Students</StatLabel>
-          <StatNumber>23</StatNumber>
+          <StatNumber>{totalStudent}</StatNumber>
         </Stat>
       </Box>
 
       <Box bg={"#FFE7C1"} p={"20px"} borderRadius={"20px"}>
         <Stat>
           <StatLabel>Total Eligible</StatLabel>
-          <StatNumber>23</StatNumber>
+          <StatNumber>{totalEligible}</StatNumber>
         </Stat>
       </Box>
     </Box>

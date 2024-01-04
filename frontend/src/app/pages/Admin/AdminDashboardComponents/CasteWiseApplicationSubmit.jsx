@@ -1,9 +1,30 @@
 import { Box } from "@chakra-ui/layout";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
+import { getTotalSubmitCountOfApplicationByCasteApi } from "../../../api/DashboardApi/DashboardApi";
 
 function CasteWiseApplicationSubmit() {
-  //   const [chartData, setChartData] = useState();
+  const [totalSubmitCountOfApplication, setTotalSubmitCountOfApplication] =
+    useState(0);
+
+  const getTotalSubmitCountByCaste = () => {
+    getTotalSubmitCountOfApplicationByCasteApi()
+      .then((res) => {
+        if (res.success) {
+          console.log("getTotalSubmitCountOfApplicationApi", res.data);
+          // setTotalEligible(res.data);
+        } else {
+          // setTotalEligible([]);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  useEffect(() => {
+    getTotalSubmitCountByCaste();
+  }, []);
 
   const optionsForPie = {
     series: [44, 55, 13, 43, 22],
