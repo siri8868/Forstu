@@ -138,22 +138,22 @@ function YearAndCoursesDashboard() {
     <Base>
       <Box bg={"text.light"} borderWidth="1px" borderRadius="lg">
         <Box p={5}>
-          <Heading as="h4" size={"md"} my={2}>
+          {/* <Heading as="h4" size={"md"} my={2}>
             Select Year and Course
-          </Heading>
+          </Heading> */}
 
           <form onSubmit={handleSubmit}>
             <Box
               display={"flex"}
               // justifyContent={"center"}
-              alignItems={"center"}
+              // alignItems={"center"}
             >
               <Box
                 maxW="md"
                 mt="8"
                 display={"flex"}
-                justifyContent={"center"}
-                alignItems={"center"}
+                // justifyContent={"center"}
+                // alignItems={"center"}
               >
                 <FormControl id="year">
                   {/* <FormLabel>Year</FormLabel> */}
@@ -174,7 +174,8 @@ function YearAndCoursesDashboard() {
                 <FormControl id="course">
                   {/* <FormLabel>Course</FormLabel> */}
                   <Select
-                    multiple={2}
+                    // multiple={2}
+                    ml={2}
                     placeholder="Select Course"
                     value={yearCourseData.course}
                     onChange={handleChange("course")}
@@ -189,7 +190,8 @@ function YearAndCoursesDashboard() {
                 </FormControl>
               </Box>
               <Button
-                mt={4}
+                mt={7}
+                ml={7}
                 color="text.light"
                 type="submit"
                 bg="primary.main"
