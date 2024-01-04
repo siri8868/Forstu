@@ -83,75 +83,107 @@ exports.totalEligibleCount = (req, res) => {
 
 exports.totalSubmitCount = (req, res) => {
   console.log("hello");
-  Mahadbtprofiles.count({
-    where: {
-      application_status: ['Submitted', 'Pending']
-    }
-  })
-    .then((data) => {
-      data = JSON.stringify(data);
-      data = JSON.parse(data);
-      res.json({
-        success: true,
-        data,
-      });
+  try {
+    const submittedCount = Mahadbtprofiles.count({
+      where: {
+        application_status: 'Submitted',
+      }
     })
-    .catch((error) => {
-      res.status(500).json({
-        success: false,
-        message: "Failed to retrieve count of  Mahadbt Profiles",
-        error: error,
+    const pendingCount = Mahadbtprofiles.count({
+      where: {
+        application_status: 'Pending'
+      }
+    })
+
+    Promise.all([submittedCount, pendingCount])
+      .then(([submittedCountData, pendingCountData]) => {
+        console.log(submittedCountData)
+        console.log(pendingCountData)
+        // res.send("hejdjfdskj")
+        res.json({
+          success: true,
+          data: {
+            submittedCountData,
+            pendingCountData
+          },
+        });
+      })
+      .catch((error) => {
+        res.status(500).json({
+          success: false,
+          message: "Failed to retrieve count of  Mahadbt Profiles",
+          error: error,
+        });
       });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve count of  Mahadbt Profiles",
+      error: error,
     });
+  }
+
+
+  // .then((data) => {
+  //     console.log(data)
+  //     data = JSON.stringify(data);
+  //     data = JSON.parse(data);
+  //     res.json({
+  //       success: true,
+  //       data: [
+  //         submittedCount,
+  //         pendingCount
+  //       ],
+  //     });
+  //   })
+  //   .catch((error) => {
+  //     res.status(500).json({
+  //       success: false,
+  //       message: "Failed to retrieve count of  Mahadbt Profiles",
+  //       error: error,
+  //     });
+  //   });
 }
 
 // Total submit count as per Caste
 exports.totalSubmitCountbyCaste = (req, res) => {
   console.log("hellooooooo");
-  Mahadbtprofiles.findAll({
-    attributes: [
-      'CasteCategory',
-      [Sequelize.fn('COUNT', Sequelize.col('id')), 'count_per_category']
-    ],
-    where: {
-      application_status: 'submitted'
-    },
-    group: ['CasteCategory']
-  })
-    // .then(results => {
-    //   const data = results.map(result => ({
-    //     CasteCategory: result.CasteCategory,
-    //     count_per_category: result.get('count_per_category')
-    //   }));
-
-    //   res.json({
-    //     success: true,
-    //     data,
-    //   });
-    // })
-
-    .then(results => {
-      const formattedData = {};
-
-      results.forEach(result => {
-        const casteCategory = result.get('CasteCategory');
-        const count = result.get('count_per_category');
-
-        formattedData[`CasteCategory - ${casteCategory}`] = count;
-      });
-
-      res.json({
-        success: true,
-        data: formattedData,
-      });
+  try {
+    Mahadbtprofiles.findAll({
+      attributes: [
+        'CasteCategory',
+        [Sequelize.fn('COUNT', Sequelize.col('id')), 'count_per_category']
+      ],
+      where: {
+        application_status: 'submitted'
+      },
+      group: ['CasteCategory']
     })
-    .catch(error => {
-      res.status(500).json({
-        success: false,
-        message: "Failed to retrieve count of Mahadbt Profiles",
-        error: error.message,
+      .then(results => {
+        const data = results.map(result => ({
+          CasteCategory: result.get('CasteCategory'),
+          count_per_category: result.get('count_per_category')
+        }));
+
+        res.json({
+          success: true,
+          data,
+        });
+      })
+      .catch(error => {
+        res.status(500).json({
+          success: false,
+          message: "Failed to retrieve count of Mahadbt Profiles",
+          error: error.message,
+        });
       });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve count of  Mahadbt Profiles",
+      error: error,
     });
+  }
 }
 
 

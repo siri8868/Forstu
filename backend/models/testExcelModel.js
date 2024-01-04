@@ -3,11 +3,17 @@ const sequelize = require("../database/connection");
 const ROLES = require("../helpers/roles");
 
 const ExcelInfo = sequelize.define("excel_profiles", {
+  // SrNo: {
+  //   type: Sequelize.DataTypes.INTEGER,
+  //   allowNull: false,
+  //   autoIncrement: true,
+  //   field: 'Sr.No'
+  // },
   applicationId: {
-    type: Sequelize.DataTypes.INTEGER,
+    type: Sequelize.DataTypes.STRING,
     allowNull: false,
     primaryKey: true,
-    autoIncrement: true,
+    // autoIncrement: true,
     field: 'Application ID'
   },
   candidateName: {
