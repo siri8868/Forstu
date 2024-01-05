@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Base from "../../components/Base";
 import { Table as AntTable } from "antd";
 
@@ -16,10 +16,46 @@ import {
 
 import YearAndCourseStatus from "./YearAndCoursesComponents/YearAndCourseStatus";
 import YearAndCourseApplicationFailedStatus from "./YearAndCoursesComponents/YearAndCourseApplicationFailedStatus";
+import {
+  getCourseListApi,
+  getYearListApi,
+} from "../../api/YearAndCourseApi/YearAndCourse";
 
 function YearAndCoursesDashboard() {
   const [yearCourseData, setYearCourseData] = useState({});
   const [yearAndCourseData, setYearAndCourseData] = useState([]);
+  const [courseList, setCourseList] = useState([]);
+  const [yearList, setYearList] = useState([]);
+
+  const getCourseList = () => {
+    getCourseListApi()
+      .then((res) => {
+        if (res.success) {
+          // console.log("setCourseList", res.data);
+          setCourseList(res.data);
+        } else {
+          setCourseList([]);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const getYearsList = () => {
+    getYearListApi()
+      .then((res) => {
+        if (res.success) {
+          console.log("YearListttttt", res.data);
+          setYearList(res.data);
+        } else {
+          setYearList([]);
+        }
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
 
   const columns = [
     {
@@ -125,7 +161,7 @@ function YearAndCoursesDashboard() {
   const onChange = (pagination, filters, sorter, extra) => {};
 
   const handleChange = (param) => (event) => {
-    console.log("handle change");
+    // console.log("handle change");
     setYearCourseData({ ...yearCourseData, [param]: event.target.value });
   };
 
@@ -134,6 +170,10 @@ function YearAndCoursesDashboard() {
     console.log("submit");
   };
 
+  useEffect(() => {
+    getCourseList();
+    getYearsList();
+  }, []);
   return (
     <Base>
       <Box bg={"text.light"} borderWidth="1px" borderRadius="lg">
@@ -181,11 +221,18 @@ function YearAndCoursesDashboard() {
                     onChange={handleChange("course")}
                     required
                   >
-                    {/* {roles.map((role, index) => (
-                        <option key={index} value={role}>
-                          {role}
+                    {courseList.map((course, index) => {
+                      // console.log("course", course.coursename);
+                      return (
+                        <option key={index} value={course.coursename}>
+                          {course.coursename}
                         </option>
-                      ))} */}
+                      );
+                    })}
+
+                    {/* <option key={index} value={course}>
+                        {course}
+                      </option> */}
                   </Select>
                 </FormControl>
               </Box>
