@@ -196,7 +196,7 @@ exports.getCourseList = (req, res) => {
   // res.send("course year coming ");
   Mahadbtprofiles.findAll({
     attributes: [
-      'coursename',
+      [sequelize.fn('DISTINCT', sequelize.col('coursename')), 'coursename'],
     ],
     // where: {
     //   coursename: selectedCourse,
@@ -231,8 +231,9 @@ exports.getCourseYear = (req, res) => {
   // res.send("course year coming ");
   Mahadbtprofiles.findAll({
     attributes: [
-      'coursename',
-      'current_year'
+      // 'coursename',
+      // 'current_year'
+      [sequelize.fn('DISTINCT', sequelize.col('current_year')), 'current_year'],
     ],
     // where: {
     //   coursename: selectedCourse,
@@ -265,6 +266,13 @@ exports.totalCourseAndYear = (req, res) => {
   // console.log("requesed body", req.body)
   const selectedCourse = req.body.courseName; // Replace with the actual user input
   const selectedYear = req.body.courseYear;
+  const whereClause = {};
+  if (selectedCourse) {
+    whereClause.coursename = selectedCourse;
+  }
+  if (selectedYear) {
+    whereClause.current_year = selectedYear;
+  }
   // res.send("course year coming ");
   Mahadbtprofiles.findAll({
     attributes: [
@@ -279,8 +287,9 @@ exports.totalCourseAndYear = (req, res) => {
       // [sequelize.fn('COUNT', sequelize.col('id')), 'applicationStatus']
     ],
     where: {
-      coursename: selectedCourse,
-      current_year: selectedYear,
+      // coursename: selectedCourse,
+      // current_year: selectedYear,
+      ...whereClause,
       applicationStatus: ['pending', 'submitted']
     },
     // group: ['coursename', 'current_year', 'applicationStatus']
