@@ -189,7 +189,7 @@ function YearAndCoursesDashboard() {
             position: "top-right",
           });
 
-          onClose();
+          // onClose();
           // getAllFields();
         } else {
           toast({
@@ -249,7 +249,7 @@ function YearAndCoursesDashboard() {
 
                     placeholder="Select Course"
                     value={yearCourseDataSent.courseName}
-                    onChange={handleChange("course")}
+                    onChange={handleChange("courseName")}
                   >
                     {courseList.map((course, index) => {
                       // console.log("course", course.coursename);
@@ -271,7 +271,7 @@ function YearAndCoursesDashboard() {
                     ml={2}
                     placeholder="Select Year"
                     value={yearCourseDataSent.courseYear}
-                    onChange={handleChange("year")}
+                    onChange={handleChange("courseYear")}
                   >
                     {yearList.map((year, index) => (
                       <option key={index} value={year.current_year}>

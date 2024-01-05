@@ -41,6 +41,7 @@ export async function getYearListOptionApi() {
 }
 
 export async function courseAndYearWiseDataSent(data) {
+  console.log("MMMMMMMMM", data);
   const { accessToken } = isAuthenticated();
 
   const response = await fetch(`${ENDPOINT}/courseandyearwisedata`, {
@@ -48,7 +49,7 @@ export async function courseAndYearWiseDataSent(data) {
     headers: {
       Authorization: accessToken,
     },
-    body: data,
+    body: JSON.stringify(data),
   });
 
   if (response.status == 401) {
