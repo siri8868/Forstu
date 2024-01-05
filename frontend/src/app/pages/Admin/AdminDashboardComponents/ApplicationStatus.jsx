@@ -4,16 +4,15 @@ import ReactApexChart from "react-apexcharts";
 import { getTotalSubmitCountOfApplicationApi } from "../../../api/DashboardApi/DashboardApi";
 
 function ApplicationStatus() {
-  //   const [chartData, setChartData] = useState();
+  const [totalStatus, setTotalStatus] = useState({});
 
   const getTotalSubmitOfApplication = () => {
     getTotalSubmitCountOfApplicationApi()
       .then((res) => {
         if (res.success) {
-          console.log("getTotalSubmitCountOfApplicationApi", res.data);
-          // setTotalEligible(res.data);
+          setTotalStatus(res.data);
         } else {
-          // setTotalEligible([]);
+          setTotalStatus([]);
         }
       })
       .catch((error) => {
@@ -26,9 +25,9 @@ function ApplicationStatus() {
   }, []);
 
   const optionsForPie = {
-    series: [90, 10],
+    series: [totalStatus?.submittedCountData, totalStatus?.pendingCountData],
     options: {
-      // series: [55, 55],
+      // series: [20, 20],
       options: {
         chart: {
           type: "donut",

@@ -4,17 +4,30 @@ import ReactApexChart from "react-apexcharts";
 import { getTotalSubmitCountOfApplicationByCasteApi } from "../../../api/DashboardApi/DashboardApi";
 
 function CasteWiseApplicationSubmit() {
-  const [totalSubmitCountOfApplication, setTotalSubmitCountOfApplication] =
-    useState(0);
+  // const [
+  //   totalSubmitCountOfApplicationByItsCaste,
+  //   setTotalSubmitCountOfApplicationByItsCaste,
+  // ] = useState(0);
+
+  const [countPerCategory, setCountPerCategory] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   const getTotalSubmitCountByCaste = () => {
     getTotalSubmitCountOfApplicationByCasteApi()
       .then((res) => {
         if (res.success) {
           console.log("getTotalSubmitCountOfApplicationApi", res.data);
-          // setTotalEligible(res.data);
+          const counts = res.data.map((item) => item.count_per_category);
+          setCountPerCategory(counts);
+          // const categories = responseData.data.map(
+          //   (item) => item.CasteCategory
+          // );
+
+          console.log("counts", counts);
+
+          // setTotalSubmitCountOfApplicationByItsCaste(res.data);
         } else {
-          // setTotalEligible([]);
+          // setTotalSubmitCountOfApplicationByItsCaste([]);
         }
       })
       .catch((error) => {
@@ -24,10 +37,11 @@ function CasteWiseApplicationSubmit() {
 
   useEffect(() => {
     getTotalSubmitCountByCaste();
+    console.log("countPerCategory", countPerCategory);
   }, []);
 
   const optionsForPie = {
-    series: [44, 55, 13, 43, 22],
+    series: countPerCategory,
     options: {
       series: [44, 55, 41, 17, 15],
       options: {
