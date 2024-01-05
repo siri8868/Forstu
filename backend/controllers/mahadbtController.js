@@ -263,7 +263,7 @@ exports.getCourseYear = (req, res) => {
 // select course and year route and data get persisted
 exports.totalCourseAndYear = (req, res) => {
   console.log("hellooooooo from course and year");
-  // console.log("requesed body", req.body)
+  console.log("requested body", req.body)
   const selectedCourse = req.body.courseName; // Replace with the actual user input
   const selectedYear = req.body.courseYear;
   const whereClause = {};
@@ -273,6 +273,7 @@ exports.totalCourseAndYear = (req, res) => {
   if (selectedYear) {
     whereClause.current_year = selectedYear;
   }
+
   // res.send("course year coming ");
   Mahadbtprofiles.findAll({
     attributes: [
