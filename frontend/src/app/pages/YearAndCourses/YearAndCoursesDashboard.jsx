@@ -12,23 +12,26 @@ import {
   Heading,
   Select,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 
 import YearAndCourseStatus from "./YearAndCoursesComponents/YearAndCourseStatus";
 import YearAndCourseApplicationFailedStatus from "./YearAndCoursesComponents/YearAndCourseApplicationFailedStatus";
 import {
-  getCourseListApi,
-  getYearListApi,
+  courseAndYearWiseDataSent,
+  getCourseListOptionApi,
+  getYearListOptionApi,
 } from "../../api/YearAndCourseApi/YearAndCourse";
 
 function YearAndCoursesDashboard() {
-  const [yearCourseData, setYearCourseData] = useState({});
+  const toast = useToast();
+  const [yearCourseDataSent, setYearCourseDataSent] = useState({});
   const [yearAndCourseData, setYearAndCourseData] = useState([]);
   const [courseList, setCourseList] = useState([]);
   const [yearList, setYearList] = useState([]);
 
-  const getCourseList = () => {
-    getCourseListApi()
+  const getCourseListOptions = () => {
+    getCourseListOptionApi()
       .then((res) => {
         if (res.success) {
           // console.log("setCourseList", res.data);
@@ -42,11 +45,11 @@ function YearAndCoursesDashboard() {
       });
   };
 
-  const getYearsList = () => {
-    getYearListApi()
+  const getYearsListOptions = () => {
+    getYearListOptionApi()
       .then((res) => {
         if (res.success) {
-          console.log("YearListttttt", res.data);
+          // console.log("YearListttttt", res.data);
           setYearList(res.data);
         } else {
           setYearList([]);
@@ -162,17 +165,61 @@ function YearAndCoursesDashboard() {
 
   const handleChange = (param) => (event) => {
     // console.log("handle change");
-    setYearCourseData({ ...yearCourseData, [param]: event.target.value });
+    setYearCourseDataSent({
+      ...yearCourseDataSent,
+      [param]: event.target.value,
+    });
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("submit");
+    console.log("submit", yearCourseDataSent);
+
+    courseAndYearWiseDataSent(yearCourseDataSent)
+      .then((res) => {
+        if (res.success) {
+          console.log("res", res.data);
+          // setYearAndCourseData(res.data);
+          toast({
+            title: "Operation successful!",
+            description: res.message,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+
+          onClose();
+          // getAllFields();
+        } else {
+          toast({
+            title: "Operation failed!",
+            description: res.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+          onClose();
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: "Operation Failed!",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
+
+        console.error(error);
+      });
   };
 
   useEffect(() => {
-    getCourseList();
-    getYearsList();
+    getCourseListOptions();
+    getYearsListOptions();
   }, []);
   return (
     <Base>
@@ -195,31 +242,14 @@ function YearAndCoursesDashboard() {
                 // justifyContent={"center"}
                 // alignItems={"center"}
               >
-                <FormControl id="year">
-                  {/* <FormLabel>Year</FormLabel> */}
-                  <Select
-                    placeholder="Select Year"
-                    value={yearCourseData.year}
-                    onChange={handleChange("year")}
-                    required
-                  >
-                    {/* {roles.map((role, index) => (
-                        <option key={index} value={role}>
-                          {role}
-                        </option>
-                      ))} */}
-                  </Select>
-                </FormControl>
-
                 <FormControl id="course">
                   {/* <FormLabel>Course</FormLabel> */}
                   <Select
                     // multiple={2}
-                    ml={2}
+
                     placeholder="Select Course"
-                    value={yearCourseData.course}
+                    value={yearCourseDataSent.courseName}
                     onChange={handleChange("course")}
-                    required
                   >
                     {courseList.map((course, index) => {
                       // console.log("course", course.coursename);
@@ -233,6 +263,21 @@ function YearAndCoursesDashboard() {
                     {/* <option key={index} value={course}>
                         {course}
                       </option> */}
+                  </Select>
+                </FormControl>
+                <FormControl id="year">
+                  {/* <FormLabel>Year</FormLabel> */}
+                  <Select
+                    ml={2}
+                    placeholder="Select Year"
+                    value={yearCourseDataSent.courseYear}
+                    onChange={handleChange("year")}
+                  >
+                    {yearList.map((year, index) => (
+                      <option key={index} value={year.current_year}>
+                        {year.current_year}
+                      </option>
+                    ))}
                   </Select>
                 </FormControl>
               </Box>
