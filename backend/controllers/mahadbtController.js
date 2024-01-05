@@ -300,6 +300,7 @@ exports.totalCourseAndYear = (req, res) => {
       res.json({
         success: true,
         data,
+        message: "Data Fetched Successfully",
       });
     })
     .catch((error) => {

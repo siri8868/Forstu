@@ -30,7 +30,7 @@ router.get("/totalsubcountbycaste", totalSubmitCountbyCaste);
 
 router.get("/getcourseslist", getCourseList);
 router.get("/getcoursesyear", getCourseYear);
-router.get("/courseandyear", totalCourseAndYear);
+router.post("/courseandyearwisedata", totalCourseAndYear);
 
 
 
