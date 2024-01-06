@@ -72,7 +72,7 @@ function YearAndCoursesDashboard() {
     },
     {
       title: "Candidate Name",
-      dataIndex: "Candidate_name",
+      dataIndex: "candidate_name",
       filterSearch: true,
       // filters: userNameFilterList,
 
@@ -179,7 +179,7 @@ function YearAndCoursesDashboard() {
       .then((res) => {
         if (res.success) {
           console.log("res", res.data);
-          // setYearAndCourseData(res.data);
+          setYearAndCourseData(res.data);
           toast({
             title: "Operation successful!",
             description: res.message,
