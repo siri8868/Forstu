@@ -18,6 +18,7 @@ function CasteWiseApplicationSubmit() {
         if (res.success) {
           console.log("getTotalSubmitCountOfApplicationApi", res.data);
           const counts = res.data.map((item) => item.count_per_category);
+          console.log("counts", counts);
           setCountPerCategory(counts);
           // const categories = responseData.data.map(
           //   (item) => item.CasteCategory

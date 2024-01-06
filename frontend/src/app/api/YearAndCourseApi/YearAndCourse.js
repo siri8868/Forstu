@@ -47,6 +47,8 @@ export async function courseAndYearWiseDataSent(data) {
   const response = await fetch(`${ENDPOINT}/courseandyearwisedata`, {
     method: "POST",
     headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
       Authorization: accessToken,
     },
     body: JSON.stringify(data),
