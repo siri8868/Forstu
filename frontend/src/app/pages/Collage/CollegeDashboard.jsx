@@ -95,22 +95,22 @@ function CollegeDashboard() {
       },
       sortDirections: ["ascend", "descend"],
     },
-    {
-      title: "CREATED AT",
-      dataIndex: "createdAt",
+    // {
+    //   title: "CREATED AT",
+    //   dataIndex: "createdAt",
 
-      render: (_, record) => {
-        return <Text>{convertToIst(record.createdAt)}</Text>;
-      },
-    },
-    {
-      title: "UPDATED AT",
-      dataIndex: "updatedAt",
+    //   render: (_, record) => {
+    //     return <Text>{convertToIst(record.createdAt)}</Text>;
+    //   },
+    // },
+    // {
+    //   title: "UPDATED AT",
+    //   dataIndex: "updatedAt",
 
-      render: (_, record) => {
-        return <Text>{convertToIst(record.updatedAt)}</Text>;
-      },
-    },
+    //   render: (_, record) => {
+    //     return <Text>{convertToIst(record.updatedAt)}</Text>;
+    //   },
+    // },
     {
       title: "Action",
       // key: 'action',
