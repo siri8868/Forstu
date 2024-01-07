@@ -7,7 +7,8 @@ const {
   totalSubmitCountbyCaste,
   getCourseList,
   getCourseYear,
-  totalCourseAndYear
+  totalCourseAndYear,
+  testEmailController,
 } = require("../controllers/mahadbtController");
 
 const { isSignedIn, isAdmin } = require("../controllers/authController");
@@ -31,7 +32,6 @@ router.get("/totalsubcountbycaste", isSignedIn, totalSubmitCountbyCaste);
 router.get("/getcourseslist", isSignedIn, getCourseList);
 router.get("/getcoursesyear", isSignedIn, getCourseYear);
 router.post("/courseandyearwisedata", isSignedIn, totalCourseAndYear);
+router.post("/sendmailtest", isSignedIn, testEmailController);
 
 module.exports = router;
-
-
