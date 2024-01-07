@@ -1,8 +1,8 @@
-/ const { Op } = require("sequelize");
-const { Sequelize, Op } = require('sequelize');
-const multer = require('multer');
-const ExcelJS = require('exceljs');
-const xlsx = require('xlsx');
+const { Op } = require("sequelize");
+const { Sequelize, Op } = require("sequelize");
+const multer = require("multer");
+const ExcelJS = require("exceljs");
+const xlsx = require("xlsx");
 // const reader = require("xlsx")
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
@@ -120,21 +120,21 @@ exports.uploadFile = async (req, res) => {
     const filteredData = data.map((item) => ({
       // applicationId = field
       // Application ID = column name in excel file
-      "applicationId": item["Application ID"],
-      "candidateName": item["Candidate Name"],
-      "gender": item["Gender"],
-      "dob": new Date(item["DOB"]), // Assuming DOB is in a valid date format
-      "sscBoard": item["SSC Board"],
-      "sscPassingYear": item["SSC Passing Year"],
-      "sscSeatNo": item["SSC Seat No"],
-      "sscTotalPercentage": item["SSC Total Percentage"],
-      "qualifyingExam": item["Qualifying Exam"],
-      "hscBoard": item["HSC Board"],
-      "hscPassingYear": item["HSC Passing Year"],
-      "hscSeatNo": item["HSC Seat No"],
-      "hscTotalPercentage": item["HSC Total Percentage"],
-      "cetPercentile": item["CET Percentile"],
-      "courseName": item["Course Name"],
+      applicationId: item["Application ID"],
+      candidateName: item["Candidate Name"],
+      gender: item["Gender"],
+      dob: new Date(item["DOB"]), // Assuming DOB is in a valid date format
+      sscBoard: item["SSC Board"],
+      sscPassingYear: item["SSC Passing Year"],
+      sscSeatNo: item["SSC Seat No"],
+      sscTotalPercentage: item["SSC Total Percentage"],
+      qualifyingExam: item["Qualifying Exam"],
+      hscBoard: item["HSC Board"],
+      hscPassingYear: item["HSC Passing Year"],
+      hscSeatNo: item["HSC Seat No"],
+      hscTotalPercentage: item["HSC Total Percentage"],
+      cetPercentile: item["CET Percentile"],
+      courseName: item["Course Name"],
     }));
     // Bulk insert the filtered data into the ExcelInfo table
     // ExcelInfo.bulkCreate(filteredData);
