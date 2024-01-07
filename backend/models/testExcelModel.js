@@ -12,8 +12,9 @@ const ExcelInfo = sequelize.define("excel_profiles", {
   applicationId: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
-    primaryKey: true,
+    // primaryKey: true,
     // autoIncrement: true,
+    unique: true,
     field: 'Application ID'
   },
   candidateName: {

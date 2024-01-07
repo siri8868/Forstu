@@ -793,7 +793,11 @@ const Mahadbtprofiles = sequelize.define("mahadbt_profiles", {
   mahadbt_password: {
     type: Sequelize.DataTypes.STRING,
     allowNull: true,
-  }
+  },
+  ref_code: {
+    type: Sequelize.DataTypes.STRING,
+    allowNull: true,
+  },
 });
 
 module.exports = Mahadbtprofiles;

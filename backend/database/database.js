@@ -18,7 +18,7 @@ Mahadbtprofiles.sync({
 });
 
 ExcelInfo.sync({
-  alter: true,
+  alter: false,
 });
 
 module.exports = {
