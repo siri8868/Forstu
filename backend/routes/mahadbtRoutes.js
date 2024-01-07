@@ -22,19 +22,15 @@ const { isSignedIn, isAdmin } = require("../controllers/authController");
 
 const router = express.Router();
 
-router.get("/getListAllMahadbtprofiles", getAllMahadbtProfiles);
-router.get("/getProfileCount", findMahadbtProfCount);
-router.get("/getElgCount", totalEligibleCount);
-router.get("/totalSubCount", totalSubmitCount);
-router.get("/totalsubcountbycaste", totalSubmitCountbyCaste);
+router.get("/getListAllMahadbtprofiles", isSignedIn, getAllMahadbtProfiles);
+router.get("/getProfileCount", isSignedIn, findMahadbtProfCount);
+router.get("/getElgCount", isSignedIn, totalEligibleCount);
+router.get("/totalSubCount", isSignedIn, totalSubmitCount);
+router.get("/totalsubcountbycaste", isSignedIn, totalSubmitCountbyCaste);
 
-router.get("/getcourseslist", getCourseList);
-router.get("/getcoursesyear", getCourseYear);
-router.post("/courseandyearwisedata", totalCourseAndYear);
-
-
-
-
+router.get("/getcourseslist", isSignedIn, getCourseList);
+router.get("/getcoursesyear", isSignedIn, getCourseYear);
+router.post("/courseandyearwisedata", isSignedIn, totalCourseAndYear);
 
 module.exports = router;
 

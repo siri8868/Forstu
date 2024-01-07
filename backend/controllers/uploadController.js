@@ -1,13 +1,11 @@
-const { Op } = require("sequelize");
+// const { Op } = require("sequelize");
 const { Sequelize, Op } = require("sequelize");
 const multer = require("multer");
 const ExcelJS = require("exceljs");
 const xlsx = require("xlsx");
-// const reader = require("xlsx")
+
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
-// const ROLES = require("../helpers/roles");
-// const ExcelInfo = require("../models/testExcelModel");
+
 const ExcelInfo = require("../models/testExcelModel");
 // const { validationResult } = require("express-validator");
 // const { createHmac } = require("crypto");
