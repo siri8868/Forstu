@@ -1,5 +1,5 @@
 // const { Op } = require("sequelize");
-const { Sequelize } = require('sequelize');
+const { Sequelize } = require("sequelize");
 
 const ROLES = require("../helpers/roles");
 // const User = require("../models/usersModel");
@@ -11,9 +11,16 @@ const { createHmac } = require("crypto");
 
 const dotenv = require("dotenv");
 const sequelize = require("../database/connection");
+const AWS = require("aws-sdk");
+
 // const { Json } = require("sequelize/types/utils");
 dotenv.config();
 
+AWS.config.update({
+  accessKeyId: process.env.AWS_ACCESS_KEY,
+  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  region: process.env.AWS_BUCKET_REGION, // For example, 'us-east-1'
+});
 
 exports.getAllMahadbtProfiles = (req, res) => {
   console.log("req profile", req.profile.ref_code);
@@ -64,16 +71,16 @@ exports.findMahadbtProfCount = (req, res) => {
         error: error,
       });
     });
-}
+};
 
 exports.totalEligibleCount = (req, res) => {
   console.log("hello");
   console.log("req profile", req.profile.ref_code);
   Mahadbtprofiles.count({
     where: {
-      candidate_eligible: 'Yes',
+      candidate_eligible: "Yes",
       ref_code: req.profile.ref_code,
-    }
+    },
   })
     .then((data) => {
       data = JSON.stringify(data);
@@ -90,7 +97,7 @@ exports.totalEligibleCount = (req, res) => {
         error: error,
       });
     });
-}
+};
 
 exports.totalSubmitCount = (req, res) => {
   console.log("req profile", req.profile.ref_code);
@@ -98,26 +105,26 @@ exports.totalSubmitCount = (req, res) => {
   try {
     const submittedCount = Mahadbtprofiles.count({
       where: {
-        application_status: 'Submitted',
+        application_status: "Submitted",
         ref_code: req.profile.ref_code,
-      }
-    })
+      },
+    });
     const pendingCount = Mahadbtprofiles.count({
       where: {
-        application_status: 'Pending'
-      }
-    })
+        application_status: "Pending",
+      },
+    });
 
     Promise.all([submittedCount, pendingCount])
       .then(([submittedCountData, pendingCountData]) => {
-        console.log(submittedCountData)
-        console.log(pendingCountData)
+        console.log(submittedCountData);
+        console.log(pendingCountData);
         // res.send("hejdjfdskj")
         res.json({
           success: true,
           data: {
             submittedCountData,
-            pendingCountData
+            pendingCountData,
           },
         });
       })
@@ -135,7 +142,6 @@ exports.totalSubmitCount = (req, res) => {
       error: error,
     });
   }
-
 
   // .then((data) => {
   //     console.log(data)
@@ -156,7 +162,7 @@ exports.totalSubmitCount = (req, res) => {
   //       error: error,
   //     });
   //   });
-}
+};
 
 // Total submit count as per Caste
 exports.totalSubmitCountbyCaste = (req, res) => {
@@ -165,19 +171,19 @@ exports.totalSubmitCountbyCaste = (req, res) => {
   try {
     Mahadbtprofiles.findAll({
       attributes: [
-        'CasteCategory',
-        [Sequelize.fn('COUNT', Sequelize.col('id')), 'count_per_category']
+        "CasteCategory",
+        [Sequelize.fn("COUNT", Sequelize.col("id")), "count_per_category"],
       ],
       where: {
-        application_status: 'submitted',
+        application_status: "submitted",
         ref_code: req.profile.ref_code,
       },
-      group: ['CasteCategory']
+      group: ["CasteCategory"],
     })
-      .then(results => {
-        const data = results.map(result => ({
-          CasteCategory: result.get('CasteCategory'),
-          count_per_category: result.get('count_per_category')
+      .then((results) => {
+        const data = results.map((result) => ({
+          CasteCategory: result.get("CasteCategory"),
+          count_per_category: result.get("count_per_category"),
         }));
 
         res.json({
@@ -185,7 +191,7 @@ exports.totalSubmitCountbyCaste = (req, res) => {
           data,
         });
       })
-      .catch(error => {
+      .catch((error) => {
         res.status(500).json({
           success: false,
           message: "Failed to retrieve count of Mahadbt Profiles",
@@ -199,8 +205,7 @@ exports.totalSubmitCountbyCaste = (req, res) => {
       error: error,
     });
   }
-}
-
+};
 
 // Get course List
 exports.getCourseList = (req, res) => {
@@ -212,7 +217,7 @@ exports.getCourseList = (req, res) => {
   // res.send("course year coming ");
   Mahadbtprofiles.findAll({
     attributes: [
-      [sequelize.fn('DISTINCT', sequelize.col('coursename')), 'coursename'],
+      [sequelize.fn("DISTINCT", sequelize.col("coursename")), "coursename"],
     ],
     where: {
       ref_code: req.profile.ref_code,
@@ -234,7 +239,7 @@ exports.getCourseList = (req, res) => {
         error: error,
       });
     });
-}
+};
 
 // get Course Yer
 exports.getCourseYear = (req, res) => {
@@ -248,7 +253,7 @@ exports.getCourseYear = (req, res) => {
     attributes: [
       // 'coursename',
       // 'current_year'
-      [sequelize.fn('DISTINCT', sequelize.col('current_year')), 'current_year'],
+      [sequelize.fn("DISTINCT", sequelize.col("current_year")), "current_year"],
     ],
     where: {
       ref_code: req.profile.ref_code,
@@ -273,14 +278,13 @@ exports.getCourseYear = (req, res) => {
         error: error,
       });
     });
-}
-
+};
 
 // select course and year route and data get persisted
 exports.totalCourseAndYear = (req, res) => {
   console.log("req profile", req.profile.ref_code);
   console.log("hellooooooo from course and year");
-  console.log("requested body", req.body)
+  console.log("requested body", req.body);
   const selectedCourse = req.body.courseName; // Replace with the actual user input
   const selectedYear = req.body.courseYear;
   const whereClause = {};
@@ -294,14 +298,14 @@ exports.totalCourseAndYear = (req, res) => {
   // res.send("course year coming ");
   Mahadbtprofiles.findAll({
     attributes: [
-      'id',
-      'candidate_name',
-      'whatsapp_number',
-      'email',
-      'coursename',
-      'current_year',
-      'applicationStatus',
-      'application_failed_reason'
+      "id",
+      "candidate_name",
+      "whatsapp_number",
+      "email",
+      "coursename",
+      "current_year",
+      "applicationStatus",
+      "application_failed_reason",
       // [sequelize.fn('COUNT', sequelize.col('id')), 'applicationStatus']
     ],
     where: {
@@ -309,7 +313,7 @@ exports.totalCourseAndYear = (req, res) => {
       // current_year: selectedYear,
       ref_code: req.profile.ref_code,
       ...whereClause,
-      applicationStatus: ['pending', 'submitted']
+      applicationStatus: ["pending", "submitted"],
     },
     // group: ['coursename', 'current_year', 'applicationStatus']
   })
@@ -329,4 +333,43 @@ exports.totalCourseAndYear = (req, res) => {
         error: error,
       });
     });
-}
+};
+
+exports.testEmailController = (req, res) => {
+  console.log("hellooooooo from course and year");
+  // res.send("course year coming ");
+
+  // Create SES service object
+  const ses = new AWS.SES({ apiVersion: "2010-12-01" });
+
+  const { to, subject, message } = req.body;
+
+  console.log(to, subject, message);
+
+  const params = {
+    Destination: {
+      ToAddresses: [to],
+    },
+    Message: {
+      Body: {
+        Text: {
+          Data: message,
+        },
+      },
+      Subject: {
+        Data: subject,
+      },
+    },
+    Source: "info@forstu.com", // Replace with your verified SES email address
+  };
+
+  ses.sendEmail(params, (err, data) => {
+    if (err) {
+      console.error(err);
+      res.status(500).send("Failed to send email");
+    } else {
+      console.log("Email sent:", data);
+      res.status(200).send("Email sent successfully");
+    }
+  });
+};
