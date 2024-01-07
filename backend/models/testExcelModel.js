@@ -1,7 +1,6 @@
 const { Sequelize } = require("sequelize");
 const sequelize = require("../database/connection");
 const ROLES = require("../helpers/roles");
-
 const ExcelInfo = sequelize.define("excel_profiles", {
   // SrNo: {
   //   type: Sequelize.DataTypes.INTEGER,
@@ -72,23 +71,19 @@ const ExcelInfo = sequelize.define("excel_profiles", {
     allowNull: false,
     field: 'HSC Seat No'
   },
-
   hscTotalPercentage: {
     type: Sequelize.DataTypes.FLOAT,
     allowNull: false,
     field: 'HSC Total Percentage'
   },
-
   cetPercentile: {
     type: Sequelize.DataTypes.FLOAT,
     field: 'CET Percentile'
   },
-
   courseName: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
     field: 'Course Name'
   },
 });
-
 module.exports = ExcelInfo;

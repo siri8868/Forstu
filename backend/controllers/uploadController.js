@@ -1,40 +1,27 @@
-// const { Op } = require("sequelize");
+/ const { Op } = require("sequelize");
 const { Sequelize, Op } = require('sequelize');
 const multer = require('multer');
 const ExcelJS = require('exceljs');
 const xlsx = require('xlsx');
 // const reader = require("xlsx")
-
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
-
 // const ROLES = require("../helpers/roles");
-
 // const ExcelInfo = require("../models/testExcelModel");
 const ExcelInfo = require("../models/testExcelModel");
-
-
 // const { validationResult } = require("express-validator");
 // const { createHmac } = require("crypto");
-
 const dotenv = require("dotenv");
 // const { defineStoredProcedures } = require('../database/storedProcedures');
 // const { Json } = require("sequelize/types/utils");
 dotenv.config();
-
 // exports.uploadFile = (req, res) => {
-
-
 // try {
 // assuming th uploaded fie contains 'id','name','email','age' columns
 // console.log("MAIN:::", req.files.vivek.name)
 // const file = reader.readFile("")
-
-
 // let data = []
-
 // const sheets = file.SheetNames
-
 // for (let i = 0; i < sheets.length; i++) {./helpers/deepakdata.xlsx
 //   const temp = reader.utils.sheet_to_json(
 //     file.Sheets[file.SheetNames[i]])
@@ -42,48 +29,36 @@ dotenv.config();
 //     data.push(res)
 //   })
 // }
-
-// Printing data 
+// Printing data
 // console.log(data)
-
-// working code for excel file present in helper folder 
+// working code for excel file present in helper folder
 // const workbook = reader.readFile("./helpers/deepakdata.xlsx", { type: 'buffer' });
 // console.log("req.files.vivek::::::", req.files.vivek)
 // working code for excel file present in the body!!!!
 // const workbook = xlsx.read(req.files.vivek.data, { type: 'buffer' });
-
-
-
 // const sheet = workbook.Sheets(workbook.SheetNames);
 // console.log("workrkrk", sheet)
 // const sheetName = workbook.SheetNames[0]; // Assuming you want the first sheet
 // const sheet = workbook.Sheets[sheetName];
 // console.log("SHEETNAME :: ", sheetName)
 // console.log("sheet", sheet)
-
-
 // const data = xlsx.utils.sheet_to_json(sheet);
 // console.log("Sheet Data:", data);
-
-
 // if (hasData) {
 //   const data = xlsx.utils.sheet_to_json(sheet);
 //   console.log("Sheet Data:", data);
 // } else {
 //   console.log("Sheet is empty or starts from A1");
 // }
-// } 
+// }
 // else {
 //   console.log("Sheet is empty or starts from A1");
 // }
-
 // const data = xlsx.utils.sheet_add_json(sheet);
-
-//Insert data into Mahadbt profiles table 
+//Insert data into Mahadbt profiles table
 // console.log("daatatatat", data)
 // console.log("Data from Excel:", data);
 // ExcelInfo.bulkCreate(data);
-
 // res.status(200).json({ message: 'File Uploaded and Data Insertion successfully' });
 // try {
 //   ExcelInfo.bulkCreate(data);
@@ -91,21 +66,15 @@ dotenv.config();
 // } catch (error) {
 //   console.error("Error inserting data:", error);
 // }
-
-
-/// This code for reading excel file 
+/// This code for reading excel file
 //   const workbook = new ExcelJS.Workbook();
 //   const filePath = 'C:/Users/rahul/OneDrive/Desktop/Forstu/backend/helpers/RCPIT UPLOAD/example.xlsx';
-
 //   console.log("filename", filepath)
-
 //   workbook.xlsx.read(filePath)
 //     .then(() => {
 //       const worksheet = workbook.getWorksheet(1);
-
 //       console.log("workSheeeettt", worksheet);
 //       // return
-
 //       worksheet.eachRow({ includeEmpty: true }, (row, rowNumber) => {
 //         YourModel.create({
 //           applicationId: row.getCell(B).value,
@@ -136,9 +105,7 @@ dotenv.config();
 //     message: "Some error occured while processing the file"
 //   })
 // }
-
-// 
-
+//
 exports.uploadFile = async (req, res) => {
   console.log("req.files.vivek::::::", req.files.vivek);
   // working code for excel file present in the body!!!!
@@ -151,9 +118,8 @@ exports.uploadFile = async (req, res) => {
   try {
     // ExcelInfo.bulkCreate(data);
     const filteredData = data.map((item) => ({
-      // applicationId = field 
+      // applicationId = field
       // Application ID = column name in excel file
-
       "applicationId": item["Application ID"],
       "candidateName": item["Candidate Name"],
       "gender": item["Gender"],
@@ -174,17 +140,14 @@ exports.uploadFile = async (req, res) => {
     // ExcelInfo.bulkCreate(filteredData);
     const createdData = await ExcelInfo.bulkCreate(filteredData);
     console.log("Data inserted successfully", createdData);
-
     // Read the stored procedure SQL file
     // const sqlFilePath = path.join(__dirname, 'updateCourseNameProcedure.sql');
     // // const sqlFilePath = path.join(__dirname, '..', 'updateCourseNameProcedure.sql');
     // const storedProcedureQuery = fs.readFileSync(sqlFilePath, 'utf8');
-
     // // Execute the stored procedure
     // await sequelize.query(storedProcedureQuery, {
     //   type: Sequelize.QueryTypes.RAW,
     // });
-
     res.json({
       success: true,
       data: createdData,
@@ -193,6 +156,4 @@ exports.uploadFile = async (req, res) => {
   } catch (error) {
     console.error("Error inserting data:", error);
   }
-
 };
-
