@@ -11,82 +11,81 @@ const ExcelInfo = sequelize.define("excel_profiles", {
   // },
   applicationId: {
     type: Sequelize.DataTypes.STRING,
-    allowNull: false,
-    primaryKey: true,
+    // primaryKey: true,
     // autoIncrement: true,
-    field: 'Application ID'
+    field: "Application ID",
   },
   candidateName: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
-    field: 'Candidate Name'
+    field: "Candidate Name",
   },
   gender: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
-    field: 'Gender'
+    field: "Gender",
   },
   dob: {
     type: Sequelize.DataTypes.DATEONLY,
     allowNull: false,
-    field: 'DOB'
+    field: "DOB",
   },
   sscBoard: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
-    field: 'SSC Board'
+    field: "SSC Board",
   },
   sscPassingYear: {
     type: Sequelize.DataTypes.INTEGER,
     allowNull: false,
-    field: 'SSC Passing Year'
+    field: "SSC Passing Year",
   },
   sscSeatNo: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
-    field: 'SSC Seat No'
+    field: "SSC Seat No",
   },
   sscTotalPercentage: {
     type: Sequelize.DataTypes.FLOAT,
     allowNull: false,
-    field: 'SSC Total Percentage'
+    field: "SSC Total Percentage",
   },
   qualifyingExam: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
-    field: 'Qualifying Exam'
+    field: "Qualifying Exam",
   },
   hscBoard: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
-    field: 'HSC Board'
+    field: "HSC Board",
   },
   hscPassingYear: {
     type: Sequelize.DataTypes.INTEGER,
     allowNull: false,
-    field: 'HSC Passing Year'
+    field: "HSC Passing Year",
   },
   hscSeatNo: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
-    field: 'HSC Seat No'
+    field: "HSC Seat No",
   },
 
   hscTotalPercentage: {
     type: Sequelize.DataTypes.FLOAT,
     allowNull: false,
-    field: 'HSC Total Percentage'
+    field: "HSC Total Percentage",
   },
 
   cetPercentile: {
     type: Sequelize.DataTypes.FLOAT,
-    field: 'CET Percentile'
+    field: "CET Percentile",
   },
 
   courseName: {
     type: Sequelize.DataTypes.STRING,
     allowNull: false,
-    field: 'Course Name'
+    field: "Course Name",
   },
 });
 
