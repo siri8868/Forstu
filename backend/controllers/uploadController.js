@@ -3,32 +3,58 @@ const { Sequelize, Op } = require("sequelize");
 const multer = require("multer");
 const ExcelJS = require("exceljs");
 const xlsx = require("xlsx");
+const path = require("path");
+const fs = require("fs");
+const { QueryTypes } = require("sequelize");
 
 const storage = multer.memoryStorage();
 
 const ExcelInfo = require("../models/testExcelModel");
 // const executeStoredProcedure = require('./database/storedProcedures');
 const dotenv = require("dotenv");
+const sequelize = require("../database/connection");
 
 dotenv.config();
 
+async function createStoredProcedure() {
+  // Assuming 'sequelize' is your Sequelize instance
+  sequelize
+    .query("DROP PROCEDURE IF EXISTS NewTest2", { type: QueryTypes.RAW })
+    .then(() => {
+      return sequelize.query(
+        `
+    CREATE PROCEDURE NewTest2()
+    BEGIN
+      UPDATE mahadbt_profiles
+      SET coursename = 'rahul'
+      WHERE coursename = 'vivek';
+
+      UPDATE mahadbt_profiles
+      SET CasteCategory = 'JayBhim'
+      WHERE CasteCategory = 'Open';
+    END;
+  `,
+        { type: QueryTypes.RAW }
+      );
+    })
+    .then((result) => {
+      console.log("Procedure created successfully:", result);
+    })
+    .catch((error) => {
+      console.error("Error executing procedure creation:", error);
+    });
+}
 
 async function loadAndExecuteStoredProcedure() {
-  try {
-    // Read the SQL file
-    const sqlFilePath = path.join(__dirname, 'updateCourseNameProcedure.sql');
-    const sqlFileContent = fs.readFileSync(sqlFilePath, 'utf-8');
+  const result = await sequelize.query("CALL NewTest2()", {
+    type: sequelize.QueryTypes.RAW,
+  });
 
-    // Execute the SQL code
-    const [result, metadata] = await sequelize.query(sqlFileContent, {
-      type: sequelize.QueryTypes.RAW,
-    });
+  // Log the structure of the result to understand its format
+  console.log("Result structure:", result);
 
-    // Process the result as needed
-    console.log(result);
-  } catch (error) {
-    console.error('Error executing stored procedure:', error);
-  }
+  // Process the result as needed
+  // console.log("FINALLLL", result);
 }
 
 exports.uploadFile = async (req, res) => {
@@ -66,7 +92,7 @@ exports.uploadFile = async (req, res) => {
     const createdData = await ExcelInfo.bulkCreate(filteredData);
     console.log("Data inserted successfully", createdData);
 
-    executeStoredProcedure();
+    // executeStoredProcedure();
     res.json({
       success: true,
       data: createdData,
@@ -76,7 +102,18 @@ exports.uploadFile = async (req, res) => {
     console.error("Error inserting data:", error);
   }
 
-
   // Call the function to execute the stored procedure
+};
+
+exports.runTheProcedure = async (req, res) => {
+  console.log("test called");
   loadAndExecuteStoredProcedure();
+  // executeUpdateCourseNameProcedure();
+  res.json({ success: true, message: "test called" });
+};
+
+exports.createStoreProcedure = async (req, res) => {
+  console.log("test called");
+  createStoredProcedure();
+  res.json({ success: true, message: "test called" });
 };
