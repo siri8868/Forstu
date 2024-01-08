@@ -12,6 +12,7 @@ const collegeRoutes = require("./routes/collegeRoutes");
 const mahadbtRoutes = require("./routes/mahadbtRoutes");
 const uploadRoute = require("./routes/uploadRoute");
 
+
 dotenv.config();
 // comment
 const app = express();
@@ -34,6 +35,13 @@ app.use("/api", userRoutes);
 app.use("/api", collegeRoutes)
 app.use("/api", mahadbtRoutes);
 app.use('/api', uploadRoute);
+
+
+// app.js or index.js
+
+// Call the function to execute the stored procedure
+// executeStoredProcedure();
+
 
 app.get("/", (req, res) => {
   res.send("Hello World");
