@@ -10,11 +10,10 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 exports.getAllCollegeProfile = (req, res) => {
-  collegeprofile.findAll({
-
-  })
+  collegeprofile
+    .findAll({})
     .then((data) => {
-      console.log("your data req", data)
+      console.log("your data req", data);
       data = JSON.stringify(data);
       data = JSON.parse(data);
       res.json({
@@ -31,7 +30,6 @@ exports.getAllCollegeProfile = (req, res) => {
     });
 };
 
-
 exports.getSingleCollegeProfile = (req, res) => {
   try {
     const errors = validationResult(req);
@@ -43,19 +41,20 @@ exports.getSingleCollegeProfile = (req, res) => {
       });
     }
 
-    collegeprofile.findOne({
-      attributes: [
-        "id",
-        "institute_choice_code",
-        "institute_name",
-        "institute_state",
-        "institute_district",
-        "institute_taluka",
-      ],
-      where: {
-        id: req.body.id,
-      },
-    })
+    collegeprofile
+      .findOne({
+        attributes: [
+          "id",
+          "institute_choice_code",
+          "institute_name",
+          "institute_state",
+          "institute_district",
+          "institute_taluka",
+        ],
+        where: {
+          id: req.body.id,
+        },
+      })
       .then((data) => {
         if (data) {
           data = JSON.stringify(data);
@@ -96,9 +95,15 @@ exports.addCollegeProfile = (req, res) => {
       institute_state,
       institute_district,
       institute_taluka,
-    } = req.body;
+    } = req.body.data;
 
-    console.log(institute_choice_code, institute_name, institute_state, institute_district, institute_taluka);
+    console.log(
+      institute_choice_code,
+      institute_name,
+      institute_state,
+      institute_district,
+      institute_taluka
+    );
 
     const errors = validationResult(req);
 
@@ -109,12 +114,14 @@ exports.addCollegeProfile = (req, res) => {
       });
     }
 
-    collegeprofile.create({
-      institute_choice_code,
-      institute_name,
-      institute_district,
-      institute_taluka,
-    })
+    collegeprofile
+      .create({
+        institute_choice_code,
+        institute_name,
+        institute_state,
+        institute_district,
+        institute_taluka,
+      })
       .then((data) => {
         return res.status(200).json({
           message: "College Profile Creation successfull",
@@ -162,19 +169,26 @@ exports.updateCollegeProfile = (req, res) => {
       });
     }
 
-    const { institute_choice_code, institute_name, institute_state, institute_district, institute_taluka } = req.body;
+    const {
+      institute_choice_code,
+      institute_name,
+      institute_state,
+      institute_district,
+      institute_taluka,
+    } = req.body;
     // const body = req.body;
-    collegeprofile.update(req.body, {
-      where: {
-        id: req.body.id,
-        // institute_choice_code: req.body.institute_choice_code,
-        // institute_name: req.body.institute_name,
-        // institute_state: req.body.institute_state,
-        // institute_district: req.body.institute_district,
-        // institute_taluka: institute_taluka
-      },
-      // console.log("your body data", body);
-    })
+    collegeprofile
+      .update(req.body, {
+        where: {
+          id: req.body.id,
+          // institute_choice_code: req.body.institute_choice_code,
+          // institute_name: req.body.institute_name,
+          // institute_state: req.body.institute_state,
+          // institute_district: req.body.institute_district,
+          // institute_taluka: institute_taluka
+        },
+        // console.log("your body data", body);
+      })
       .then((data) => {
         if (data[0]) {
           return res.status(200).json({
@@ -215,11 +229,12 @@ exports.deleteCollegeProfile = (req, res) => {
       });
     }
 
-    collegeprofile.destroy({
-      where: {
-        id: req.body.id,
-      },
-    })
+    collegeprofile
+      .destroy({
+        where: {
+          id: req.body.id,
+        },
+      })
       .then((data) => {
         if (data) {
           return res.status(200).json({
@@ -296,7 +311,7 @@ exports.deleteCollegeProfile = (req, res) => {
 //   }
 // };
 
-// 
+//
 
 // exports.getAllUsersByRole = (req, res) => {
 //   try {
