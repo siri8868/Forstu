@@ -35,8 +35,10 @@ import { NavLink } from "react-router-dom/cjs/react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { isAuthenticated } from "../../helpers/AuthHelpers";
-import { convertToIst } from "../../helpers/Time";
 import { getAllCollegesApi } from "../../api/College";
+import ConformDeleteCollage from "./CollageComponents/ConformDeleteCollage";
+import ConformEditCollage from "./CollageComponents/ConformEditCollage";
+import AddCollageForm from "./CollageComponents/AddCollageForm";
 
 function CollegeDashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -142,13 +144,16 @@ function CollegeDashboard() {
                 <MenuList minWidth="50px">
                   <>
                     <MenuItem py={"-0.3"}>
-                      {/* <ConformEditUser
-                        user={record}
-                        getAllUsers={getAllUsers}
-                      /> */}
+                      <ConformEditCollage
+                        collage={record}
+                        getAllColleges={getAllColleges}
+                      />
                     </MenuItem>
                     <MenuItem py={"-0.3"}>
-                      {/* <ConformDelete id={record.id} getAllUsers={getAllUsers} /> */}
+                      <ConformDeleteCollage
+                        id={record.id}
+                        getAllColleges={getAllColleges}
+                      />
                     </MenuItem>
                   </>
                 </MenuList>
@@ -165,7 +170,7 @@ function CollegeDashboard() {
   const getAllColleges = async () => {
     const res = await getAllCollegesApi();
     if (res.success) {
-      console.log("MEMEMEMEME", res.data);
+      // console.log("MEMEMEMEME", res.data);
       setCollegeList(res.data);
       // setUserNameFilterList(generateFilterList(res.data, "name"));
       // setUserRoleFilterList(generateFilterList(res.data, "role"));
@@ -243,14 +248,17 @@ function CollegeDashboard() {
                 onClose={onClose}
               >
                 <ModalOverlay />
-                {/* <ModalContent>
+                <ModalContent>
                   <ModalHeader>Add User</ModalHeader>
                   <ModalCloseButton />
                   <ModalBody>
-                    <AddUserForm onClose={onClose} getAllUsers={getAllUsers} />
+                    <AddCollageForm
+                      onClose={onClose}
+                      getAllColleges={getAllColleges}
+                    />
                   </ModalBody>
                   <ModalFooter></ModalFooter>
-                </ModalContent> */}
+                </ModalContent>
               </Modal>
             </Box>
           </Flex>

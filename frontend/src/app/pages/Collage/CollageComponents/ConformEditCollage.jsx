@@ -27,13 +27,14 @@ import {
 import { useToast } from "@chakra-ui/react";
 import { MdModeEdit } from "react-icons/md";
 import ROLES from "../../../helpers/Roles";
+import { updateCollageApi } from "../../../api/College";
 
 const roles = ROLES.DB_ROLE_ENUM;
 
-function ConformEditUser({ user, getAllUsers }) {
+function ConformEditCollage({ collage, getAllColleges }) {
   const toast = useToast();
 
-  const [userData, setUserData] = useState({});
+  const [collageData, setCollageData] = useState({});
 
   const { isOpen, onOpen, onClose } = useDisclosure();
 
@@ -42,18 +43,19 @@ function ConformEditUser({ user, getAllUsers }) {
     // Do something with the form data, such as submit it to a backend server
 
     const data = {
-      id: userData.id,
-      username: userData.username,
-      role: userData.role,
+      id: collageData.id,
+      institute_choice_code: collageData.institute_choice_code,
+      institute_name: collageData.institute_name,
+      institute_state: collageData.institute_state,
     };
 
-    updateUserApi(data)
+    updateCollageApi(data)
       .then((res) => {
         if (res.success) {
           onClose();
-          getAllUsers();
+          getAllColleges();
           toast({
-            title: "User Updated.",
+            title: "Collage Updated.",
             description: res.message,
             status: "success",
             duration: 9000,
@@ -87,11 +89,11 @@ function ConformEditUser({ user, getAllUsers }) {
   };
 
   const handleChange = (param) => (event) => {
-    setUserData({ ...userData, [param]: event.target.value });
+    setCollageData({ ...collageData, [param]: event.target.value });
   };
 
   useEffect(() => {
-    setUserData(user);
+    setCollageData(collage);
   }, []);
 
   return (
@@ -109,36 +111,44 @@ function ConformEditUser({ user, getAllUsers }) {
         <ModalOverlay />
         <ModalContent>
           <form onSubmit={handleSubmit}>
-            <ModalHeader>Update User</ModalHeader>
+            <ModalHeader>Update Collage</ModalHeader>
             <ModalCloseButton />
             <ModalBody>
               <Box maxW="md" mx="auto" mt="8">
                 <VStack spacing="4">
-                  <FormControl id="username">
-                    <FormLabel>Username</FormLabel>
+                  <FormControl id="institute_choice_code">
+                    <FormLabel>Institute Choice Code</FormLabel>
                     <Input
                       type="text"
-                      placeholder="Enter your username"
-                      value={userData.username}
-                      onChange={handleChange("username")}
+                      placeholder="Enter your Institute Choice Code"
+                      value={collageData.institute_choice_code}
+                      onChange={handleChange("institute_choice_code")}
                       required
                     />
                   </FormControl>
 
-                  <FormControl id="role">
-                    <FormLabel>Role</FormLabel>
-                    <Select
-                      placeholder="Select Role"
-                      value={userData.role}
-                      onChange={handleChange("role")}
+                  <FormControl id="institute_name">
+                    <FormLabel>Institute Name</FormLabel>
+
+                    <Input
+                      type="text"
+                      placeholder="Enter your Institute Name"
+                      value={collageData.institute_name}
+                      onChange={handleChange("institute_name")}
                       required
-                    >
-                      {roles.map((role, index) => (
-                        <option key={index} value={role}>
-                          {role}
-                        </option>
-                      ))}
-                    </Select>
+                    />
+                  </FormControl>
+
+                  <FormControl id="institute_state">
+                    <FormLabel>Institute State</FormLabel>
+
+                    <Input
+                      type="text"
+                      placeholder="Enter your Institute State"
+                      value={collageData.institute_state}
+                      onChange={handleChange("institute_state")}
+                      required
+                    />
                   </FormControl>
                 </VStack>
               </Box>
@@ -168,4 +178,4 @@ function ConformEditUser({ user, getAllUsers }) {
   );
 }
 
-export default ConformEditUser;
+export default ConformEditCollage;

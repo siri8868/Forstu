@@ -9,6 +9,7 @@ const {
   getCourseYear,
   totalCourseAndYear,
   testEmailController,
+  getIncompleteFieldsController,
 } = require("../controllers/mahadbtController");
 
 const { isSignedIn, isAdmin } = require("../controllers/authController");
@@ -33,5 +34,6 @@ router.get("/getcourseslist", isSignedIn, getCourseList);
 router.get("/getcoursesyear", isSignedIn, getCourseYear);
 router.post("/courseandyearwisedata", isSignedIn, totalCourseAndYear);
 router.post("/sendmailtest", isSignedIn, testEmailController);
+router.get("/getIncompleteFields", isSignedIn, getIncompleteFieldsController);
 
 module.exports = router;

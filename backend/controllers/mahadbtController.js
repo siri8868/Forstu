@@ -12,6 +12,8 @@ const { createHmac } = require("crypto");
 const dotenv = require("dotenv");
 const sequelize = require("../database/connection");
 const AWS = require("aws-sdk");
+const ExcelInfo = require("../models/testExcelModel");
+const User = require("../models/usersModel");
 
 // const { Json } = require("sequelize/types/utils");
 dotenv.config();
@@ -373,3 +375,127 @@ exports.testEmailController = (req, res) => {
     }
   });
 };
+
+// exports.getIncompleteFieldsController = async (req, res) => {
+
+//   Mahadbtprofiles.findAll({})
+//     .then((data) => {
+//       data = JSON.stringify(data);
+//       data = JSON.parse(data);
+//       res.json({
+//         success: true,
+//         data,
+//         message: "Data Fetched Successfully",
+//       });
+//     })
+//     .catch((error) => {
+//       res.status(500).json({
+//         success: false,
+//         message: "Failed to retrieve Mahadbt Profiles",
+//         error: error,
+//       });
+//     });
+// };
+
+// exports.getIncompleteFieldsController = async (req, res) => {
+//   try {
+//     const Op = require("sequelize").Op;
+
+//     // Retrieve all columns in the table
+//     const columns = Object.keys(Mahadbtprofiles.rawAttributes);
+
+//     // Construct an OR condition for each column to check for NULL or empty string
+//     const whereConditions = {
+//       [Op.or]: columns.map((column) => ({
+//         [column]: {
+//           [Op.or]: [
+//             { [Op.eq]: null }, // Check for NULL values
+//             { [Op.eq]: "" }, // Check for empty string values
+//           ],
+//         },
+//       })),
+//     };
+
+//     console.log("whereConditions", whereConditions);
+
+//     // Find all records where at least one column has empty value
+//     const incompleteFields = await Mahadbtprofiles.findAll({
+//       where: whereConditions,
+//     });
+
+//     res.status(200).json({ incompleteFields });
+//   } catch (error) {
+//     console.error(error);
+//     res
+//       .status(500)
+//       .json({ error: "An error occurred while fetching incomplete fields." });
+//   }
+// };
+
+exports.getIncompleteFieldsController = async (req, res) => {
+  // try {
+  // const Op = require("sequelize").Op;
+  // const columns = Object.keys(User.rawAttributes);
+  // console.log("columns", columns);
+
+  // // Constructing the WHERE clause to find null or empty values
+  // const whereConditions = {
+  //   [Op.or]: columns.reduce((accumulator, column) => {
+  //     accumulator[column] = {
+  //       [Op.or]: [{ [Op.is]: null }, { [Op.eq]: "" }],
+  //     };
+  //     return accumulator;
+  //   }, {}),
+  // };
+
+  // const incompleteFields = await User.findAll({
+  //   where: whereConditions,
+  // });
+  // res.status(200).json({ incompleteFields });
+
+  const Op = require("sequelize").Op;
+  const columns = Object.keys(User.rawAttributes);
+
+  // Exclude date fields from the search for empty or null values
+  const excludedFields = ["createdAt", "updatedAt"];
+  const whereConditions = {
+    [Op.or]: columns.reduce((accumulator, column) => {
+      if (!excludedFields.includes(column)) {
+        accumulator[column] = {
+          [Op.or]: [{ [Op.is]: null }, { [Op.eq]: "" }],
+        };
+      }
+      return accumulator;
+    }, {}),
+  };
+
+  console.log("whereConditions", whereConditions);
+
+  const incompleteFields = await User.findAll({
+    where: whereConditions,
+  });
+  res.status(200).json({ incompleteFields });
+
+  // const incompleteFields = await Mahadbtprofiles.findAll({
+  //   where: whereConditions,
+  // });
+
+  // console.log("incompleteFields", incompleteFields);
+  // res.send("incompleteFields");
+  return;
+
+  if (incompleteFields.length > 0) {
+    res.status(200).json({ incompleteFields });
+  } else {
+    res
+      .status(404)
+      .json({ message: "No records with incomplete fields found." });
+  }
+};
+// catch (error) {
+//   // console.error("Error:", error);
+//   res
+//     .status(500)
+//     .json("An error occurred while fetching records with incomplete fields.");
+// }
+// };
