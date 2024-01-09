@@ -798,6 +798,10 @@ const Mahadbtprofiles = sequelize.define("mahadbt_profiles", {
     type: Sequelize.DataTypes.STRING,
     allowNull: true,
   },
+  prev_qualification_level: {
+    type: Sequelize.DataTypes.STRING,
+    allowNull: true,
+  },
 });
 
 module.exports = Mahadbtprofiles;

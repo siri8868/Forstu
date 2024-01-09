@@ -32,6 +32,10 @@ async function createStoredProcedure() {
       UPDATE mahadbt_profiles
       SET CasteCategory = 'JayBhim'
       WHERE CasteCategory = 'Open';
+      
+      UPDATE excel_profiles
+      SET qualifyingExam = 'H.S.C. (12 Std)'
+      WHERE qualifyingExam = 'HSC';
     END;
   `,
         { type: QueryTypes.RAW }
@@ -79,13 +83,14 @@ exports.uploadFile = async (req, res) => {
       sscPassingYear: item["SSC Passing Year"],
       sscSeatNo: item["SSC Seat No"],
       sscTotalPercentage: item["SSC Total Percentage"],
-      qualifyingExam: item["Qualifying Exam"],
+      prev_qualification_level: item["Qualifying Exam"],
       hscBoard: item["HSC Board"],
       hscPassingYear: item["HSC Passing Year"],
       hscSeatNo: item["HSC Seat No"],
       hscTotalPercentage: item["HSC Total Percentage"],
       cetPercentile: item["CET Percentile"],
       courseName: item["Course Name"],
+      // prev_qualification_level :item["Qualifying Exam"]
     }));
     // Bulk insert the filtered data into the ExcelInfo table
     // ExcelInfo.bulkCreate(filteredData);
@@ -108,6 +113,7 @@ exports.uploadFile = async (req, res) => {
 exports.runTheProcedure = async (req, res) => {
   console.log("test called");
   loadAndExecuteStoredProcedure();
+  UpdateHSCBoard();
   // executeUpdateCourseNameProcedure();
   res.json({ success: true, message: "test called" });
 };
@@ -117,3 +123,45 @@ exports.createStoreProcedure = async (req, res) => {
   createStoredProcedure();
   res.json({ success: true, message: "test called" });
 };
+
+// Example stored procedures
+const UpdateHSCBoard = async () => {
+  try {
+    const result = await sequelize.query('CALL UpdateClass12Board()', {
+      replacements: {
+        param1: 'value1',
+      },
+      type: Sequelize.QueryTypes.RAW,
+    });
+
+    console.log('Stored procedure 1 result:', result[0]);
+  } catch (error) {
+    console.error('Error executing stored procedure 1:', error);
+  }
+};
+
+// const procedure2 = async () => {
+//   try {
+//     const result = await sequelize.query('CALL your_stored_procedure_2(:param2)', {
+//       replacements: {
+//         param2: 'value2',
+//       },
+//       type: Sequelize.QueryTypes.RAW,
+//     });
+
+//     console.log('Stored procedure 2 result:', result[0]);
+//   } catch (error) {
+//     console.error('Error executing stored procedure 2:', error);
+//   }
+// };
+
+// // Execute stored procedures sequentially
+// procedure1()
+//   .then(() => procedure2())
+//   .catch(error => {
+//     console.error('Error executing stored procedures:', error);
+//   });
+// })
+// .catch((err) => {
+// console.error('Unable to connect to the database:', err);
+// });
