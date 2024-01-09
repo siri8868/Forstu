@@ -454,10 +454,163 @@ exports.getIncompleteFieldsController = async (req, res) => {
   // res.status(200).json({ incompleteFields });
 
   const Op = require("sequelize").Op;
-  const columns = Object.keys(User.rawAttributes);
+  const columns = Object.keys(Mahadbtprofiles.rawAttributes);
+  // console.log("columns", columns);
+
+  // res.status(200).json({ columns });
+  // return;
 
   // Exclude date fields from the search for empty or null values
-  const excludedFields = ["createdAt", "updatedAt"];
+  // const excludedFields = ["createdAt", "updatedAt"];
+  // const excludedFields = ["dob", "Candidate_name", "gender", "alternate_mobile_number", "whatsapp_number", "parent_mobile_number", "marital_status", "religion", "CasteCategory", "SubCaste", "do_you_have_caste_certificate", "caste_certificate_number", "caste_issued_district", "caste_applicantName", "caste_Iss_Authority", "caste_doc", "caste_issued_date", "annual_family_income", "do_you_have_income_certificate", "income_cert_no", "income_Iss_Authority", "income_doc", "income_issued_date", "do_you_have_Domicile_maharashtra_karnataka", "do_you_have_domicile_certificate", "domicile_relation_type", "domicilecertnumber", "domicile_applicant_name", "domicile_issued_authority", "domicile_doc", "domicile_issued_date", "do_you_have_disability", "disability_type", "disability_name", "do_you_have_disability_certificate", "disability_certificate_no", "disability_percentage", "disability_issued_date", "disability_issuing_authority", "disabilty_doc", "bankacc_name", "bank_ifsc", "permanent_village", "Correspo_Address_same_as_permanent_address", "correspondance_district", "correspondance_taluka", "correspondance_address", "correspondance_state", "correspondance_village", "correspondance_pincode", "is_father_alive"];
+  const excludedFields = [
+    // "id",
+    // "candidateName",
+    // "gender",
+    "dob",
+    // "alternateMobileNumber",
+    // "whatsappNumber",
+    // "parentMobileNumber",
+    // "maritalStatus",
+    // "religion",
+    // "casteCategory",
+    // "subCaste",
+    // "doYouHaveCasteCertificate",
+    // "casteCertificateNumber",
+    // "casteIssuedDistrict",
+    // "casteApplicantName",
+    // "casteIssuingAuthority",
+    // "casteDoc",
+    "casteIssuedDate",
+    // "annualFamilyIncome",
+    // "doYouHaveIncomeCertificate",
+    // "incomeCertNo",
+    // "incomeIssAuthority",
+    // "incomeDoc",
+    "incomeIssuedDate",
+    // "doYouHaveDomicileMaharashtraKarnataka",
+    // "doYouHaveDomicileCertificate",
+    // "domicileRelationType",
+    // "domicileCertNumber",
+    // "domicileApplicantName",
+    // "domicileIssuedAuthority",
+    // "domicileDoc",
+    "domicileIssuedDate",
+    // "doYouHaveDisability",
+    // "disabilityType",
+    // "disabilityName",
+    // "doYouHaveDisabilityCertificate",
+    // "disabilityCertificateNo",
+    // "disabilityPercentage",
+    "disabilityIssuedDate",
+    // "disabilityIssuingAuthority",
+    // "disabilityDoc",
+    // "bankaccName",
+    // "bankIfsc",
+    // "permanentVillage",
+    // "correspoAddressSameAsPermanent",
+    // "correspondanceDistrict",
+    // "correspondanceTaluka",
+    // "correspondanceAddress",
+    // "correspondanceState",
+    // "correspondanceVillage",
+    // "correspondancePincode",
+    // "isFatherAlive",
+    // "fatherName",
+    // "fatherOccupation",
+    // "fatherSalaried",
+    // "motherAlive",
+    // "motherName",
+    // "motherOccupation",
+    // "isMotherSalaried",
+    // "guardianName",
+    // "guardianAddress",
+    // "guardianOccupation",
+    // "isGuardianSalaried",
+    // "guardianRelationType",
+    // "guardianCertificateDoc",
+    // "admissionYear",
+    // "instituteState",
+    // "instituteDistrict",
+    // "instituteTaluka",
+    // "qualificationLevel",
+    // "courseStream",
+    // "instituteName",
+    // "coursename",
+    // "admissionType",
+    // "cetPercentAge",
+    // "admissionApplicationId",
+    // "admissionLetterDoc",
+    // "currentYear",
+    // "isCompletedPursuing",
+    "admissionDate",
+    // "feesPaid",
+    // "feeReceiptDoc",
+    // "admissionCategory",
+    // "modeStudy",
+    // "class10Qualification",
+    // "class10Stream",
+    // "class10State",
+    // "class10District",
+    // "class10Taluka",
+    // "class10Course",
+    // "class10Board",
+    // "class10Mode",
+    // "class10AdmissionYear",
+    // "class10PassingYear",
+    // "class10Result",
+    // "class10Percentage",
+    // "class10Attempt",
+    // "class10Doc",
+    // "class10SeatNumber",
+    // "class10MonthOfExam",
+    // "class10MarksObtained",
+    // "class10Attempts",
+    // "class12QualificationLevel",
+    // "class12Stream",
+    // "class12InstituteState",
+    // "class12InstituteDistrict",
+    // "class12Taluka",
+    // "class12CollegeName",
+    // "class12Course",
+    // "class12Board",
+    // "class12SeatNumber",
+    // "class12Mode",
+    // "class12AdmissionYear",
+    // "class12PassingYear",
+    // "class12Result",
+    // "class12Percentage",
+    // "class12Attempts",
+    // "class12Doc",
+    // "doYouHaveGap",
+    // "gapYear",
+    // "gapDoc",
+    // "areYouHostellerDayScholar",
+    // "hostelState",
+    // "hostelDistrict",
+    // "hostelTaluka",
+    // "hostelType",
+    // "hostelName",
+    // "hostelAddress",
+    // "hostelPincode",
+    "hostelAdmissionDate",
+    // "hostelDoc",
+    // "candidateEligible",
+    "applicationSubmissionDate",
+    // "applicationFailedReason",
+    // "applicationStatus",
+    // "eligibleScheme1",
+    // "email",
+    // "mahadbt_username",
+    // "mahadbt_password",
+    // "ref_code",
+    "createdAt",
+    "updatedAt",
+  ];
+
+  console.log("excludedFields", excludedFields.length);
+  // res.send("helllll000");
+  // return;
   const whereConditions = {
     [Op.or]: columns.reduce((accumulator, column) => {
       if (!excludedFields.includes(column)) {
@@ -469,10 +622,13 @@ exports.getIncompleteFieldsController = async (req, res) => {
     }, {}),
   };
 
-  console.log("whereConditions", whereConditions);
-
-  const incompleteFields = await User.findAll({
-    where: whereConditions,
+  const incompleteFields = await Mahadbtprofiles.findAll({
+    where: {
+      [Op.and]: [
+        { [Op.or]: whereConditions[Op.or] }, // Incorporating the dynamic conditions
+        { email: req.body.email }, // Adding the email condition
+      ],
+    },
   });
   res.status(200).json({ incompleteFields });
 

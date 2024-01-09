@@ -1,8 +1,7 @@
-import React, { ReactNode } from "react";
+import React from "react";
 
 import {
   IconButton,
-  Avatar,
   Box,
   CloseButton,
   Flex,
@@ -20,23 +19,15 @@ import {
   MenuDivider,
   MenuItem,
   MenuList,
-  Button,
 } from "@chakra-ui/react";
 
 import { FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
 
 import { NavLink, useHistory, withRouter } from "react-router-dom";
 
-import {
-  MdDashboard,
-  MdGroup,
-  MdCameraRoll,
-  MdSportsCricket,
-} from "react-icons/md";
+import { MdDashboard, MdGroup, MdCameraRoll } from "react-icons/md";
 
-import { BsFillTagsFill } from "react-icons/bs";
-
-import { isAuthenticated, signout } from "../helpers/AuthHelpers";
+import { signout } from "../helpers/AuthHelpers";
 
 import ROLES from "../helpers/Roles";
 
