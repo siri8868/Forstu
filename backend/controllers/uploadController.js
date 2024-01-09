@@ -118,6 +118,7 @@ exports.runTheProcedure = async (req, res) => {
   res.json({ success: true, message: "test called" });
 };
 
+console.log("dfdsfs")
 exports.createStoreProcedure = async (req, res) => {
   console.log("test called");
   createStoredProcedure();
