@@ -9,6 +9,7 @@ import UserDashboard from "./pages/User/UserDashboard";
 import Signup from "./pages/Signup/Signup";
 import CollageDashboard from "./pages/Collage/CollegeDashboard";
 import YearAndCoursesDashboard from "./pages/YearAndCourses/YearAndCoursesDashboard";
+import Test from "./pages/Form/Test";
 
 function App() {
   return (
@@ -25,8 +26,9 @@ function App() {
         <Route exact path="/signup">
           <Signup />
         </Route>
-        <Route exact path="/profile">
+        <Route exact path="/incompletprofile">
           {/* <Profile /> */}
+          <Test />
         </Route>
 
         {/* //admin */}
