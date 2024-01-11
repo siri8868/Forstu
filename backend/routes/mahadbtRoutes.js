@@ -34,6 +34,6 @@ router.get("/getcourseslist", isSignedIn, getCourseList);
 router.get("/getcoursesyear", isSignedIn, getCourseYear);
 router.post("/courseandyearwisedata", isSignedIn, totalCourseAndYear);
 router.post("/sendmailtest", isSignedIn, testEmailController);
-router.post("/getIncompleteFields", isSignedIn, getIncompleteFieldsController);
+router.post("/getIncompleteFields", getIncompleteFieldsController);
 
 module.exports = router;
