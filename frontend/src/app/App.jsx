@@ -9,7 +9,7 @@ import UserDashboard from "./pages/User/UserDashboard";
 import Signup from "./pages/Signup/Signup";
 import CollageDashboard from "./pages/Collage/CollegeDashboard";
 import YearAndCoursesDashboard from "./pages/YearAndCourses/YearAndCoursesDashboard";
-import Test from "./pages/Form/Test";
+import FormDashboard from "./pages/Form/FormDashboard";
 
 function App() {
   return (
@@ -28,7 +28,7 @@ function App() {
         </Route>
         <Route exact path="/incompletprofile">
           {/* <Profile /> */}
-          <Test />
+          <FormDashboard />
         </Route>
 
         {/* //admin */}
