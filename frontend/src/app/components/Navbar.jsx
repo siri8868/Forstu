@@ -43,6 +43,8 @@ const AdminMenu = [
   },
 
   { name: "Colleges", icon: MdGroup, path: "/dashboard/admin/colleges" },
+
+  { name: "Upload", icon: MdGroup, path: "/dashboard/admin/upload" },
   // { name: "Tagging", icon: BsFillTagsFill, path: "/dashboard/admin/tags" },
 
   // { name: "Seasons", icon: MdSportsCricket, path: "/dashboard/admin/seasons" },

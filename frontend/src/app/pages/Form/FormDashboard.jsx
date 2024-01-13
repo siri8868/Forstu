@@ -4,6 +4,10 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 import FormOne from "./FormComponents/FormOne";
 import FormTwo from "./FormComponents/FormTwo";
 import { getIncompleteFieldsApi } from "../../api/FormApi/FormApi";
+import FormThree from "./FormComponents/FormThree";
+import FormFour from "./FormComponents/FormFour";
+import FormFive from "./FormComponents/FormFive";
+import FormSix from "./FormComponents/FormSix";
 export const formContext = createContext();
 
 function FormDashboard() {
@@ -78,9 +82,21 @@ function FormDashboard() {
               <FormOne formDataMain={formDataMain} />
             </TabPanel>
             <TabPanel>
-              <FormTwo />
+              <FormTwo formDataMain={formDataMain} />
             </TabPanel>
-            <TabPanel>{/* <FormThree /> */}</TabPanel>
+            <TabPanel>
+              <FormThree formDataMain={formDataMain} />
+            </TabPanel>
+            <TabPanel>
+              <FormFour formDataMain={formDataMain} />
+            </TabPanel>
+            <TabPanel>
+              <FormFive formDataMain={formDataMain} />
+            </TabPanel>
+
+            <TabPanel>
+              <FormSix formDataMain={formDataMain} />
+            </TabPanel>
           </TabPanels>
         </Tabs>
       </formContext.Provider>

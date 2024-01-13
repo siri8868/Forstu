@@ -10,7 +10,6 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
-import { getIncompleteFieldsApi } from "../../../api/FormApi/FormApi";
 import { formContext } from "../FormDashboard";
 
 function FormOne({ formDataMain }) {
@@ -31,7 +30,54 @@ function FormOne({ formDataMain }) {
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("formData", formData);
-    const data = {};
+    const data = {
+      Candidate_name: formData.candidateName,
+      email: formData.email,
+      whatsappNumber: formData.whatsappNumber,
+      dob: formData.dob,
+      gender: formData.gender,
+      parent_mobile_number: formData.parentMobileNumber,
+      marital_status: formData.maritalStatus,
+      religion: formData.religion,
+      casteCategory: formData.casteCategory,
+      subCaste: formData.subCaste,
+      do_you_have_caste_certificate: formData.doYouHaveCasteCertificate,
+      caste_certificate_number: formData.casteCertificateNumber,
+      caste_issued_district: formData.casteIssuedDistrict,
+      caste_applicantName: formData.casteApplicantName,
+      caste_Iss_Authority: formData.casteIssuingAuthority,
+      caste_doc: formData.casteDoc,
+      caste_issued_date: formData.casteIssuedDate,
+      annual_family_income: formData.annualFamilyIncome,
+      do_you_have_income_certificate: formData.doYouHaveIncomeCertificate,
+      income_cert_no: formData.incomeCertNo,
+      income_Iss_Authority: formData.incomeIssAuthority,
+      income_doc: formData.incomeDoc,
+      income_issued_date: formData.incomeIssuedDate,
+      do_you_have_Domicile_maharashtra_karnataka:
+        formData.doYouHaveDomicileMaharashtraKarnataka,
+      do_you_have_domicile_certificate: formData.doYouHaveDomicileCertificate,
+      domicile_relation_type: formData.domicileRelationType,
+      domicilecertnumber: formData.domicileCertNumber,
+      domicile_applicant_name: formData.domicileApplicantName,
+      domicile_issued_authority: formData.domicileIssuedAuthority,
+      domicile_doc: formData.domicileDoc,
+      domicile_issued_date: formData.domicileIssuedDate,
+      do_you_have_disability: formData.doYouHaveDisability,
+      disability_type: formData.disabilityType,
+      disability_name: formData.disabilityName,
+      do_you_have_disability_certificate:
+        formData.doYouHaveDisabilityCertificate,
+      disability_certificate_no: formData.disabilityCertificateNo,
+      disability_percentage: formData.disabilityPercentage,
+      disability_issued_date: formData.disabilityIssuedDate,
+      disability_issuing_authority: formData.disabilityIssuingAuthority,
+      disabilty_doc: formData.disabilityDoc,
+      bankacc_name: formData.bankaccName,
+      bank_ifsc: formData.bankIfsc,
+    };
+
+    console.log("data", data);
 
     // setFormState({ ...formState, currentTabIndex: 1 });
 
@@ -531,6 +577,92 @@ function FormOne({ formDataMain }) {
               />
             </FormControl>
 
+            <FormControl id="disabilityCertificateNo">
+              <FormLabel>Disability Certificate Number ?</FormLabel>
+              <Input
+                isDisabled={true}
+                type="text"
+                placeholder="Disability Certificate Number ?"
+                value={formData.disabilityCertificateNo}
+                onChange={handleChange("disabilityCertificateNo")}
+                required
+              />
+            </FormControl>
+
+            <FormControl id="disabilityPercentage">
+              <FormLabel>
+                Disability Percentage (Should not less than 40%)
+              </FormLabel>
+              <Input
+                isDisabled={true}
+                type="text"
+                placeholder="Disability Percentage (Should not less than 40%)"
+                value={formData.disabilityPercentage}
+                onChange={handleChange("disabilityPercentage")}
+                required
+              />
+            </FormControl>
+
+            <FormControl id="disabilityIssuedDate">
+              <FormLabel>Disability Issuing Date</FormLabel>
+              <Input
+                isDisabled={true}
+                type="text"
+                placeholder="Disability Issuing Date"
+                value={formData.disabilityIssuedDate}
+                onChange={handleChange("disabilityIssuedDate")}
+                required
+              />
+            </FormControl>
+
+            <FormControl id="disabilityIssuingAuthority">
+              <FormLabel>Disability Issuing Authority</FormLabel>
+              <Input
+                isDisabled={true}
+                type="text"
+                placeholder="Disability Issuing Authority"
+                value={formData.disabilityIssuingAuthority}
+                onChange={handleChange("disabilityIssuingAuthority")}
+                required
+              />
+            </FormControl>
+
+            <FormControl id="disabilityDoc">
+              <FormLabel>Disability Document</FormLabel>
+              <Input
+                isDisabled={true}
+                type="text"
+                placeholder="Disability Document"
+                value={formData.disabilityDoc}
+                onChange={handleChange("disabilityDoc")}
+                required
+              />
+            </FormControl>
+
+            <FormControl id="bankaccName">
+              <FormLabel>Bank Account Name</FormLabel>
+              <Input
+                isDisabled={true}
+                type="text"
+                placeholder="Bank Account Name"
+                value={formData.bankaccName}
+                onChange={handleChange("bankaccName")}
+                required
+              />
+            </FormControl>
+
+            <FormControl id="bankIfsc">
+              <FormLabel>Bank IFSC Code</FormLabel>
+              <Input
+                isDisabled={true}
+                type="text"
+                placeholder="Bank IFSC Code"
+                value={formData.bankIfsc}
+                onChange={handleChange("bankIfsc")}
+                required
+              />
+            </FormControl>
+
             {/* <FormControl id="admissionApplicationId">
               <FormLabel>admissionApplicationId</FormLabel>
               <Input
@@ -754,16 +886,17 @@ function FormOne({ formDataMain }) {
               />
             </FormControl> */}
           </VStack>
+          <Button
+            color="text.light"
+            type="submit"
+            bg="primary.main"
+            variant={"outline"}
+            mt={2}
+          >
+            Submit
+          </Button>
         </Box>
 
-        <Button
-          color="text.light"
-          type="submit"
-          bg="primary.main"
-          variant={"outline"}
-        >
-          Submit
-        </Button>
         {/* <Button mx={2} onClick={handlePrev} type="button" variant={"outline"}>
           previous
         </Button> */}

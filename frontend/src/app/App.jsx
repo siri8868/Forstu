@@ -10,6 +10,7 @@ import Signup from "./pages/Signup/Signup";
 import CollageDashboard from "./pages/Collage/CollegeDashboard";
 import YearAndCoursesDashboard from "./pages/YearAndCourses/YearAndCoursesDashboard";
 import FormDashboard from "./pages/Form/FormDashboard";
+import Upload from "./pages/upload/upload";
 
 function App() {
   return (
@@ -58,6 +59,13 @@ function App() {
           exact
           path="/dashboard/admin/colleges"
           component={CollageDashboard}
+          role={ROLES.ADMIN}
+        ></ProtectedRoute>
+
+        <ProtectedRoute
+          exact
+          path="/dashboard/admin/upload"
+          component={Upload}
           role={ROLES.ADMIN}
         ></ProtectedRoute>
         {/* <Route path="/dashboard/admin">

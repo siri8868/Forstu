@@ -1,3 +1,5 @@
+import React, { useContext, useEffect, useState } from "react";
+import { formContext } from "../FormDashboard";
 import {
   Box,
   Button,
@@ -7,10 +9,8 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
-import React, { useContext, useEffect, useState } from "react";
-import { formContext } from "../FormDashboard";
 
-function FormTwo({ formDataMain }) {
+function FormSix({ formDataMain }) {
   const { formState, setFormState } = useContext(formContext);
 
   const [formData, setFormData] = useState({});
@@ -29,15 +29,18 @@ function FormTwo({ formDataMain }) {
     event.preventDefault();
     console.log("formData", formData);
     const data = {
-      permanentVillage: formData.permanentVillage,
-      correspoAddressSameAsPermanent: formData.correspoAddressSameAsPermanent,
-      correspondanceDistrict: formData.correspondanceDistrict,
-      correspondanceTaluka: formData.correspondanceTaluka,
-      correspondanceAddress: formData.correspondanceAddress,
-      correspondanceState: formData.correspondanceState,
-      correspondanceVillage: formData.correspondanceVillage,
-      correspondancePincode: formData.correspondancePincode,
+      areYouHostellerDayScholar: formData.areYouHostellerDayScholar,
+      hostelState: formData.hostelState,
+      hostelDistrict: formData.hostelDistrict,
+      hostelTaluka: formData.hostelTaluka,
+      hostelType: formData.hostelType,
+      hostelName: formData.hostelName,
+      hostelAddress: formData.hostelAddress,
+      hostelPincode: formData.hostelPincode,
+      hostelAdmissionDate: formData.hostelAdmissionDate,
+      hostelDoc: formData.hostelDoc,
     };
+
     console.log("data", data);
 
     // setFormState({ ...formState, currentTabIndex: 1 });
@@ -96,108 +99,118 @@ function FormTwo({ formDataMain }) {
     // console.log("formDataMain", formDataMain);
   }, [formDataMain]);
   console.log("formData", formData);
+
   return (
     <>
       <form onSubmit={handleSubmit}>
         <Box maxW="md" mx="auto" mt="8">
           <VStack spacing="4">
-            <FormControl id="permanentVillage">
-              <FormLabel>Enter your permanent Village</FormLabel>
+            <FormControl id="areYouHostellerDayScholar">
+              <FormLabel>Are you a Hosteller or Day Scholar</FormLabel>
               <Input
                 type="text"
-                placeholder="Enter your permanent Village"
-                value={formData.permanentVillage}
-                onChange={handleChange("permanentVillage")}
+                placeholder="Are you a Hosteller or Day Scholar"
+                value={formData.areYouHostellerDayScholar}
+                onChange={handleChange("areYouHostellerDayScholar")}
                 required
               />
             </FormControl>
 
-            <FormControl id="correspoAddressSameAsPermanent">
-              <FormLabel>
-                Is Correspondence Address same as Permanent?
-              </FormLabel>
+            <FormControl id="hostelState">
+              <FormLabel>Hostel State</FormLabel>
               <Input
                 type="text"
-                placeholder=" Is Correspondence Address same as Permanent?"
-                value={formData.correspoAddressSameAsPermanent}
-                onChange={handleChange("correspoAddressSameAsPermanent")}
+                placeholder="Hostel State"
+                value={formData.hostelState}
+                onChange={handleChange("hostelState")}
                 required
               />
             </FormControl>
 
-            <FormControl id="correspondanceDistrict">
-              <FormLabel>Enter your Correspondance District</FormLabel>
+            <FormControl id="hostelDistrict">
+              <FormLabel>Hostel District</FormLabel>
               <Input
                 type="text"
-                placeholder="Enter your Correspondance District"
-                value={formData.correspondanceDistrict}
-                onChange={handleChange("correspondanceDistrict")}
+                placeholder="Hostel District"
+                value={formData.hostelDistrict}
+                onChange={handleChange("hostelDistrict")}
                 required
               />
             </FormControl>
 
-            <FormControl id="correspondanceDistrict">
-              <FormLabel>Enter your Correspondance District</FormLabel>
+            <FormControl id="hostelTaluka">
+              <FormLabel>Hostel Taluka</FormLabel>
               <Input
                 type="text"
-                placeholder="Enter your Correspondance District"
-                value={formData.correspondanceDistrict}
-                onChange={handleChange("correspondanceDistrict")}
+                placeholder="Hostel Taluka"
+                value={formData.hostelTaluka}
+                onChange={handleChange("hostelTaluka")}
                 required
               />
             </FormControl>
 
-            <FormControl id="correspondanceTaluka">
-              <FormLabel>Enter your correspondance Taluka</FormLabel>
+            <FormControl id="hostelType">
+              <FormLabel>Hostel Type</FormLabel>
               <Input
                 type="text"
-                placeholder="Enter your correspondance Taluka"
-                value={formData.correspondanceTaluka}
-                onChange={handleChange("correspondanceTaluka")}
+                placeholder="Hostel Type"
+                value={formData.hostelType}
+                onChange={handleChange("hostelType")}
                 required
               />
             </FormControl>
 
-            <FormControl id="correspondanceAddress">
-              <FormLabel>Enter your correspondance Address</FormLabel>
+            <FormControl id="hostelName">
+              <FormLabel>Hostel Name</FormLabel>
               <Input
                 type="text"
-                placeholder="Enter your correspondance Address"
-                value={formData.correspondanceAddress}
-                onChange={handleChange("correspondanceAddress")}
+                placeholder="Hostel Name"
+                value={formData.hostelName}
+                onChange={handleChange("hostelName")}
                 required
               />
             </FormControl>
 
-            <FormControl id="correspondanceState">
-              <FormLabel>Enter your correspondance State</FormLabel>
+            <FormControl id="hostelAddress">
+              <FormLabel>Hostel Address</FormLabel>
               <Input
                 type="text"
-                placeholder="Enter your correspondance State"
-                value={formData.correspondanceState}
-                onChange={handleChange("correspondanceState")}
+                placeholder="Hostel Address"
+                value={formData.hostelAddress}
+                onChange={handleChange("hostelAddress")}
                 required
               />
             </FormControl>
 
-            <FormControl id="correspondanceVillage">
-              <FormLabel>Enter your correspondance Village</FormLabel>
+            <FormControl id="hostelPincode">
+              <FormLabel>Hostel Pin Code</FormLabel>
               <Input
                 type="text"
-                placeholder="Enter your correspondance Village"
-                value={formData.correspondanceVillage}
-                onChange={handleChange("correspondanceVillage")}
+                placeholder="Hostel Pin Code"
+                value={formData.hostelPincode}
+                onChange={handleChange("hostelPincode")}
                 required
               />
             </FormControl>
 
-            <FormControl id="correspondancePincode">
-              <FormLabel>Enter your correspondance Pin code</FormLabel>
+            <FormControl id="hostelAdmissionDate">
+              <FormLabel>Hostel Admission Date</FormLabel>
               <Input
                 type="text"
-                placeholder="Enter your correspondance Pin code"
-                value={formData.correspondancePincode}
-                onChange={handleChange("correspondancePincode")}
+                placeholder="Hostel Admission Date"
+                value={formData.hostelAdmissionDate}
+                onChange={handleChange("hostelAdmissionDate")}
+                required
+              />
+            </FormControl>
+
+            <FormControl id="hostelDoc">
+              <FormLabel>Hostel Docs</FormLabel>
+              <Input
+                type="text"
+                placeholder="Hostel Docs"
+                value={formData.hostelDoc}
+                onChange={handleChange("hostelDoc")}
                 required
               />
             </FormControl>
@@ -217,4 +230,4 @@ function FormTwo({ formDataMain }) {
   );
 }
 
-export default FormTwo;
+export default FormSix;
