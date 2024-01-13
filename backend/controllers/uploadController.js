@@ -60,23 +60,23 @@ const UpdateClass12BoardData = async () => {
       END;
     `);
 
-    console.log('Stored procedure created successfully.');
+    console.log("Stored procedure created successfully.");
 
     // Execute the stored procedure
     // const result = await sequelize.query('CALL UpdateClass12Board', { type: Sequelize.QueryTypes.RAW });
     // console.log('Stored procedure result:', result[0]);
-
   } catch (error) {
-    console.error('Error creating or executing stored procedure:', error);
+    console.error("Error creating or executing stored procedure:", error);
   } finally {
     // Don't forget to remove the stored procedure afterward if needed
-    await sequelize.query('DROP PROCEDURE IF EXISTS UpdateClass10Board');
+    await sequelize.query("DROP PROCEDURE IF EXISTS UpdateClass10Board");
   }
 };
 
-
 async function loadAndExecuteStoredProcedure() {
-  const result = await sequelize.query('CALL UpdateClass12Board', { type: Sequelize.QueryTypes.RAW });
+  const result = await sequelize.query("CALL UpdateClass12Board", {
+    type: Sequelize.QueryTypes.RAW,
+  });
   // console.log('Stored procedure result:', result[0]);
   // Log the structure of the result to understand its format
   console.log("Result structure:", result);
@@ -86,14 +86,14 @@ async function loadAndExecuteStoredProcedure() {
 }
 
 exports.uploadFile = async (req, res) => {
-  console.log("req.files.vivek::::::", req.files.vivek);
+  // console.log("req.files.vivek::::::", req.files.vivek);
   // working code for excel file present in the body!!!!
   const workbook = xlsx.read(req.files.vivek.data, { type: "buffer" });
   const sheetName = workbook.SheetNames[0]; // Assuming you want the first sheet
   const sheet = workbook.Sheets[sheetName];
-  console.log("SHEETNAME :: ", sheetName);
+  // console.log("SHEETNAME :: ", sheetName);
   const data = xlsx.utils.sheet_to_json(sheet);
-  console.log("Sheet Data:", data);
+  // console.log("Sheet Data:", data);
   try {
     // ExcelInfo.bulkCreate(data);
     const filteredData = data.map((item) => ({
@@ -119,12 +119,11 @@ exports.uploadFile = async (req, res) => {
     // Bulk insert the filtered data into the ExcelInfo table
     // ExcelInfo.bulkCreate(filteredData);
     const createdData = await ExcelInfo.bulkCreate(filteredData);
-    console.log("Data inserted successfully", createdData);
+    // console.log("Data inserted successfully", createdData);
 
     // executeStoredProcedure();
     res.json({
       success: true,
-      data: createdData,
       message: "Data inserted successfully",
     });
   } catch (error) {
@@ -142,7 +141,7 @@ exports.runTheProcedure = async (req, res) => {
   res.json({ success: true, message: "test called" });
 };
 
-console.log("dfdsfs")
+console.log("dfdsfs");
 exports.createStoreProcedure = async (req, res) => {
   console.log("test called");
   createStoredProcedure();
