@@ -251,6 +251,18 @@ exports.isAdmin = (req, res, next) => {
   }
 };
 
+exports.isStudent = (req, res, next) => {
+  const { role } = req.profile;
+  if (role == ROLES.STUDENT) {
+    next();
+  } else {
+    return res.status(403).json({
+      status: false,
+      message: "Forbidden!",
+    });
+  }
+};
+
 // exports.changePassword = (req, res) => {
 //   try {
 //     const { id } = req.profile;
