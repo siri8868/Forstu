@@ -10,9 +10,16 @@ const {
   totalCourseAndYear,
   testEmailController,
   getIncompleteFieldsController,
+  sendDatatoDB,
+  personalInfo,
+  addressInfo,
+  otherInfo,
+  currentcourseInfo,
+  pastQualificationInfo,
+  hostelDetailsInfo
 } = require("../controllers/mahadbtController");
 
-const { isSignedIn, isAdmin } = require("../controllers/authController");
+const { isSignedIn, isAdmin, isStudent } = require("../controllers/authController");
 // const {
 //   getUserValidationSchema,
 //   // addUserValidationSchema,
@@ -35,5 +42,15 @@ router.get("/getcoursesyear", isSignedIn, getCourseYear);
 router.post("/courseandyearwisedata", isSignedIn, totalCourseAndYear);
 router.post("/sendmailtest", isSignedIn, testEmailController);
 router.post("/getIncompleteFields", getIncompleteFieldsController);
+
+// for microsite routes for students
+router.put("/submitFormData", sendDatatoDB);
+
+router.post("/getPersonalInfo", personalInfo);
+router.post("/getAddressInfo", addressInfo);
+router.post("/getOtherInfo", otherInfo);
+router.post("/getcurrentcourseInfo", currentcourseInfo);
+router.post("/getQualificationInfo", pastQualificationInfo);
+router.post("/getHostelDetailsInfo", hostelDetailsInfo);
 
 module.exports = router;

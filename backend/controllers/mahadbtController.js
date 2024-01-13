@@ -655,3 +655,335 @@ exports.getIncompleteFieldsController = async (req, res) => {
 //     .json("An error occurred while fetching records with incomplete fields.");
 // }
 // };
+
+exports.sendDatatoDB = async (req, res) => {
+  // console.log("success");
+  // res.send("Data send to db");
+  // console.log("req profile", req.profile.ref_code);
+  // const { id } = req.body.id;
+
+  const savedData = {
+    candidateName: 'nishantttt',
+    whatsappNumber: 9999999999,
+    gender: 'Female',
+    parentMobileNumber: 888888888888,
+    maritalStatus: 'Unmarried',
+    religion: "Hindu",
+    casteCategory: "SBC",
+    subCaste: "PADMASHALI",
+    doYouHaveCasteCertificate: "Yes",
+    casteCertificateNumber: 9999090099099,
+  };
+
+  Mahadbtprofiles.update(
+    savedData,
+    {
+      // Specify the condition for the update
+      where: {
+        id: 1,
+      },
+    }
+  )
+    .then((result) => {
+      // The result is an array where the first element is the number of updated rows
+      console.log(`${result[0]} row(s) updated`);
+      res.status(200).json({ message: `${result[0]} row(s) updated` });
+    })
+    .catch((error) => {
+      console.error('Error updating records:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    });
+}
+
+exports.personalInfo = (req, res) => {
+  // res.send("Hello from personal info");
+
+  Mahadbtprofiles.findAll({
+    attributes: [
+      "candidateName",
+      "email",
+      "gender",
+      "dob",
+      "alternateMobileNumber",
+      "whatsappNumber",
+      "parentMobileNumber",
+      "maritalStatus",
+      "religion",
+      "casteCategory",
+      "subCaste",
+      "doYouHaveCasteCertificate",
+      "casteCertificateNumber",
+      "casteIssuedDistrict",
+      "casteApplicantName",
+      "casteIssuingAuthority",
+      "casteDoc",
+      "casteIssuedDate",
+      "annualFamilyIncome",
+      "doYouHaveIncomeCertificate",
+      "incomeCertNo",
+      "incomeIssAuthority",
+      "incomeDoc",
+      "incomeIssuedDate",
+      "doYouHaveDomicileMaharashtraKarnataka",
+      "doYouHaveDomicileCertificate",
+      "domicileRelationType",
+      "domicileCertNumber",
+      "domicileApplicantName",
+      "domicileIssuedAuthority",
+      "domicileDoc",
+      "domicileIssuedDate",
+      "doYouHaveDisability",
+      "disabilityType",
+      "disabilityName",
+      "doYouHaveDisabilityCertificate",
+      "disabilityCertificateNo",
+      "disabilityPercentage",
+      "disabilityIssuedDate",
+      "disabilityIssuingAuthority",
+      "disabilityDoc",
+      "disabilityIssuedDate",
+      "bankaccName",
+      "bankIfsc",
+    ],
+    where: {
+      // id: req.body.id,
+      // // ref_code: req.profile.ref_code,
+      email: req.profile.email,
+    },
+  })
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve count of  Mahadbt Profiles",
+        error: error,
+      });
+    });
+}
+
+
+exports.addressInfo = (req, res) => {
+  // res.send("Hello from address info");
+  Mahadbtprofiles.findAll({
+    attributes: [
+      "permanentVillage",
+      "correspoAddressSameAsPermanent",
+      "correspondanceDistrict",
+      "correspondanceTaluka",
+      "correspondanceAddress",
+      "correspondanceState",
+      "correspondanceVillage",
+      "correspondancePincode",
+    ],
+    where: {
+      email: req.profile.email,
+    },
+  })
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve count of  Mahadbt Profiles",
+        error: error,
+      });
+    });
+
+}
+
+exports.otherInfo = (req, res) => {
+  console.log("ypur e-mail", req.profile.email);
+  Mahadbtprofiles.findAll({
+    attributes: [
+      "isFatherAlive",
+      "fatherName",
+      "fatherOccupation",
+      "fatherSalaried",
+      "motherAlive",
+      "motherName",
+      "motherOccupation",
+      "isMotherSalaried",
+      "guardianName",
+      "guardianAddress",
+      "guardianOccupation",
+      "isGuardianSalaried",
+      "guardianRelationType",
+      "guardianCertificateDoc",
+    ],
+    where: {
+      email: req.profile.email,
+    },
+  })
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve count of  Mahadbt Profiles",
+        error: error,
+      });
+    });
+}
+
+exports.currentcourseInfo = (req, res) => {
+  // res.send("Hello from current course info");
+  Mahadbtprofiles.findAll({
+    attributes: [
+      "admissionYear",
+      "instituteState",
+      "instituteDistrict",
+      "instituteTaluka",
+      "qualificationLevel",
+      "courseStream",
+      "instituteName",
+      "coursename",
+      "admissionType",
+      "cetPercentAge",
+      "admissionApplicationId",
+      "admissionLetterDoc",
+      "currentYear",
+      "isCompletedPursuing",
+      "admissionDate",
+      "feesPaid",
+      "feeReceiptDoc",
+      "admissionCategory",
+      "modeStudy",
+    ],
+    where: {
+      email: req.profile.email,
+    },
+  })
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve count of  Mahadbt Profiles",
+        error: error,
+      });
+    });
+
+}
+exports.pastQualificationInfo = (req, res) => {
+  // res.send("Hello from past qaulification info");
+  Mahadbtprofiles.findAll({
+    attributes: [
+      "class10Qualification",
+      "class10Stream",
+      "class10State",
+      "class10District",
+      "class10Taluka",
+      "class10Course",
+      "class10Board",
+      "class10Mode",
+      "class10AdmissionYear",
+      "class10PassingYear",
+      "class10Result",
+      "class10Percentage",
+      "class10Attempt",
+      "class10Doc",
+      "class10SeatNumber",
+      "class10MonthOfExam",
+      "class10MarksObtained",
+      "class10Attempts",
+      "class12QualificationLevel",
+      'class12Stream',
+      "class12InstituteState",
+      'class12InstituteDistrict',
+      "class12Taluka",
+      "class12CollegeName",
+      "class12Course",
+      "class12Board",
+      "class12SeatNumber",
+      "class12Mode",
+      "class12AdmissionYear",
+      "class12PassingYear",
+      "class12Result",
+      "class12Percentage",
+      "class12Attempts",
+      'class12Doc',
+      "doYouHaveGap",
+      "gapYear",
+      "gapDoc",
+    ],
+    where: {
+      email: req.profile.email,
+    },
+  })
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve count of  Mahadbt Profiles",
+        error: error,
+      });
+    });
+
+}
+
+exports.hostelDetailsInfo = (req, res) => {
+  Mahadbtprofiles.findAll({
+    attributes: [
+      "areYouHostellerDayScholar",
+      "hostelState",
+      "hostelDistrict",
+      "hostelTaluka",
+      "hostelType",
+      "hostelName",
+      'hostelAddress',
+      'hostelPincode',
+      "hostelAdmissionDate",
+      "hostelDoc",
+    ],
+    where: {
+      email: req.profile.email,
+    },
+  })
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve count of  Mahadbt Profiles",
+        error: error,
+      });
+    });
+}
