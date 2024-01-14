@@ -661,45 +661,55 @@ exports.sendDatatoDB = async (req, res) => {
   // res.send("Data send to db");
   // console.log("req profile", req.profile.ref_code);
   // const { id } = req.body.id;
+  // console.log("req body", req.body);
+  // console.log("req body ID:::::", req.body.id);
 
-  const savedData = {
-    candidateName: 'nishantttt',
-    whatsappNumber: 9999999999,
-    gender: 'Female',
-    parentMobileNumber: 888888888888,
-    maritalStatus: 'Unmarried',
-    religion: "Hindu",
-    casteCategory: "SBC",
-    subCaste: "PADMASHALI",
-    doYouHaveCasteCertificate: "Yes",
-    casteCertificateNumber: 9999090099099,
-  };
+  // return res.send("success");
 
-  Mahadbtprofiles.update(
-    savedData,
-    {
-      // Specify the condition for the update
-      where: {
-        id: 1,
-      },
-    }
-  )
+  // const savedData = {
+  //   candidateName: "nishantttt",
+  //   whatsappNumber: 9999999999,
+  //   gender: "Female",
+  //   parentMobileNumber: 888888888888,
+  //   maritalStatus: "Unmarried",
+  //   religion: "Hindu",
+  //   casteCategory: "SBC",
+  //   subCaste: "PADMASHALI",
+  //   doYouHaveCasteCertificate: "Yes",
+  //   casteCertificateNumber: 9999090099099,
+  // };
+
+  Mahadbtprofiles.update(req.body, {
+    // Specify the condition for the update
+    where: {
+      id: req.body.id,
+    },
+  })
     .then((result) => {
+      console.log("result", result);
       // The result is an array where the first element is the number of updated rows
-      console.log(`${result[0]} row(s) updated`);
-      res.status(200).json({ message: `${result[0]} row(s) updated` });
+      // console.log(`${result[0]} row(s) updated`);
+      // res.status(200).json({ message: ` row(s) updated` });
+      return res.status(200).json({
+        success: true,
+        message: `${result[0]} row(s) updated`,
+      });
     })
     .catch((error) => {
-      console.error('Error updating records:', error);
-      res.status(500).json({ error: 'Internal Server Error' });
+      console.error("Error updating records:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     });
-}
+};
 
 exports.personalInfo = (req, res) => {
   // res.send("Hello from personal info");
+  // console.log("ypur e-mail", req.profile.email);
+  console.log("req:", req.body.email);
+  // return;
 
   Mahadbtprofiles.findAll({
     attributes: [
+      "id",
       "candidateName",
       "email",
       "gender",
@@ -748,7 +758,7 @@ exports.personalInfo = (req, res) => {
     where: {
       // id: req.body.id,
       // // ref_code: req.profile.ref_code,
-      email: req.profile.email,
+      email: req.body.email,
     },
   })
     .then((data) => {
@@ -766,13 +776,13 @@ exports.personalInfo = (req, res) => {
         error: error,
       });
     });
-}
-
+};
 
 exports.addressInfo = (req, res) => {
   // res.send("Hello from address info");
   Mahadbtprofiles.findAll({
     attributes: [
+      "id",
       "permanentVillage",
       "correspoAddressSameAsPermanent",
       "correspondanceDistrict",
@@ -783,7 +793,7 @@ exports.addressInfo = (req, res) => {
       "correspondancePincode",
     ],
     where: {
-      email: req.profile.email,
+      email: req.body.email,
     },
   })
     .then((data) => {
@@ -801,13 +811,13 @@ exports.addressInfo = (req, res) => {
         error: error,
       });
     });
-
-}
+};
 
 exports.otherInfo = (req, res) => {
-  console.log("ypur e-mail", req.profile.email);
+  console.log("ypur e-mail", req.body.email);
   Mahadbtprofiles.findAll({
     attributes: [
+      "id",
       "isFatherAlive",
       "fatherName",
       "fatherOccupation",
@@ -824,7 +834,7 @@ exports.otherInfo = (req, res) => {
       "guardianCertificateDoc",
     ],
     where: {
-      email: req.profile.email,
+      email: req.body.email,
     },
   })
     .then((data) => {
@@ -842,12 +852,13 @@ exports.otherInfo = (req, res) => {
         error: error,
       });
     });
-}
+};
 
 exports.currentcourseInfo = (req, res) => {
   // res.send("Hello from current course info");
   Mahadbtprofiles.findAll({
     attributes: [
+      "id",
       "admissionYear",
       "instituteState",
       "instituteDistrict",
@@ -869,7 +880,7 @@ exports.currentcourseInfo = (req, res) => {
       "modeStudy",
     ],
     where: {
-      email: req.profile.email,
+      email: req.body.email,
     },
   })
     .then((data) => {
@@ -887,12 +898,12 @@ exports.currentcourseInfo = (req, res) => {
         error: error,
       });
     });
-
-}
+};
 exports.pastQualificationInfo = (req, res) => {
   // res.send("Hello from past qaulification info");
   Mahadbtprofiles.findAll({
     attributes: [
+      "id",
       "class10Qualification",
       "class10Stream",
       "class10State",
@@ -912,9 +923,9 @@ exports.pastQualificationInfo = (req, res) => {
       "class10MarksObtained",
       "class10Attempts",
       "class12QualificationLevel",
-      'class12Stream',
+      "class12Stream",
       "class12InstituteState",
-      'class12InstituteDistrict',
+      "class12InstituteDistrict",
       "class12Taluka",
       "class12CollegeName",
       "class12Course",
@@ -926,13 +937,13 @@ exports.pastQualificationInfo = (req, res) => {
       "class12Result",
       "class12Percentage",
       "class12Attempts",
-      'class12Doc',
+      "class12Doc",
       "doYouHaveGap",
       "gapYear",
       "gapDoc",
     ],
     where: {
-      email: req.profile.email,
+      email: req.body.email,
     },
   })
     .then((data) => {
@@ -950,25 +961,25 @@ exports.pastQualificationInfo = (req, res) => {
         error: error,
       });
     });
-
-}
+};
 
 exports.hostelDetailsInfo = (req, res) => {
   Mahadbtprofiles.findAll({
     attributes: [
+      "id",
       "areYouHostellerDayScholar",
       "hostelState",
       "hostelDistrict",
       "hostelTaluka",
       "hostelType",
       "hostelName",
-      'hostelAddress',
-      'hostelPincode',
+      "hostelAddress",
+      "hostelPincode",
       "hostelAdmissionDate",
       "hostelDoc",
     ],
     where: {
-      email: req.profile.email,
+      email: req.body.email,
     },
   })
     .then((data) => {
@@ -986,4 +997,4 @@ exports.hostelDetailsInfo = (req, res) => {
         error: error,
       });
     });
-}
+};

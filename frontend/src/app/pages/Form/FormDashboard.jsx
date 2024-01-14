@@ -3,7 +3,7 @@ import { Tabs, TabList, TabPanels, Tab, TabPanel } from "@chakra-ui/react";
 
 import FormOne from "./FormComponents/FormOne";
 import FormTwo from "./FormComponents/FormTwo";
-import { getIncompleteFieldsApi } from "../../api/FormApi/FormApi";
+// import { getIncompleteFieldsApi } from "../../api/FormApi/FormApi";
 import FormThree from "./FormComponents/FormThree";
 import FormFour from "./FormComponents/FormFour";
 import FormFive from "./FormComponents/FormFive";
@@ -15,27 +15,27 @@ function FormDashboard() {
     currentTabIndex: 0,
   });
 
-  const [formDataMain, setFormDataMain] = useState({});
+  // const [formDataMain, setFormDataMain] = useState({});
 
-  const getIncompleteFields = () => {
-    const data = {
-      email: "nishant@gmail.com",
-    };
-    getIncompleteFieldsApi(data)
-      .then((res) => {
-        // console.log("res", res);
-        // setData(res.incompleteFields);
-        setFormDataMain(res.incompleteFields[0]);
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-  };
+  // const getIncompleteFields = () => {
+  //   const data = {
+  //     email: "nishant@gmail.com",
+  //   };
+  //   getIncompleteFieldsApi(data)
+  //     .then((res) => {
+  //       // console.log("res", res);
+  //       // setData(res.incompleteFields);
+  //       setFormDataMain(res.incompleteFields[0]);
+  //     })
+  //     .catch((error) => {
+  //       console.error(error);
+  //     });
+  // };
 
-  useEffect(() => {
-    // setFormData(collage);
-    getIncompleteFields();
-  }, []);
+  // useEffect(() => {
+  //   // setFormData(collage);
+  //   getIncompleteFields();
+  // }, []);
 
   return (
     <>
@@ -79,23 +79,23 @@ function FormDashboard() {
 
           <TabPanels>
             <TabPanel>
-              <FormOne formDataMain={formDataMain} />
+              <FormOne />
             </TabPanel>
             <TabPanel>
-              <FormTwo formDataMain={formDataMain} />
+              <FormTwo />
             </TabPanel>
             <TabPanel>
-              <FormThree formDataMain={formDataMain} />
+              <FormThree />
             </TabPanel>
             <TabPanel>
-              <FormFour formDataMain={formDataMain} />
+              <FormFour />
             </TabPanel>
             <TabPanel>
-              <FormFive formDataMain={formDataMain} />
+              <FormFive />
             </TabPanel>
 
             <TabPanel>
-              <FormSix formDataMain={formDataMain} />
+              <FormSix />
             </TabPanel>
           </TabPanels>
         </Tabs>

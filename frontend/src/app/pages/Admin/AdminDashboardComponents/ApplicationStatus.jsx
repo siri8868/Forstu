@@ -30,8 +30,10 @@ function ApplicationStatus() {
       // series: [20, 20],
       options: {
         chart: {
-          type: "donut",
+          type: "pie",
         },
+        labels: ["Submitted", "Pending"],
+        colors: ["#1d3162", "#df7135"],
         responsive: [
           {
             breakpoint: 480,
@@ -48,6 +50,55 @@ function ApplicationStatus() {
       },
     },
   };
+
+  console.log("optionsForPie", optionsForPie);
+
+  // const optionsForPie = {
+  //   series: [
+  //     // userData.cloudname == "aws" ? aws : 0,
+  //     // userData.cloudname == "azure" ? aws : 0,
+  //     // userData.cloudname == "gcp" ? aws : 0,
+  //     0, 0, 0,
+  //   ],
+  //   options: {
+  //     chart: {
+  //       width: 300,
+  //       type: "pie",
+  //     },
+  //     labels: ["AWS", "AZURE", "GCP"],
+  //     colors: ["#1d3162", "#df7135", "#f6bb61", "#e5e2dc"],
+  //     legend: {
+  //       show: false,
+  //       floating: true,
+  //       horizontalAlign: "center",
+  //       fontSize: "16px",
+  //       position: "center",
+  //       verticalAlign: "center",
+  //       offsetX: 0,
+  //       offsetY: 0,
+  //       labels: {
+  //         useSeriesColors: true,
+  //       },
+  //       markers: {
+  //         size: 0,
+  //       },
+  //     },
+
+  //     responsive: [
+  //       {
+  //         breakpoint: 480,
+  //         options: {
+  //           chart: {
+  //             width: 200,
+  //           },
+  //           legend: {
+  //             position: "bottom",
+  //           },
+  //         },
+  //       },
+  //     ],
+  //   },
+  // };
 
   return (
     <Box
