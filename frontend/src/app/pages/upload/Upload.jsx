@@ -25,33 +25,6 @@ function Upload() {
 
     console.log("excelFile", excelFile);
 
-    // const formData = new FormData();
-
-    // function gettournamentnameformatch(str) {
-    //   // Remove extra white spaces and split the string into an array of words
-    //   const words = str.trim().split(/\s+/);
-
-    //   // Return the first word (if it exists)
-    //   return words[0];
-    // }
-    // const TournamentForMatch = gettournamentnameformatch(selectedTournament);
-    // let match_name;
-
-    // if (
-    //   selectedTeam1 == "null" ||
-    //   selectedTeam2 == "null" ||
-    //   TournamentForMatch == "null"
-    // ) {
-    //   match_name = "null";
-    // } else {
-    //   match_name = `appeals ${selectedTeam1} vs ${selectedTeam2} ${TournamentForMatch}`;
-    // }
-
-    // console.log("match_name:::::::", match_name);
-    // formData.append("season", selectedSeason);
-    // formData.append("match_name", match_name);
-    // formData.append("tournament", selectedTournament);
-
     let test = [];
 
     excelFile.map((item, index) => {
@@ -64,11 +37,6 @@ function Upload() {
       .then((res) => {
         console.log("res", res);
         if (res.success) {
-          // Simulate a 10-second delay
-          //   setTimeout(() => {
-
-          //     // getVideos(pagginantionForVideosList);
-          //   }, 4000); // 10000 milliseconds = 10 seconds
           setButtonLoading(false);
           toast({
             title: "Excel Uploded.",
@@ -89,8 +57,6 @@ function Upload() {
             position: "top-right",
           });
         }
-
-        // onClose();
       })
       .catch((error) => {
         toast({
@@ -138,7 +104,7 @@ function Upload() {
                 >
                   <Input
                     type="file"
-                    // accept=".zip"
+                    accept=".xlsx,.xls"
                     onChange={handleVideoUpload}
                     placeholder="0 file selected"
                     required
@@ -172,7 +138,7 @@ function Upload() {
                     <p style={{ fontSize: "17px" }}>
                       {excelFile.length == 0 ? (
                         <p style={{ color: "blue" }}>
-                          Click here to select your zip file{" "}
+                          Click here to select your excel file{" "}
                         </p>
                       ) : (
                         <p style={{ color: "green" }}>

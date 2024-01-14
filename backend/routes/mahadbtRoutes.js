@@ -16,10 +16,14 @@ const {
   otherInfo,
   currentcourseInfo,
   pastQualificationInfo,
-  hostelDetailsInfo
+  hostelDetailsInfo,
 } = require("../controllers/mahadbtController");
 
-const { isSignedIn, isAdmin, isStudent } = require("../controllers/authController");
+const {
+  isSignedIn,
+  isAdmin,
+  isStudent,
+} = require("../controllers/authController");
 // const {
 //   getUserValidationSchema,
 //   // addUserValidationSchema,

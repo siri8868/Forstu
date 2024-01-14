@@ -1,5 +1,4 @@
 import React, { useContext, useEffect, useState } from "react";
-import { formContext } from "../FormDashboard";
 import {
   Box,
   Button,
@@ -9,10 +8,12 @@ import {
   VStack,
   useToast,
 } from "@chakra-ui/react";
+import {
+  getQualificationInfoApi,
+  submitFormDataApi,
+} from "../../../api/FormApi/FormApi";
 
-function FormFive({ formDataMain }) {
-  const { formState, setFormState } = useContext(formContext);
-
+function FormFive() {
   const [formData, setFormData] = useState({});
   //   const [data, setData] = useState([]);
   const toast = useToast();
@@ -21,14 +22,11 @@ function FormFive({ formDataMain }) {
     setFormData({ ...formData, [param]: event.target.value });
   };
 
-  const handlePrev = () => {
-    setFormState({ ...formState, currentTabIndex: 0 });
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log("formData", formData);
     const data = {
+      id: formData.id,
       class10Qualification: formData.class10Qualification,
       class10Stream: formData.class10Stream,
       class10State: formData.class10State,
@@ -70,68 +68,83 @@ function FormFive({ formDataMain }) {
 
     console.log("data", data);
 
-    // setFormState({ ...formState, currentTabIndex: 1 });
+    submitFormDataApi(data)
+      .then((res) => {
+        if (res.success) {
+          toast({
+            title: "Qualification Info Details Updated.",
+            description: res.message,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+        } else {
+          // onClose();
+          toast({
+            title: "Operation failed!",
+            description: res.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: "Operation Failed!",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
 
-    // Do something with the form data, such as submit it to a backend server
+        console.error(error);
+      });
+  };
 
-    // const data = {
-    //   id: collageData.id,
-    //   institute_choice_code: collageData.institute_choice_code,
-    //   institute_name: collageData.institute_name,
-    //   institute_state: collageData.institute_state,
-    // };
+  // useEffect(() => {
+  //   // setFormData(collage);
+  //   setFormData(formDataMain);
+  //   // console.log("formDataMain", formDataMain);
+  // }, [formDataMain]);
+  // console.log("formData", formData);
 
-    // updateCollageApi(data)
-    //   .then((res) => {
-    //     if (res.success) {
-    //       onClose();
-    //       getAllColleges();
-    //       toast({
-    //         title: "Collage Updated.",
-    //         description: res.message,
-    //         status: "success",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //     } else {
-    //       onClose();
-    //       toast({
-    //         title: "Operation failed!",
-    //         description: res.message,
-    //         status: "error",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast({
-    //       title: "Error",
-    //       description: "Operation Failed!",
-    //       status: "error",
-    //       duration: 9000,
-    //       isClosable: true,
-    //       position: "top-right",
-    //     });
-
-    //     console.error(error);
-    //   });
+  const getQualificationInfo = () => {
+    const data = {
+      email: "nishant@gmail.com",
+    };
+    getQualificationInfoApi(data)
+      .then((res) => {
+        console.log("res -- getQualificationInfo", res.data[0]);
+        setFormData(res.data[0]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   useEffect(() => {
-    // setFormData(collage);
-    setFormData(formDataMain);
-    // console.log("formDataMain", formDataMain);
-  }, [formDataMain]);
-  console.log("formData", formData);
+    getQualificationInfo();
+  }, []);
 
   return (
     <>
       <form onSubmit={handleSubmit}>
         <Box maxW="md" mx="auto" mt="8">
           <VStack spacing="4">
+            <FormControl id="id" display={"none"}>
+              <FormLabel>id</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter your id"
+                value={formData.id}
+                onChange={handleChange("id")}
+                required
+              />
+            </FormControl>
             <FormControl id="class10Qualification">
               <FormLabel>class 10 Qualification Level</FormLabel>
               <Input

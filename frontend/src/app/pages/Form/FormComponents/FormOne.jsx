@@ -10,133 +10,127 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
-import { formContext } from "../FormDashboard";
+import {
+  getPersonalInfoApi,
+  submitFormDataApi,
+} from "../../../api/FormApi/FormApi";
 
-function FormOne({ formDataMain }) {
-  const { formState, setFormState } = useContext(formContext);
-
+function FormOne() {
   const [formData, setFormData] = useState({});
-  //   const [data, setData] = useState([]);
   const toast = useToast();
 
   const handleChange = (param) => (event) => {
     setFormData({ ...formData, [param]: event.target.value });
   };
 
-  const handlePrev = () => {
-    setFormState({ ...formState, currentTabIndex: 0 });
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("formData", formData);
+    // console.log("formData", formData);
     const data = {
-      Candidate_name: formData.candidateName,
+      id: formData.id,
+      candidateName: formData.candidateName,
       email: formData.email,
       whatsappNumber: formData.whatsappNumber,
       dob: formData.dob,
       gender: formData.gender,
-      parent_mobile_number: formData.parentMobileNumber,
-      marital_status: formData.maritalStatus,
+      parentMobileNumber: formData.parentMobileNumber,
+      maritalStatus: formData.maritalStatus,
       religion: formData.religion,
       casteCategory: formData.casteCategory,
       subCaste: formData.subCaste,
-      do_you_have_caste_certificate: formData.doYouHaveCasteCertificate,
-      caste_certificate_number: formData.casteCertificateNumber,
-      caste_issued_district: formData.casteIssuedDistrict,
-      caste_applicantName: formData.casteApplicantName,
-      caste_Iss_Authority: formData.casteIssuingAuthority,
-      caste_doc: formData.casteDoc,
-      caste_issued_date: formData.casteIssuedDate,
-      annual_family_income: formData.annualFamilyIncome,
-      do_you_have_income_certificate: formData.doYouHaveIncomeCertificate,
-      income_cert_no: formData.incomeCertNo,
-      income_Iss_Authority: formData.incomeIssAuthority,
-      income_doc: formData.incomeDoc,
-      income_issued_date: formData.incomeIssuedDate,
-      do_you_have_Domicile_maharashtra_karnataka:
+      doYouHaveCasteCertificate: formData.doYouHaveCasteCertificate,
+      casteCertificateNumber: formData.casteCertificateNumber,
+      casteIssuedDistrict: formData.casteIssuedDistrict,
+      casteApplicantName: formData.casteApplicantName,
+      casteIssuingAuthority: formData.casteIssuingAuthority,
+      casteDoc: formData.casteDoc,
+      casteIssuedDate: formData.casteIssuedDate,
+      annualFamilyIncome: formData.annualFamilyIncome,
+      doYouHaveIncomeCertificate: formData.doYouHaveIncomeCertificate,
+      incomeCertNo: formData.incomeCertNo,
+      incomeIssAuthority: formData.incomeIssAuthority,
+      incomeDoc: formData.incomeDoc,
+      incomeIssuedDate: formData.incomeIssuedDate,
+      doYouHaveDomicileMaharashtraKarnataka:
         formData.doYouHaveDomicileMaharashtraKarnataka,
-      do_you_have_domicile_certificate: formData.doYouHaveDomicileCertificate,
-      domicile_relation_type: formData.domicileRelationType,
+      doYouHaveDomicileCertificate: formData.doYouHaveDomicileCertificate,
+      domicileRelationType: formData.domicileRelationType,
       domicilecertnumber: formData.domicileCertNumber,
-      domicile_applicant_name: formData.domicileApplicantName,
-      domicile_issued_authority: formData.domicileIssuedAuthority,
-      domicile_doc: formData.domicileDoc,
-      domicile_issued_date: formData.domicileIssuedDate,
-      do_you_have_disability: formData.doYouHaveDisability,
-      disability_type: formData.disabilityType,
-      disability_name: formData.disabilityName,
-      do_you_have_disability_certificate:
-        formData.doYouHaveDisabilityCertificate,
-      disability_certificate_no: formData.disabilityCertificateNo,
-      disability_percentage: formData.disabilityPercentage,
-      disability_issued_date: formData.disabilityIssuedDate,
-      disability_issuing_authority: formData.disabilityIssuingAuthority,
-      disabilty_doc: formData.disabilityDoc,
-      bankacc_name: formData.bankaccName,
-      bank_ifsc: formData.bankIfsc,
+      domicileApplicantName: formData.domicileApplicantName,
+      domicileIssuedAuthority: formData.domicileIssuedAuthority,
+      domicileDoc: formData.domicileDoc,
+      domicileIssuedDate: formData.domicileIssuedDate,
+      doYouHaveDisability: formData.doYouHaveDisability,
+      disabilityType: formData.disabilityType,
+      disabilityName: formData.disabilityName,
+      doYouHaveDisabilityCertificate: formData.doYouHaveDisabilityCertificate,
+      disabilityCertificateNo: formData.disabilityCertificateNo,
+      disabilityPercentage: formData.disabilityPercentage,
+      disabilityIssuedDate: formData.disabilityIssuedDate,
+      disabilityIssuingAuthority: formData.disabilityIssuingAuthority,
+      disabilityDoc: formData.disabilityDoc,
+      bankaccName: formData.bankaccName,
+      bankIfsc: formData.bankIfsc,
     };
 
     console.log("data", data);
 
-    // setFormState({ ...formState, currentTabIndex: 1 });
+    submitFormDataApi(data)
+      .then((res) => {
+        if (res.success) {
+          // onClose();
+          // getAllColleges();
+          toast({
+            title: "PersonalInfo Details Updated.",
+            description: res.message,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+        } else {
+          // onClose();
+          toast({
+            title: "Operation failed!",
+            description: res.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: "Operation Failed!",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
 
-    // Do something with the form data, such as submit it to a backend server
+        console.error(error);
+      });
+  };
 
-    // const data = {
-    //   id: collageData.id,
-    //   institute_choice_code: collageData.institute_choice_code,
-    //   institute_name: collageData.institute_name,
-    //   institute_state: collageData.institute_state,
-    // };
-
-    // updateCollageApi(data)
-    //   .then((res) => {
-    //     if (res.success) {
-    //       onClose();
-    //       getAllColleges();
-    //       toast({
-    //         title: "Collage Updated.",
-    //         description: res.message,
-    //         status: "success",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //     } else {
-    //       onClose();
-    //       toast({
-    //         title: "Operation failed!",
-    //         description: res.message,
-    //         status: "error",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast({
-    //       title: "Error",
-    //       description: "Operation Failed!",
-    //       status: "error",
-    //       duration: 9000,
-    //       isClosable: true,
-    //       position: "top-right",
-    //     });
-
-    //     console.error(error);
-    //   });
+  const getPersonalInfo = () => {
+    const data = {
+      email: "nishant@gmail.com",
+    };
+    getPersonalInfoApi(data)
+      .then((res) => {
+        console.log("res", res.data[0]);
+        setFormData(res.data[0]);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
   };
 
   useEffect(() => {
-    // setFormData(collage);
-    setFormData(formDataMain);
-    // console.log("formDataMain", formDataMain);
-  }, [formDataMain]);
-  console.log("formData", formData);
-
-  //   console.log("data", data);
+    getPersonalInfo();
+  }, []);
 
   return (
     <div>
@@ -144,6 +138,16 @@ function FormOne({ formDataMain }) {
         {/* <ModalBody> */}
         <Box maxW="md" mx="auto" mt="8">
           <VStack spacing="4">
+            <FormControl id="id" display={"none"}>
+              <FormLabel>id</FormLabel>
+              <Input
+                type="text"
+                placeholder="Enter your id"
+                value={formData.id}
+                onChange={handleChange("id")}
+                required
+              />
+            </FormControl>
             <FormControl id="candidateName">
               <FormLabel>candidateName</FormLabel>
               <Input
