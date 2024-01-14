@@ -9,10 +9,12 @@ const { QueryTypes } = require("sequelize");
 
 const storage = multer.memoryStorage();
 
-const ExcelInfo = require("../models/testExcelModel");
+// const ExcelInfo = require("../models/testExcelModel");
+
 // const executeStoredProcedure = require('./database/storedProcedures');
 const dotenv = require("dotenv");
 const sequelize = require("../database/connection");
+const dummyModel = require("../models/dummyExcelModel");
 
 dotenv.config();
 
@@ -99,27 +101,37 @@ exports.uploadFile = async (req, res) => {
     const filteredData = data.map((item) => ({
       // applicationId = field
       // Application ID = column name in excel file
-      applicationId: item["Application ID"],
+      admissionApplicationId: item["Application ID"],
       candidateName: item["Candidate Name"],
       gender: item["Gender"],
       dob: new Date(item["DOB"]), // Assuming DOB is in a valid date format
-      sscBoard: item["SSC Board"],
-      sscPassingYear: item["SSC Passing Year"],
-      sscSeatNo: item["SSC Seat No"],
-      sscTotalPercentage: item["SSC Total Percentage"],
+      class10Board: item["SSC Board"],
+      class10PassingYear: item["SSC Passing Year"],
+      class10SeatNumber: item["SSC Seat No"],
+      class10Percentage: item["SSC Total Percentage"],
       prev_qualification_level: item["Qualifying Exam"],
-      hscBoard: item["HSC Board"],
-      hscPassingYear: item["HSC Passing Year"],
-      hscSeatNo: item["HSC Seat No"],
-      hscTotalPercentage: item["HSC Total Percentage"],
-      cetPercentile: item["CET Percentile"],
-      courseName: item["Course Name"],
+      class12Board: item["HSC Board"],
+      class12PassingYear: item["HSC Passing Year"],
+      class12SeatNumber: item["HSC Seat No"],
+      class12Percentage: item["HSC Total Percentage"],
+      cetPercentAge: item["CET Percentile"],
+      coursename: item["Course Name"],
+      // This option will prevent the error from stopping the execution
+
       // prev_qualification_level :item["Qualifying Exam"]
     }));
+
     // Bulk insert the filtered data into the ExcelInfo table
     // ExcelInfo.bulkCreate(filteredData);
-    const createdData = await ExcelInfo.bulkCreate(filteredData);
-    // console.log("Data inserted successfully", createdData);
+    // const createdData = await dummyModel.bulkCreate(filteredData);
+
+    const createdData = await dummyModel.bulkCreate(filteredData, {
+      updateOnDuplicate: ["email"], // Specify the fields to update in case of duplicates
+      ignoreDuplicates: true, // This option will prevent the error from stopping the execution
+    });
+
+
+    console.log("Data inserted successfully", createdData);
 
     // executeStoredProcedure();
     res.json({
