@@ -211,11 +211,11 @@ exports.totalSubmitCountbyCaste = (req, res) => {
 
 // Get course List
 exports.getCourseList = (req, res) => {
-  console.log("hellooooooo from course and year");
+  console.log("hellooooooo from course");
   console.log("req profile", req.profile.ref_code);
-  // console.log("requesed body", req.body)
-  // const selectedCourse = req.body.courseName; // Replace with the actual user input
-  // const selectedYear = req.body.courseYear;
+  console.log("requesed body", req.body)
+  const selectedCourse = req.body.courseName; // Replace with the actual user input
+  const selectedYear = req.body.courseYear;
   // res.send("course year coming ");
   Mahadbtprofiles.findAll({
     attributes: [
@@ -229,6 +229,7 @@ exports.getCourseList = (req, res) => {
     .then((data) => {
       data = JSON.stringify(data);
       data = JSON.parse(data);
+      console.log(data)
       res.json({
         success: true,
         data,
@@ -248,7 +249,7 @@ exports.getCourseYear = (req, res) => {
   console.log("req profile", req.profile.ref_code);
   console.log("hellooooooo from course and year");
   // console.log("requesed body", req.body)
-  // const selectedCourse = req.body.courseName; // Replace with the actual user input
+  const selectedCourse = req.body.courseName; // Replace with the actual user input
   // const selectedYear = req.body.courseYear;
   // res.send("course year coming ");
   Mahadbtprofiles.findAll({
@@ -259,6 +260,7 @@ exports.getCourseYear = (req, res) => {
     ],
     where: {
       ref_code: req.profile.ref_code,
+      coursename: selectedCourse,
       // coursename: selectedCourse,
       // current_year: selectedYear,
       // applicationStatus: ['pending', 'submitted']
@@ -268,6 +270,7 @@ exports.getCourseYear = (req, res) => {
     .then((data) => {
       data = JSON.stringify(data);
       data = JSON.parse(data);
+      console.log(data);
       res.json({
         success: true,
         data,
