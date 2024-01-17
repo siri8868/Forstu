@@ -12,14 +12,19 @@ function CasteWiseApplicationSubmit() {
   const [countPerCategory, setCountPerCategory] = useState([]);
   const [categories, setCategories] = useState([]);
 
+  console.log("categories:::::::", categories);
+
   const getTotalSubmitCountByCaste = () => {
     getTotalSubmitCountOfApplicationByCasteApi()
       .then((res) => {
         if (res.success) {
           console.log("getTotalSubmitCountOfApplicationApi", res.data);
           const counts = res.data.map((item) => item.count_per_category);
+          const CasteCategoryList = res.data.map((item) => item.CasteCategory);
           console.log("counts", counts);
+          console.log("CasteCategoryList", CasteCategoryList);
           setCountPerCategory(counts);
+          setCategories(CasteCategoryList);
           // const categories = responseData.data.map(
           //   (item) => item.CasteCategory
           // );
@@ -44,29 +49,41 @@ function CasteWiseApplicationSubmit() {
   const optionsForPie = {
     series: countPerCategory,
     options: {
-      series: [44, 55, 41, 17, 15],
-      options: {
-        chart: {
-          type: "pie",
-        },
-        legend: {
-          show: false,
-        },
-
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200,
-              },
-              legend: {
-                position: "bottom",
-              },
-            },
-          },
-        ],
+      chart: {
+        width: 300,
+        type: "pie",
       },
+      labels: categories,
+      colors: ["#1d3162", "#df7135", "#f6bb61", "#e5e2dc"],
+      legend: {
+        fontSize: "13px",
+        position: "bottom",
+        verticalAlign: "bottom",
+        offsetX: 0,
+        offsetY: 0,
+      },
+      // options: {
+      //   chart: {
+      //     type: "pie",
+      //   },
+      //   legend: {
+      //     show: false,
+      //   },
+
+      //   responsive: [
+      //     {
+      //       breakpoint: 480,
+      //       options: {
+      //         chart: {
+      //           width: 200,
+      //         },
+      //         legend: {
+      //           position: "bottom",
+      //         },
+      //       },
+      //     },
+      //   ],
+      // },
     },
   };
 
@@ -86,7 +103,7 @@ function CasteWiseApplicationSubmit() {
           //   type="bar"
           type="pie"
           // width={380}
-          height={350}
+          height={300}
         />
       </div>
     </Box>
