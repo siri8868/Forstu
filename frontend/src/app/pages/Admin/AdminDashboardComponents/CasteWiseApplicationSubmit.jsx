@@ -25,14 +25,10 @@ function CasteWiseApplicationSubmit() {
           console.log("CasteCategoryList", CasteCategoryList);
           setCountPerCategory(counts);
           setCategories(CasteCategoryList);
-          // const categories = responseData.data.map(
-          //   (item) => item.CasteCategory
-          // );
 
           console.log("counts", counts);
-
-          // setTotalSubmitCountOfApplicationByItsCaste(res.data);
         } else {
+          console.log("getTotalSubmitCountOfApplicationApi", res.message);
           // setTotalSubmitCountOfApplicationByItsCaste([]);
         }
       })
@@ -62,28 +58,6 @@ function CasteWiseApplicationSubmit() {
         offsetX: 0,
         offsetY: 0,
       },
-      // options: {
-      //   chart: {
-      //     type: "pie",
-      //   },
-      //   legend: {
-      //     show: false,
-      //   },
-
-      //   responsive: [
-      //     {
-      //       breakpoint: 480,
-      //       options: {
-      //         chart: {
-      //           width: 200,
-      //         },
-      //         legend: {
-      //           position: "bottom",
-      //         },
-      //       },
-      //     },
-      //   ],
-      // },
     },
   };
 
@@ -96,13 +70,12 @@ function CasteWiseApplicationSubmit() {
       flexDirection={"column"}
       justifyContent={"center"}
     >
+      <h1>Caste Wise Application</h1>
       <div id="chart">
         <ReactApexChart
           options={optionsForPie.options}
           series={optionsForPie.series}
-          //   type="bar"
           type="pie"
-          // width={380}
           height={300}
         />
       </div>
