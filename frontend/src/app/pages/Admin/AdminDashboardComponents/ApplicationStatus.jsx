@@ -120,21 +120,12 @@ function ApplicationStatus() {
       flexDirection={"column"}
       justifyContent={"center"}
     >
-      {/* <h1>Application Status</h1> */}
+      <h1>Application Status</h1>
       <div id="chart">
-        {/* <ReactApexChart
-          options={optionsForPie.options}
-          series={optionsForPie.series}
-          type="donut"
-          width={380}
-          height={350}
-        /> */}
-
         <ReactApexChart
           options={data.options}
           series={data.series}
           type="pie"
-          // width={300}
           height={300}
         />
       </div>

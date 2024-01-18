@@ -111,54 +111,6 @@ function YearAndCoursesDashboard() {
       },
       sortDirections: ["ascend", "descend"],
     },
-
-    // {
-    //   title: "Action",
-    //   // key: 'action',
-    //   render: (_, record) => {
-    //     return (
-    //       <>
-    //         {currentUser == record.name ? (
-    //           <div
-    //             style={{
-    //               color: "green",
-    //               alignSelf: "center",
-    //               display: "flex",
-    //               // alignItems: "center",
-    //               // justifyContent: "center",
-    //               marginLeft: 15,
-    //             }}
-    //           >
-    //             <HiCheckCircle size={"20"} />
-    //           </div>
-    //         ) : (
-    //           <Menu>
-    //             <MenuButton
-    //               as={Button}
-    //               variant={"ghost"}
-    //               // rightIcon={<ChevronDownIcon />}
-    //             >
-    //               <BsThreeDotsVertical />
-    //             </MenuButton>
-    //             <MenuList minWidth="50px">
-    //               <>
-    //                 <MenuItem py={"-0.3"}>
-    //                   <ConformEditUser
-    //                     user={record}
-    //                     getAllUsers={getAllUsers}
-    //                   />
-    //                 </MenuItem>
-    //                 <MenuItem py={"-0.3"}>
-    //                   <ConformDelete id={record.id} getAllUsers={getAllUsers} />
-    //                 </MenuItem>
-    //               </>
-    //             </MenuList>
-    //           </Menu>
-    //         )}
-    //       </>
-    //     );
-    //   },
-    // },
   ];
 
   const onChange = (pagination, filters, sorter, extra) => {};
