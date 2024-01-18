@@ -5,6 +5,10 @@ const {
   totalEligibleCount,
   totalSubmitCount,
   totalSubmitCountbyCaste,
+  daySubmitCount,
+  weeklySubmitCount,
+  MonthlySubmitCount,
+  yearlySubmitCount,
   getCourseList,
   getCourseYear,
   totalCourseAndYear,
@@ -40,6 +44,10 @@ router.get("/getProfileCount", isSignedIn, findMahadbtProfCount);
 router.get("/getElgCount", isSignedIn, totalEligibleCount);
 router.get("/totalSubCount", isSignedIn, totalSubmitCount);
 router.get("/totalsubcountbycaste", isSignedIn, totalSubmitCountbyCaste);
+router.get("/dailycount", isSignedIn, daySubmitCount);
+router.get("/weeklycount", isSignedIn, weeklySubmitCount);
+router.get("/monthlycount", isSignedIn, MonthlySubmitCount);
+router.get("/yearlycount", isSignedIn, yearlySubmitCount);
 
 router.get("/getcourseslist", isSignedIn, getCourseList);
 router.get("/getcoursesyear", isSignedIn, getCourseYear);
