@@ -211,18 +211,46 @@ exports.totalSubmitCountbyCaste = (req, res) => {
 
 // Total count as per submission date
 // Daily submit count
-exports.daySubmitCount = async (req, res) => {
-  console.log("req profile", req.profile.ref_code)
-  const currentDate = new Date().toISOString().split('T')[0];
+// exports.daySubmitCount = async (req, res) => {
+//   console.log("req profile", req.profile.ref_code)
+//   const currentDate = new Date().toISOString().split('T')[0];
 
+//   try {
+//     const dateCount = await Mahadbtprofiles.count({
+//       where: {
+//         application_submission_date: currentDate,
+//         ref_code: req.profile.ref_code,
+//       },
+//     });
+//     res.json({ Date: currentDate, DateCount: dateCount });
+//   } catch (error) {
+//     console.error(error);
+//     res.status(500).json({ error: 'Internal Server Error' });
+//   }
+// }
+
+exports.daySubmitCount = async (req, res) => {
   try {
-    const dateCount = await Mahadbtprofiles.count({
+    // Calculate the start date for the past seven days
+    const startDate = new Date();
+    startDate.setDate(startDate.getDate() - 7);
+
+    // Fetch the daily count for the past seven days
+    const dailyCounts = await Mahadbtprofiles.findAll({
+      attributes: [
+        [Sequelize.literal("DATE_FORMAT(application_submission_date, '%d-%m-%Y')"), 'formatted_date'],
+        [Sequelize.fn('COUNT', Sequelize.col('id')), 'daily_count'],
+      ],
       where: {
-        application_submission_date: currentDate,
-        ref_code: req.profile.ref_code,
+        application_submission_date: {
+          [Op.gte]: startDate,
+        },
       },
+      group: ['formatted_date'],
+      order: [[Sequelize.literal('formatted_date DESC')]],
     });
-    res.json({ Date: currentDate, DateCount: dateCount });
+
+    res.json(dailyCounts);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -230,34 +258,34 @@ exports.daySubmitCount = async (req, res) => {
 }
 
 // Weekly submit count
-exports.weeklySubmitCount = async (req, res) => {
-  // res.send("hii from week count");
-  console.log("req profile", req.profile.ref_code)
+// exports.weeklySubmitCount = async (req, res) => {
+// res.send("hii from week count");
+// console.log("req profile", req.profile.ref_code)
 
-  try {
-    const year = req.body.year;
-    const weekCount = await Mahadbtprofiles.count({
-      where: {
-        application_submission_date: {
-          [Op.between]: [`${2024}-01-01`, `${2024}-12-31`],
-        },
-        ref_code: req.profile.ref_code,
-      },
-      attributes: [
-        [Sequelize.fn('YEAR', Sequelize.col('application_submission_date')), 'Year'],
-        [Sequelize.fn('WEEK', Sequelize.col('application_submission_date')), 'Week'],
-        [Sequelize.fn('COUNT', '*'), 'WeekCount'],
-      ],
-      // group: ['Year', 'Week'],
-      // group: ['Week'],
-    });
-    // res.json(weekCount);
-    res.json({ weeklyCount: weekCount });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
-  }
-}
+// try {
+//   const year = req.body.year;
+//   const weekCount = await Mahadbtprofiles.count({
+//     where: {
+//       application_submission_date: {
+//         [Op.between]: [`${2024}-01-01`, `${2024}-12-31`],
+//       },
+//       ref_code: req.profile.ref_code,
+//     },
+//     attributes: [
+//       [Sequelize.fn('YEAR', Sequelize.col('application_submission_date')), 'Year'],
+//       [Sequelize.fn('WEEK', Sequelize.col('application_submission_date')), 'Week'],
+//       [Sequelize.fn('COUNT', '*'), 'WeekCount'],
+//     ],
+//     // group: ['Year', 'Week'],
+//     // group: ['Week'],
+//   });
+//   // res.json(weekCount);
+//   res.json({ weeklyCount: weekCount });
+// } catch (error) {
+//   console.error(error);
+//   res.status(500).json({ error: 'Internal Server Error' });
+// }
+// }
 
 // Monthly submit count
 exports.MonthlySubmitCount = async (req, res) => {
