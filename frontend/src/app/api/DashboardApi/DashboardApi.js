@@ -78,3 +78,22 @@ export async function getTotalSubmitCountOfApplicationByCasteApi() {
 
   return response.json();
 }
+
+export async function getMonthlySubmitCountApi() {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/monthlycount`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: accessToken,
+    },
+  });
+
+  if (response.status == 401) {
+    redirectOnTokenExpire();
+  }
+
+  return response.json();
+}
