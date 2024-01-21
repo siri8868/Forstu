@@ -6,7 +6,7 @@ const {
   totalSubmitCount,
   totalSubmitCountbyCaste,
   daySubmitCount,
-  weeklySubmitCount,
+  // weeklySubmitCount,
   MonthlySubmitCount,
   yearlySubmitCount,
   getCourseList,
@@ -45,7 +45,7 @@ router.get("/getElgCount", isSignedIn, totalEligibleCount);
 router.get("/totalSubCount", isSignedIn, totalSubmitCount);
 router.get("/totalsubcountbycaste", isSignedIn, totalSubmitCountbyCaste);
 router.get("/dailycount", isSignedIn, daySubmitCount);
-router.get("/weeklycount", isSignedIn, weeklySubmitCount);
+// router.get("/weeklycount", isSignedIn, weeklySubmitCount);
 router.get("/monthlycount", isSignedIn, MonthlySubmitCount);
 router.get("/yearlycount", isSignedIn, yearlySubmitCount);
 
