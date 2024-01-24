@@ -2,6 +2,7 @@
 const { Sequelize, Op } = require("sequelize");
 
 const ROLES = require("../helpers/roles");
+const speakeasy = require("speakeasy");
 // const User = require("../models/usersModel");
 // const collegeprofile = require("../models/collegeModel");
 const Mahadbtprofiles = require("../models/mahadbtModel");
@@ -15,6 +16,8 @@ const AWS = require("aws-sdk");
 const ExcelInfo = require("../models/testExcelModel");
 const User = require("../models/usersModel");
 
+const nodemailer = require("nodemailer");
+
 // const { Json } = require("sequelize/types/utils");
 dotenv.config();
 
@@ -23,6 +26,28 @@ AWS.config.update({
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: process.env.AWS_BUCKET_REGION, // For example, 'us-east-1'
 });
+
+// Function to generate a TOTP secret
+const generateTOTPSecret = () => {
+  return speakeasy.generateSecret({ length: 20, name: "YourApp" });
+};
+
+// Function to generate a TOTP token
+const generateTOTPToken = (secret) => {
+  return speakeasy.totp({
+    secret: secret.base32,
+    encoding: "base32",
+  });
+};
+
+// Function to verify a TOTP token
+const verifyTOTPToken = (secret, token) => {
+  return speakeasy.totp.verify({
+    secret: secret.base32,
+    encoding: "base32",
+    token: token,
+  });
+};
 
 exports.getAllMahadbtProfiles = (req, res) => {
   console.log("req profile", req.profile.ref_code);
@@ -238,24 +263,29 @@ exports.daySubmitCount = async (req, res) => {
     // Fetch the daily count for the past seven days
     const dailyCounts = await Mahadbtprofiles.findAll({
       attributes: [
-        [Sequelize.literal("DATE_FORMAT(application_submission_date, '%d-%m-%Y')"), 'formatted_date'],
-        [Sequelize.fn('COUNT', Sequelize.col('id')), 'daily_count'],
+        [
+          Sequelize.literal(
+            "DATE_FORMAT(application_submission_date, '%d-%m-%Y')"
+          ),
+          "formatted_date",
+        ],
+        [Sequelize.fn("COUNT", Sequelize.col("id")), "daily_count"],
       ],
       where: {
         application_submission_date: {
           [Op.gte]: startDate,
         },
       },
-      group: ['formatted_date'],
-      order: [[Sequelize.literal('formatted_date DESC')]],
+      group: ["formatted_date"],
+      order: [[Sequelize.literal("formatted_date DESC")]],
     });
 
     res.json(dailyCounts);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
 
 // Weekly submit count
 // exports.weeklySubmitCount = async (req, res) => {
@@ -290,7 +320,7 @@ exports.daySubmitCount = async (req, res) => {
 // Monthly submit count
 exports.MonthlySubmitCount = async (req, res) => {
   // res.send("hii from Month count");
-  console.log("req profile", req.profile.ref_code)
+  console.log("req profile", req.profile.ref_code);
   try {
     const year = req.params.year;
     const monthCount = await Mahadbtprofiles.count({
@@ -301,18 +331,24 @@ exports.MonthlySubmitCount = async (req, res) => {
         ref_code: req.profile.ref_code,
       },
       attributes: [
-        [Sequelize.fn('YEAR', Sequelize.col('application_submission_date')), 'Year'],
-        [Sequelize.fn('MONTH', Sequelize.col('application_submission_date')), 'Month'],
-        [Sequelize.fn('COUNT', '*'), 'MonthCount'],
+        [
+          Sequelize.fn("YEAR", Sequelize.col("application_submission_date")),
+          "Year",
+        ],
+        [
+          Sequelize.fn("MONTH", Sequelize.col("application_submission_date")),
+          "Month",
+        ],
+        [Sequelize.fn("COUNT", "*"), "MonthCount"],
       ],
-      group: ['Year', 'Month'],
+      group: ["Year", "Month"],
     });
     res.json({ monthCount });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
 
 // yearly submit count
 exports.yearlySubmitCount = async (req, res) => {
@@ -328,24 +364,27 @@ exports.yearlySubmitCount = async (req, res) => {
         ref_code: req.profile.ref_code,
       },
       attributes: [
-        [Sequelize.fn('YEAR', Sequelize.col('application_submission_date')), 'Year'],
-        [Sequelize.fn('COUNT', '*'), 'YearCount'],
+        [
+          Sequelize.fn("YEAR", Sequelize.col("application_submission_date")),
+          "Year",
+        ],
+        [Sequelize.fn("COUNT", "*"), "YearCount"],
       ],
-      group: ['Year'],
+      group: ["Year"],
     });
     // res.json(yearCount);
     res.json({ yearCount });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ error: "Internal Server Error" });
   }
-}
+};
 
 // Get course List
 exports.getCourseList = (req, res) => {
   console.log("hellooooooo from course");
   console.log("req profile", req.profile.ref_code);
-  console.log("requesed body", req.body)
+  console.log("requesed body", req.body);
   const selectedCourse = req.body.courseName; // Replace with the actual user input
   const selectedYear = req.body.courseYear;
   // res.send("course year coming ");
@@ -361,7 +400,7 @@ exports.getCourseList = (req, res) => {
     .then((data) => {
       data = JSON.stringify(data);
       data = JSON.parse(data);
-      console.log(data)
+      console.log(data);
       res.json({
         success: true,
         data,
@@ -472,44 +511,70 @@ exports.totalCourseAndYear = (req, res) => {
     });
 };
 
-exports.testEmailController = (req, res) => {
-  console.log("hellooooooo from course and year");
-  // res.send("course year coming ");
+// exports.testEmailController = async (req, res) => {
+//   console.log("hellooooooo from course and year");
+//   // res.send("course year coming ");
 
-  // Create SES service object
-  const ses = new AWS.SES({ apiVersion: "2010-12-01" });
+//   // Create SES service object
+//   const ses = new AWS.SES({ apiVersion: "2010-12-01" });
 
-  const { to, subject, message } = req.body;
+//   const { to, subject, message } = req.body;
 
-  console.log(to, subject, message);
+//   console.log(to, subject, message);
 
-  const params = {
-    Destination: {
-      ToAddresses: [to],
-    },
-    Message: {
-      Body: {
-        Text: {
-          Data: message,
-        },
-      },
-      Subject: {
-        Data: subject,
-      },
-    },
-    Source: "info@forstu.com", // Replace with your verified SES email address
-  };
+//   const params = {
+//     Destination: {
+//       ToAddresses: [to],
+//     },
+//     Message: {
+//       Body: {
+//         Text: {
+//           Data: message,
+//         },
+//       },
+//       Subject: {
+//         Data: subject,
+//       },
+//     },
+//     Source: "info@forstu.co", // Replace with your verified SES email address
+//   };
 
-  ses.sendEmail(params, (err, data) => {
-    if (err) {
-      console.error(err);
-      res.status(500).send("Failed to send email");
-    } else {
-      console.log("Email sent:", data);
-      res.status(200).send("Email sent successfully");
-    }
-  });
-};
+//   ses.sendEmail(params, (err, data) => {
+//     if (err) {
+//       console.error(err);
+//       res.status(500).send("Failed to send email");
+//     } else {
+//       console.log("Email sent:", data);
+//       res.status(200).send("Email sent successfully");
+//     }
+//   });
+// };
+
+// Check if the "to" email address is verified
+// try {
+//   await verifyEmail(ses, to);
+// } catch (error) {
+//   console.error(error);
+//   return res.status(400).send("Email address is not verified");
+// }
+
+// Function to verify an email address
+// async function verifyEmail(ses, email) {
+//   const params = {
+//     EmailAddress: email,
+//   };
+
+//   return new Promise((resolve, reject) => {
+//     ses.verifyEmailAddress(params, (err, data) => {
+//       if (err) {
+//         reject(err);
+//       } else {
+//         console.log(`Email address ${email} verified successfully`);
+//         resolve(data);
+//       }
+//     });
+//   });
+// }
 
 // exports.getIncompleteFieldsController = async (req, res) => {
 
@@ -1132,4 +1197,198 @@ exports.hostelDetailsInfo = (req, res) => {
         error: error,
       });
     });
+};
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: "vivek.gundu29@gmail.com",
+    pass: "dusn ulfg oter yfxa",
+  },
+});
+
+// exports.testEmailBulkController = async (req, res) => {
+//   const { toList, subject, text } = req.body;
+
+//   console.log(toList, subject, text);
+//   // res.send("success");
+//   // return;
+
+//   // const mailOptions = {
+//   //   from: "vivek.gundu29@gmail.com",
+//   //   to,
+//   //   subject,
+//   //   text,
+//   // };
+
+//   // transporter.sendMail(mailOptions, (error, info) => {
+//   //   if (error) {
+//   //     return res.status(500).send(error.toString());
+//   //   }
+
+//   //   console.log("Email sent: " + info.response);
+//   //   res.status(200).send("Email sent: " + info.response);
+//   // });
+
+//   if (!toList || !Array.isArray(toList) || toList.length === 0) {
+//     return res.status(400).send("Invalid recipient list");
+//   }
+
+//   const emailPromises = toList.map(async (to) => {
+//     const mailOptions = {
+//       from: "vivek.gundu29@gmail.com",
+//       to,
+//       subject,
+//       text,
+//     };
+
+//     try {
+//       const info = await transporter.sendMail(mailOptions);
+//       console.log("Email sent to " + to + ": " + info.response);
+//       return "Email sent to " + to + ": " + info.response;
+//     } catch (error) {
+//       console.error("Error sending email to " + to + ": " + error.toString());
+//       return "Error sending email to " + to + ": " + error.toString();
+//     }
+//   });
+
+//   try {
+//     const results = await Promise.all(emailPromises);
+//     res.status(200).send(results);
+//   } catch (error) {
+//     res.status(500).send("Error sending bulk emails: " + error.toString());
+//   }
+// };
+
+exports.testEmailController = async (req, res) => {
+  console.log("hellooooooo from course and year");
+
+  // Create SES service object
+  const ses = new AWS.SES({ apiVersion: "2010-12-01" });
+
+  const { to, subject, message } = req.body;
+
+  // console.log(to, subject, message);
+
+  // Split the 'to' string into an array of email addresses
+  const toAddresses = Array.isArray(to) ? to : [to];
+
+  console.log("toAddresses", toAddresses);
+
+  // Create an array to store promises for each email sent
+  const emailPromises = [];
+
+  // Iterate through each email address and send the email
+  toAddresses.forEach((email) => {
+    const params = {
+      Destination: {
+        ToAddresses: [email],
+      },
+      Message: {
+        Body: {
+          Text: {
+            Data: message,
+          },
+        },
+        Subject: {
+          Data: subject,
+        },
+      },
+      Source: "info@forstu.co", // Replace with your verified SES email address
+    };
+
+    // Create a promise for each SES email sending operation
+    const emailPromise = new Promise((resolve, reject) => {
+      ses.sendEmail(params, (err, data) => {
+        if (err) {
+          console.error(err);
+          reject(`Failed to send email to ${email}`);
+        } else {
+          console.log(`Email sent to ${email}:`, data);
+          resolve(`Email sent to ${email} successfully`);
+        }
+      });
+    });
+
+    emailPromises.push(emailPromise);
+  });
+
+  try {
+    // Wait for all email promises to resolve
+    await Promise.all(emailPromises);
+    res.status(200).send("Emails sent successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to send one or more emails");
+  }
+};
+
+exports.sendOptToStudent = async (req, res) => {
+  console.log("hellooooooo from course and year");
+  // Example usage
+  const secret = generateTOTPSecret();
+  const generatedToken = generateTOTPToken(secret);
+
+  console.log("Generated Token:", generatedToken);
+
+  console.log("hellooooooo from course and year");
+
+  // Create SES service object
+  const ses = new AWS.SES({ apiVersion: "2010-12-01" });
+
+  const { to, subject, message } = req.body;
+
+  // console.log(to, subject, message);
+
+  // Split the 'to' string into an array of email addresses
+  const toAddresses = Array.isArray(to) ? to : [to];
+
+  console.log("toAddresses", toAddresses);
+
+  // Create an array to store promises for each email sent
+  const emailPromises = [];
+
+  // Iterate through each email address and send the email
+  toAddresses.forEach((email) => {
+    const params = {
+      Destination: {
+        ToAddresses: [email],
+      },
+      Message: {
+        Body: {
+          Text: {
+            Data: `OTP IS - ${generatedToken}`,
+          },
+        },
+        Subject: {
+          Data: subject,
+        },
+      },
+      Source: "info@forstu.co", // Replace with your verified SES email address
+    };
+
+    // Create a promise for each SES email sending operation
+    const emailPromise = new Promise((resolve, reject) => {
+      ses.sendEmail(params, (err, data) => {
+        if (err) {
+          console.error(err);
+          reject(`Failed to send email to ${email}`);
+        } else {
+          console.log(`Email sent to ${email}:`, data);
+          resolve(`Email sent to ${email} successfully`);
+        }
+      });
+    });
+
+    emailPromises.push(emailPromise);
+  });
+
+  try {
+    // Wait for all email promises to resolve
+    await Promise.all(emailPromises);
+    res.status(200).send("Emails sent successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Failed to send one or more emails");
+  }
 };
