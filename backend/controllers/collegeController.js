@@ -3,6 +3,7 @@ const ROLES = require("../helpers/roles");
 // const User = require("../models/usersModel");
 const collegeprofile = require("../models/collegeModel");
 
+
 const { validationResult } = require("express-validator");
 const { createHmac } = require("crypto");
 
@@ -263,6 +264,8 @@ exports.deleteCollegeProfile = (req, res) => {
     });
   }
 };
+
+
 
 // exports.deleteUsers = (req, res) => {
 //   try {
