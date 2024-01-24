@@ -21,6 +21,8 @@ const {
   currentcourseInfo,
   pastQualificationInfo,
   hostelDetailsInfo,
+  testEmailBulkController,
+  sendOptToStudent,
 } = require("../controllers/mahadbtController");
 
 const {
@@ -52,7 +54,6 @@ router.get("/yearlycount", isSignedIn, yearlySubmitCount);
 router.get("/getcourseslist", isSignedIn, getCourseList);
 router.get("/getcoursesyear", isSignedIn, getCourseYear);
 router.post("/courseandyearwisedata", isSignedIn, totalCourseAndYear);
-router.post("/sendmailtest", isSignedIn, testEmailController);
 router.post("/getIncompleteFields", getIncompleteFieldsController);
 
 // for microsite routes for students
@@ -64,5 +65,11 @@ router.post("/getOtherInfo", otherInfo);
 router.post("/getcurrentcourseInfo", currentcourseInfo);
 router.post("/getQualificationInfo", pastQualificationInfo);
 router.post("/getHostelDetailsInfo", hostelDetailsInfo);
+
+// router.post("/sendmailbulk", testEmailBulkController);
+router.post("/sendmailtest", isSignedIn, testEmailController);
+router.post("/sendopttostudent", sendOptToStudent);
+
+// send mail bulk mail to students
 
 module.exports = router;
