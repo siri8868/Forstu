@@ -11,6 +11,7 @@ const userRoutes = require("./routes/userRoutes");
 const collegeRoutes = require("./routes/collegeRoutes");
 const mahadbtRoutes = require("./routes/mahadbtRoutes");
 const uploadRoute = require("./routes/uploadRoute");
+const courseRoutes = require("./routes/courseRoutes");
 
 
 dotenv.config();
@@ -35,6 +36,7 @@ app.use("/api", userRoutes);
 app.use("/api", collegeRoutes)
 app.use("/api", mahadbtRoutes);
 app.use('/api', uploadRoute);
+app.use('/api', courseRoutes);
 
 
 // app.js or index.js

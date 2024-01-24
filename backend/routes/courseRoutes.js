@@ -1,11 +1,6 @@
 const express = require("express");
 const {
-  getAllCollegeProfile,
-  // getCollegeProfile,
-  // getSingleCollegeProfile,
-  addCollegeProfile,
-  updateCollegeProfile,
-  deleteCollegeProfile,
+  getAllCoursesList
   // addUser,
   // deleteUser,
   // updateUser,
@@ -13,7 +8,7 @@ const {
   // getUserCountByRole,
   // getrecentUsers,
   // deleteUsers,
-} = require("../controllers/collegeController");
+} = require("../controllers/courseController");
 
 const { isSignedIn, isAdmin } = require("../controllers/authController");
 // const {
@@ -27,17 +22,7 @@ const { isSignedIn, isAdmin } = require("../controllers/authController");
 
 const router = express.Router();
 
-router.get("/getAllCollegeProfiles", getAllCollegeProfile);
-
-// router.get("/getCollegeProfile", isSignedIn, isAdmin, getUserValidationSchema, getCollegeProfile);
-
-// router.get("/getSingleCollegeProfile/id", getSingleCollegeProfile);
-
-router.post("/createNewCollegeProfile", addCollegeProfile);
-
-router.put("/updatecollegeProfile", updateCollegeProfile);
-
-router.delete("/deletecollegeProfile", deleteCollegeProfile);
+router.get("/getallcourselist", getAllCoursesList);
 
 
 

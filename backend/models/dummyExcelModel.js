@@ -8,6 +8,7 @@ const dummyModel = sequelize.define("dummy_profiles", {
     allowNull: false,
     primaryKey: true,
   },
+
   candidateName: {
     type: Sequelize.DataTypes.STRING,
     allowNull: true,
