@@ -2,9 +2,11 @@ const dotenv = require("dotenv");
 const { check, body, validationResult, Result } = require("express-validator");
 const jwt = require("jsonwebtoken");
 const { createHmac } = require("crypto");
+const speakeasy = require("speakeasy");
 
 const User = require("../models/usersModel");
 const ROLES = require("../helpers/roles");
+const Mahadbtprofiles = require("../models/mahadbtModel");
 dotenv.config();
 
 // exports.signup = (req, res) => {
@@ -238,6 +240,55 @@ exports.isSignedIn = (req, res, next) => {
     }
   });
 };
+
+
+// Function to verify a TOTP token
+const verifyTOTPToken = (secret, token) => {
+  console.log("secret", secret.base32)
+  return speakeasy.totp.verify({
+    secret: secret.base32,
+    encoding: "base32",
+    token: token,
+    // time: 15,
+    initial_time: 15, // specified in seconds
+    // time: Date.now(), // specify the current time for verification
+    // window: 2, // set the allowable margin for token
+  });
+};
+
+exports.verifyToken = (req, res, next) => {
+  console.log("reqDFDSFDSF", req.body)
+
+  const { secret, otp, email } = req.body;
+  const isTokenValid = verifyTOTPToken(secret, otp);
+  console.log("isTokenValid", isTokenValid);
+
+  if (isTokenValid) {
+    Mahadbtprofiles.findOne({ where: { email } })
+      .then((data) => {
+
+        data = data.toJSON();
+        console.log("dataaaaDJFDSK", data)
+        // user.password = undefined;
+        main = {
+          email: data.email
+        }
+        console.log("main", main)
+        req.email = main;
+        next();
+      })
+      .catch((error) => {
+        console.log("errroror", error)
+      })
+    // res.status(200).send("OTP is valid");
+  } else {
+    return res.status(401).json({
+      message: "User authentication failed",
+      success: false,
+    });
+    // res.status(400).send("OTP is invalid");
+  }
+}
 
 exports.isAdmin = (req, res, next) => {
   const { role } = req.profile;

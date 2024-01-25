@@ -74,7 +74,7 @@ const verifyTOTPToken = (secret, token) => {
     encoding: "base32",
     token: token,
     // time: 15,
-    initial_time: 15, // specified in seconds
+    initial_time: 123, // specified in seconds
     // time: Date.now(), // specify the current time for verification
     // window: 2, // set the allowable margin for token
   });
@@ -1364,14 +1364,15 @@ exports.sendOptToStudent = async (req, res) => {
 
   const ses = new AWS.SES({ apiVersion: "2010-12-01" });
 
-  const { to } = req.body;
+  const to = req.body[0];
+  console.log("diapkkkkkkkkkkkkk", req.body[0])
 
   // console.log(to, subject, message);
 
   // Split the 'to' string into an array of email addresses
   const toAddresses = Array.isArray(to) ? to : [to];
 
-  // console.log("toAddresses", toAddresses);
+  console.log("toAddresses", toAddresses);
 
   // Create an array to store promises for each email sent
   const emailPromises = [];
@@ -1427,14 +1428,14 @@ exports.sendOptToStudent = async (req, res) => {
 };
 
 exports.verifyStudentByOtpAndEmail = async (req, res) => {
-  const { secret, generatedToken } = req.body;
+  // const { secret, generatedToken } = req.body;
 
-  const isTokenValid = verifyTOTPToken(secret, generatedToken);
-  console.log("isTokenValid", isTokenValid);
-
-  if (isTokenValid) {
-    res.status(200).send("OTP is valid");
-  } else {
-    res.status(400).send("OTP is invalid");
-  }
+  // const isTokenValid = verifyTOTPToken(secret, generatedToken);
+  // console.log("isTokenValid", isTokenValid);
+  console.log("I AM HERERERE NOWWWW!!!")
+  res.json({
+    success: true,
+    message: "verfiedddd",
+    // data: { secret, generatedToken },
+  });
 };

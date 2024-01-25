@@ -20,3 +20,19 @@ export const signout = async (next) => {
     next();
   }
 };
+
+export const setOTPSecret = (data, next) => {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("otpsecret", JSON.stringify(data));
+    next();
+  }
+};
+
+export const getOTPSecret = () => {
+  if (typeof window !== "undefined") {
+    if (JSON.parse(localStorage.getItem("otpsecret"))) {
+      return JSON.parse(localStorage.getItem("otpsecret"));
+    }
+    return false;
+  }
+};
