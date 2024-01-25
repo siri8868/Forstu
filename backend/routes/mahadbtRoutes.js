@@ -23,6 +23,8 @@ const {
   hostelDetailsInfo,
   testEmailBulkController,
   sendOptToStudent,
+  sendEmailToStudentWithMicrositeLink,
+  verifyStudentByOtpAndEmail,
 } = require("../controllers/mahadbtController");
 
 const {
@@ -67,8 +69,13 @@ router.post("/getQualificationInfo", pastQualificationInfo);
 router.post("/getHostelDetailsInfo", hostelDetailsInfo);
 
 // router.post("/sendmailbulk", testEmailBulkController);
-router.post("/sendmailtest", isSignedIn, testEmailController);
+router.post(
+  "/sendemailtostudentmicrosite",
+  sendEmailToStudentWithMicrositeLink
+);
 router.post("/sendopttostudent", sendOptToStudent);
+
+router.post("/verifystudent", verifyStudentByOtpAndEmail);
 
 // send mail bulk mail to students
 
