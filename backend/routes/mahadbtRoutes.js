@@ -31,6 +31,7 @@ const {
   isSignedIn,
   isAdmin,
   isStudent,
+  verifyToken,
 } = require("../controllers/authController");
 // const {
 //   getUserValidationSchema,
@@ -75,7 +76,7 @@ router.post(
 );
 router.post("/sendopttostudent", sendOptToStudent);
 
-router.post("/verifystudent", verifyStudentByOtpAndEmail);
+router.post("/verifystudent", verifyToken, verifyStudentByOtpAndEmail);
 
 // send mail bulk mail to students
 

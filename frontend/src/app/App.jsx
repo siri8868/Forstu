@@ -11,6 +11,7 @@ import CollageDashboard from "./pages/Collage/CollegeDashboard";
 import YearAndCoursesDashboard from "./pages/YearAndCourses/YearAndCoursesDashboard";
 import FormDashboard from "./pages/Form/FormDashboard";
 import Upload from "./pages/upload/upload";
+import MicrositeLogin from "./pages/MicroiteLogin/MicrositeLogin";
 
 function App() {
   return (
@@ -30,6 +31,10 @@ function App() {
         <Route exact path="/incompletprofile">
           {/* <Profile /> */}
           <FormDashboard />
+        </Route>
+        <Route exact path="/micrositelogin">
+          {/* <Profile /> */}
+          <MicrositeLogin />
         </Route>
 
         {/* //admin */}
