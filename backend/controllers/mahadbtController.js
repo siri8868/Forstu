@@ -29,23 +29,54 @@ AWS.config.update({
 
 // Function to generate a TOTP secret
 const generateTOTPSecret = () => {
-  return speakeasy.generateSecret({ length: 20, name: "YourApp" });
+  const secretObject = speakeasy.generateSecret({
+    length: 20,
+  });
+  return secretObject;
 };
 
-// Function to generate a TOTP token
+// // Function to generate a TOTP token
+// const generateTOTPToken = (secret) => {
+//   return speakeasy.totp({
+//     secret: secret.base32,
+//     encoding: "base32",
+//     time: 0.5, // set the time step to 15 seconds
+//   });
+// };
+
+// // Function to verify a TOTP token
+// const verifyTOTPToken = (secret, token) => {
+//   console.log("token", token);
+//   console.log("secret", secret);
+//   return speakeasy.totp.verify({
+//     secret: secret,
+//     encoding: "base32",
+//     token: token,
+//     time: 0.5, // set the time step to 15 seconds
+//     window: 2, // set the allowable margin for token
+//     // time: 15, // specified in seconds
+//   });
+// };
+
+// Function to generate a TOTP token with a 15-second step
 const generateTOTPToken = (secret) => {
   return speakeasy.totp({
     secret: secret.base32,
     encoding: "base32",
+    initial_time: 15, // set the time step to 15 seconds
   });
 };
 
 // Function to verify a TOTP token
 const verifyTOTPToken = (secret, token) => {
   return speakeasy.totp.verify({
-    secret: secret.base32,
+    secret: secret,
     encoding: "base32",
     token: token,
+    // time: 15,
+    initial_time: 15, // specified in seconds
+    // time: Date.now(), // specify the current time for verification
+    // window: 2, // set the allowable margin for token
   });
 };
 
@@ -1260,8 +1291,8 @@ const transporter = nodemailer.createTransport({
 //   }
 // };
 
-exports.testEmailController = async (req, res) => {
-  console.log("hellooooooo from course and year");
+exports.sendEmailToStudentWithMicrositeLink = async (req, res) => {
+  console.log("sending bulk email to students with microsite link");
 
   // Create SES service object
   const ses = new AWS.SES({ apiVersion: "2010-12-01" });
@@ -1324,26 +1355,23 @@ exports.testEmailController = async (req, res) => {
 };
 
 exports.sendOptToStudent = async (req, res) => {
-  console.log("hellooooooo from course and year");
-  // Example usage
   const secret = generateTOTPSecret();
+
   const generatedToken = generateTOTPToken(secret);
 
-  console.log("Generated Token:", generatedToken);
+  console.log("secret secret:::::::", secret);
+  console.log("Generated Token:::::::", generatedToken);
 
-  console.log("hellooooooo from course and year");
-
-  // Create SES service object
   const ses = new AWS.SES({ apiVersion: "2010-12-01" });
 
-  const { to, subject, message } = req.body;
+  const { to } = req.body;
 
   // console.log(to, subject, message);
 
   // Split the 'to' string into an array of email addresses
   const toAddresses = Array.isArray(to) ? to : [to];
 
-  console.log("toAddresses", toAddresses);
+  // console.log("toAddresses", toAddresses);
 
   // Create an array to store promises for each email sent
   const emailPromises = [];
@@ -1357,11 +1385,11 @@ exports.sendOptToStudent = async (req, res) => {
       Message: {
         Body: {
           Text: {
-            Data: `OTP IS - ${generatedToken}`,
+            Data: `OTP IS - ${generatedToken} `,
           },
         },
         Subject: {
-          Data: subject,
+          Data: "OTP for verification",
         },
       },
       Source: "info@forstu.co", // Replace with your verified SES email address
@@ -1386,9 +1414,27 @@ exports.sendOptToStudent = async (req, res) => {
   try {
     // Wait for all email promises to resolve
     await Promise.all(emailPromises);
-    res.status(200).send("Emails sent successfully");
+    res.json({
+      success: true,
+      message: "Emails sent successfully",
+      data: { secret, generatedToken },
+    });
+    // res.status(200).send("Emails sent successfully");
   } catch (error) {
     console.error(error);
     res.status(500).send("Failed to send one or more emails");
+  }
+};
+
+exports.verifyStudentByOtpAndEmail = async (req, res) => {
+  const { secret, generatedToken } = req.body;
+
+  const isTokenValid = verifyTOTPToken(secret, generatedToken);
+  console.log("isTokenValid", isTokenValid);
+
+  if (isTokenValid) {
+    res.status(200).send("OTP is valid");
+  } else {
+    res.status(400).send("OTP is invalid");
   }
 };
