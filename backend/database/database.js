@@ -10,6 +10,16 @@ const QualificationLevel = require("../models/qaulfification-levelModel");
 const MahadbtCourseName = require("../models/mahadbtCourseNameModel");
 const MahadbtCollegeStream = require("../models/mahadbtCollegeStreamModel");
 const MahadbtQualificationLevel = require("../models/MahadbtQualificationLevelModel");
+const MahadbtMaritalStatus = require("../models/MahadbtMaritalStatusModel");
+const MahadbtReligion = require("../models/mahadbtReligionModel.js");
+const MahadbtCasteCatogory = require("../models/mahadbtCasteCatogory");
+const MdbtDisabilityType = require("../models/mahadbtDisabilityTypeModel");
+const MdbtWithDisabilityType = require("../models/mahdbtWithDisabilityModel");
+const MahadbtOccupation = require("../models/mahadbtOccupationModel");
+const MahadbtHostelTypes = require("../models/MahadbtHostelTypeModel");
+const YearOfStudy = require("../models/yearOfStudy");
+const admissionYear = require("../models/admissionYearModel");
+const examMonth = require("../models/examMonth");
 
 
 
@@ -54,6 +64,46 @@ MahadbtCollegeStream.sync({
 })
 
 MahadbtQualificationLevel.sync({
+  alter: false
+})
+
+MahadbtMaritalStatus.sync({
+  alter: false
+})
+
+MahadbtReligion.sync({
+  alter: false
+})
+
+MahadbtCasteCatogory.sync({
+  alter: false
+})
+
+MdbtDisabilityType.sync({
+  alter: false
+})
+
+MdbtWithDisabilityType.sync({
+  alter: false
+})
+
+MahadbtOccupation.sync({
+  alter: false
+})
+
+MahadbtHostelTypes.sync({
+  alter: false
+})
+
+YearOfStudy.sync({
+  alter: false
+})
+
+admissionYear.sync({
+  alter: false
+})
+
+examMonth.sync({
   alter: false
 })
 
