@@ -96,8 +96,57 @@ exports.uploadFile = async (req, res) => {
   // console.log("SHEETNAME :: ", sheetName);
   const data = xlsx.utils.sheet_to_json(sheet);
   // console.log("Sheet Data:", data);
+
+  //   try {
+  //     const batchSize = 10; // Set your desired batch size
+  //     const totalRecords = data.length;
+
+  //     for (let i = 0; i < totalRecords; i += batchSize) {
+  //       const batch = data.slice(i, i + batchSize);
+
+  //       const filteredData = batch.map((item) => ({
+  //         admissionApplicationId: item["Application ID"],
+  //         candidateName: item["Candidate Name"],
+  //         gender: item["Gender"],
+  //         dob: new Date(item["DOB"]), // Assuming DOB is in a valid date format
+  //         class10Board: item["SSC Board"],
+  //         class10PassingYear: item["SSC Passing Year"],
+  //         class10SeatNumber: item["SSC Seat No"],
+  //         class10Percentage: item["SSC Total Percentage"],
+  //         prev_qualification_level: item["Qualifying Exam"],
+  //         class12Board: item["HSC Board"],
+  //         class12PassingYear: item["HSC Passing Year"],
+  //         class12SeatNumber: item["HSC Seat No"],
+  //         class12Percentage: item["HSC Total Percentage"],
+  //         cetPercentAge: item["CET Percentile"],
+  //         coursename: item["Course Name"],
+  //       }));
+
+  //       const createdData = await dummyModel.bulkCreate(filteredData, {
+  //         updateOnDuplicate: ["email"],
+  //         // ignoreDuplicates: true,
+  //       });
+
+  //       console.log(`Batch ${i / batchSize + 1} inserted successfully.`);
+  //     }
+
+  //     console.log("All data inserted successfully");
+  //     res.json({
+  //       success: true,
+  //       message: "All data inserted successfully",
+  //     });
+  //   } catch (error) {
+  //     console.error("Error inserting data:", error);
+  //     res.json({
+  //       success: false,
+  //       message: "Error inserting data",
+  //     });
+  //   }
+  // }
+
   try {
     // ExcelInfo.bulkCreate(data);
+
     const filteredData = data.map((item) => ({
       // applicationId = field
       // Application ID = column name in excel file
@@ -116,34 +165,40 @@ exports.uploadFile = async (req, res) => {
       class12Percentage: item["HSC Total Percentage"],
       cetPercentAge: item["CET Percentile"],
       coursename: item["Course Name"],
+      email: item["Email"],
       // This option will prevent the error from stopping the execution
 
       // prev_qualification_level :item["Qualifying Exam"]
     }));
 
     // Bulk insert the filtered data into the ExcelInfo table
+    // await dummyModel.bulkCreate(filteredData);
     // ExcelInfo.bulkCreate(filteredData);
     // const createdData = await dummyModel.bulkCreate(filteredData);
+    // console.log("filtered dataaaaaaa", filteredData);
+
 
     const createdData = await dummyModel.bulkCreate(filteredData, {
       updateOnDuplicate: ["email"], // Specify the fields to update in case of duplicates
-      ignoreDuplicates: true, // This option will prevent the error from stopping the execution
+      // ignoreDuplicates: true, // This option will prevent the error from stopping the execution
     });
 
 
     console.log("Data inserted successfully", createdData);
-
+    // return
+    console.log("Data inserted successfully");
     // executeStoredProcedure();
     res.json({
       success: true,
       message: "Data inserted successfully",
+      data: createdData
     });
   } catch (error) {
     console.error("Error inserting data:", error);
   }
 
   // Call the function to execute the stored procedure
-};
+}
 
 exports.runTheProcedure = async (req, res) => {
   console.log("test called");
