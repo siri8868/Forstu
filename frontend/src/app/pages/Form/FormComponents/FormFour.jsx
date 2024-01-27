@@ -13,6 +13,7 @@ import {
   getcurrentcourseInfoApi,
   submitFormDataApi,
 } from "../../../api/FormApi/FormApi";
+import { getOTPSecret } from "../../../helpers/AuthHelpers";
 
 function FormFour() {
   const [formData, setFormData] = useState({});
@@ -89,8 +90,9 @@ function FormFour() {
   };
 
   const getcurrentcourseInfo = () => {
+    const studentMail = getOTPSecret().to;
     const data = {
-      email: "nishant@gmail.com",
+      email: studentMail,
     };
     getcurrentcourseInfoApi(data)
       .then((res) => {

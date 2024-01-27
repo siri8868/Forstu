@@ -20,7 +20,8 @@ import YearAndCourseApplicationFailedStatus from "./YearAndCoursesComponents/Yea
 import {
   courseAndYearWiseDataSent,
   getCourseListOptionApi,
-  getYearListOptionApi,
+  // getMeCoursesYears,
+  getYears,
 } from "../../api/YearAndCourseApi/YearAndCourse";
 
 function YearAndCoursesDashboard() {
@@ -45,18 +46,14 @@ function YearAndCoursesDashboard() {
       });
   };
 
-  const getYearsListOptions = () => {
-    getYearListOptionApi()
+  const getYearsListOptions = (data) => {
+    getYears({ courseName: data })
       .then((res) => {
-        if (res.success) {
-          // console.log("YearListttttt", res.data);
-          setYearList(res.data);
-        } else {
-          setYearList([]);
-        }
+        setYearList(res.data);
       })
       .catch((error) => {
-        console.error(error);
+        console.log("error", error);
+        setYearList([]);
       });
   };
 
@@ -115,12 +112,20 @@ function YearAndCoursesDashboard() {
 
   const onChange = (pagination, filters, sorter, extra) => {};
 
-  const handleChange = (param) => (event) => {
-    // console.log("handle change");
+  const handleChangeForCourseName = (param) => (event) => {
     setYearCourseDataSent({
       ...yearCourseDataSent,
       [param]: event.target.value,
     });
+    getYearsListOptions(event.target.value);
+  };
+
+  const handleChangeForCourseYear = (param) => (event) => {
+    setYearCourseDataSent({
+      ...yearCourseDataSent,
+      [param]: event.target.value,
+    });
+    // getYearsListOptions(event.target.value);
   };
 
   const handleSubmit = (event) => {
@@ -171,8 +176,17 @@ function YearAndCoursesDashboard() {
 
   useEffect(() => {
     getCourseListOptions();
-    getYearsListOptions();
+
+    // getYears({ courseName: "Testing" })
+    //   .then((res) => {
+    //     console.log("res", res);
+    //   })
+    //   .catch((error) => {
+    //     console.log("error", error);
+    //   });
+    // getYearsListOptions();
   }, []);
+
   return (
     <Base>
       <Box bg={"text.light"} borderWidth="1px" borderRadius="lg">
@@ -201,7 +215,7 @@ function YearAndCoursesDashboard() {
 
                     placeholder="Select Course"
                     value={yearCourseDataSent.courseName}
-                    onChange={handleChange("courseName")}
+                    onChange={handleChangeForCourseName("courseName")}
                   >
                     {courseList.map((course, index) => {
                       // console.log("course", course.coursename);
@@ -223,7 +237,7 @@ function YearAndCoursesDashboard() {
                     ml={2}
                     placeholder="Select Year"
                     value={yearCourseDataSent.courseYear}
-                    onChange={handleChange("courseYear")}
+                    onChange={handleChangeForCourseYear("courseYear")}
                   >
                     {yearList.map((year, index) => (
                       <option key={index} value={year.current_year}>

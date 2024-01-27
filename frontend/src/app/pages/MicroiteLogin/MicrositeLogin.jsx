@@ -24,7 +24,10 @@ import {
   setOTPSecret,
   signout,
 } from "../../helpers/AuthHelpers";
-import { getOTPforStudent, verifyStudentByOtpAndEmail } from "../../api/MicrositeAPI/MicrositeAPI";
+import {
+  getOTPforStudent,
+  verifyStudentByOtpAndEmail,
+} from "../../api/MicrositeAPI/MicrositeAPI";
 
 const MicrositeLogin = () => {
   const toast = useToast();
@@ -56,48 +59,57 @@ const MicrositeLogin = () => {
     let data = {
       secret,
       otp,
-      email
-    }
-    verifyStudentByOtpAndEmail(data)
+      email,
+    };
+    verifyStudentByOtpAndEmail(data).then((res) => {
+      if (res.success) {
+        console.log("res", res);
+        toast({
+          title: "Success!",
+          description: res.message,
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
+
+        return navigate.replace("/incompletprofile");
+      } else {
+        console.log("error");
+        toast({
+          title: "Operation failed!",
+          description: res.message,
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
+      }
+    });
+  };
+
+  function getOTP() {
+    let to = [email];
+
+    getOTPforStudent(to)
       .then((res) => {
         if (res.success) {
           console.log("res", res);
+          setOTPSecret(res.data, () => {
+            console.log(res);
+          });
           toast({
-            title: "Workinggg!",
-            // description: res.message,
+            title: "Success!",
+            description: res.message,
             status: "success",
             duration: 9000,
             isClosable: true,
             position: "top-right",
           });
         } else {
-          console.log("error")
-
-          // toast({
-          //   title: "Operation failed!",
-          //   // description: res.message,
-          //   status: "error",
-          //   duration: 9000,
-          //   isClosable: true,
-          //   position: "top-right",
-          // });
-        }
-      })
-  };
-
-  function getOTP() {
-    let to = ["vivek.gundu29@gmail.com"]
-    getOTPforStudent(to)
-      .then((res) => {
-        if (res.success) {
-          console.log("res", res);
-          setOTPSecret(res.data, () => {
-            console.log(res)
-          });
-        } else {
           toast({
             title: "Operation failed!",
-            // description: res.message,
+            description: res.message,
             status: "error",
             duration: 9000,
             isClosable: true,
@@ -132,7 +144,7 @@ const MicrositeLogin = () => {
               flexDirection="column"
               alignItems="center"
               justifyContent="center"
-            // mt="30px"
+              // mt="30px"
             >
               <Box>
                 <Box>
@@ -235,16 +247,16 @@ const MicrositeLogin = () => {
                         </Button>
                       </Stack>
                     </form>
+
                     <Button
                       borderRadius={0}
                       disabled={!getIsFormValid()}
-                      type="submit"
                       variant="solid"
                       bg="secondary.main"
                       width="full"
                       color="text.light"
                       onClick={() => {
-                        getOTP()
+                        getOTP();
                       }}
                     >
                       Get OTP

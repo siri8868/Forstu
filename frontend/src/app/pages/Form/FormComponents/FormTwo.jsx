@@ -12,6 +12,7 @@ import {
   getAddressInfoApi,
   submitFormDataApi,
 } from "../../../api/FormApi/FormApi";
+import { getOTPSecret } from "../../../helpers/AuthHelpers";
 
 function FormTwo() {
   const [formData, setFormData] = useState({});
@@ -79,8 +80,9 @@ function FormTwo() {
   };
 
   const getAddressInfo = () => {
+    const studentMail = getOTPSecret().to;
     const data = {
-      email: "nishant@gmail.com",
+      email: studentMail,
     };
     getAddressInfoApi(data)
       .then((res) => {

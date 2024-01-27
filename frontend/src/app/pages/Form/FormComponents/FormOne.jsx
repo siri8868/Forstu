@@ -14,6 +14,7 @@ import {
   getPersonalInfoApi,
   submitFormDataApi,
 } from "../../../api/FormApi/FormApi";
+import { getOTPSecret } from "../../../helpers/AuthHelpers";
 
 function FormOne() {
   const [formData, setFormData] = useState({});
@@ -115,8 +116,9 @@ function FormOne() {
   };
 
   const getPersonalInfo = () => {
+    const studentMail = getOTPSecret().to;
     const data = {
-      email: "nishant@gmail.com",
+      email: studentMail,
     };
     getPersonalInfoApi(data)
       .then((res) => {

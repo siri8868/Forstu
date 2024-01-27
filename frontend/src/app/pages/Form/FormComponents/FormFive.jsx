@@ -12,6 +12,7 @@ import {
   getQualificationInfoApi,
   submitFormDataApi,
 } from "../../../api/FormApi/FormApi";
+import { getOTPSecret } from "../../../helpers/AuthHelpers";
 
 function FormFive() {
   const [formData, setFormData] = useState({});
@@ -113,8 +114,9 @@ function FormFive() {
   // console.log("formData", formData);
 
   const getQualificationInfo = () => {
+    const studentMail = getOTPSecret().to;
     const data = {
-      email: "nishant@gmail.com",
+      email: studentMail,
     };
     getQualificationInfoApi(data)
       .then((res) => {
