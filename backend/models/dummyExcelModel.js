@@ -7,6 +7,7 @@ const dummyModel = sequelize.define("dummy_profiles", {
     type: Sequelize.Sequelize.DataTypes.INTEGER,
     allowNull: false,
     primaryKey: true,
+    autoIncrement: true
   },
 
   candidateName: {
