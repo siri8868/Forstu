@@ -21,16 +21,18 @@ export async function getCourseListOptionApi() {
   return response.json();
 }
 
-export async function getYearListOptionApi() {
+export async function courseAndYearWiseDataSent(data) {
+  console.log("MMMMMMMMM", data);
   const { accessToken } = isAuthenticated();
 
-  const response = await fetch(`${ENDPOINT}/getcoursesyear`, {
-    method: "GET",
+  const response = await fetch(`${ENDPOINT}/courseandyearwisedata`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",
       Authorization: accessToken,
     },
+    body: JSON.stringify(data),
   });
 
   if (response.status == 401) {
@@ -40,11 +42,10 @@ export async function getYearListOptionApi() {
   return response.json();
 }
 
-export async function courseAndYearWiseDataSent(data) {
-  console.log("MMMMMMMMM", data);
+export async function getYears(data) {
   const { accessToken } = isAuthenticated();
 
-  const response = await fetch(`${ENDPOINT}/courseandyearwisedata`, {
+  const response = await fetch(`${ENDPOINT}/getYearsFromCourse`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",

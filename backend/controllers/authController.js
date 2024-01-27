@@ -241,23 +241,21 @@ exports.isSignedIn = (req, res, next) => {
   });
 };
 
-
 // Function to verify a TOTP token
 const verifyTOTPToken = (secret, token) => {
-  console.log("secret", secret.base32)
+  console.log("secret", secret.base32);
   return speakeasy.totp.verify({
     secret: secret.base32,
     encoding: "base32",
     token: token,
-    // time: 15,
-    initial_time: 15, // specified in seconds
-    // time: Date.now(), // specify the current time for verification
-    // window: 2, // set the allowable margin for token
+    // initial_time: 1, // specified in seconds
+    initial_time: 1, // set the time step to 15 seconds
+    window: 20, // set the allowable margin for token
   });
 };
 
 exports.verifyToken = (req, res, next) => {
-  console.log("reqDFDSFDSF", req.body)
+  console.log("reqDFDSFDSF", req.body);
 
   const { secret, otp, email } = req.body;
   const isTokenValid = verifyTOTPToken(secret, otp);
@@ -266,20 +264,19 @@ exports.verifyToken = (req, res, next) => {
   if (isTokenValid) {
     Mahadbtprofiles.findOne({ where: { email } })
       .then((data) => {
-
         data = data.toJSON();
-        console.log("dataaaaDJFDSK", data)
+        console.log("dataaaaDJFDSK", data);
         // user.password = undefined;
-        main = {
-          email: data.email
-        }
-        console.log("main", main)
-        req.email = main;
+        // main = {
+        //   email: data.email,
+        // };
+        // console.log("main", main);
+        // req.email = main;
         next();
       })
       .catch((error) => {
-        console.log("errroror", error)
-      })
+        console.log("errroror", error);
+      });
     // res.status(200).send("OTP is valid");
   } else {
     return res.status(401).json({
@@ -288,7 +285,7 @@ exports.verifyToken = (req, res, next) => {
     });
     // res.status(400).send("OTP is invalid");
   }
-}
+};
 
 exports.isAdmin = (req, res, next) => {
   const { role } = req.profile;

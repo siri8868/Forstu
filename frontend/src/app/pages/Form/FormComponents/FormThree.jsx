@@ -13,6 +13,7 @@ import {
   getOtherInfoApi,
   submitFormDataApi,
 } from "../../../api/FormApi/FormApi";
+import { getOTPSecret } from "../../../helpers/AuthHelpers";
 
 function FormThree() {
   const [formData, setFormData] = useState({});
@@ -23,8 +24,9 @@ function FormThree() {
   };
 
   const getOtherInfo = () => {
+    const studentMail = getOTPSecret().to;
     const data = {
-      email: "nishant@gmail.com",
+      email: studentMail,
     };
     getOtherInfoApi(data)
       .then((res) => {

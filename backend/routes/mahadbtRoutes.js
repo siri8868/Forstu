@@ -25,6 +25,7 @@ const {
   sendOptToStudent,
   sendEmailToStudentWithMicrositeLink,
   verifyStudentByOtpAndEmail,
+  getCourseYearsFromFrontend,
 } = require("../controllers/mahadbtController");
 
 const {
@@ -55,7 +56,7 @@ router.get("/monthlycount", isSignedIn, MonthlySubmitCount);
 router.get("/yearlycount", isSignedIn, yearlySubmitCount);
 
 router.get("/getcourseslist", isSignedIn, getCourseList);
-router.get("/getcoursesyear", isSignedIn, getCourseYear);
+// router.post("/getcoursesyear", isSignedIn, getCourseYear);
 router.post("/courseandyearwisedata", isSignedIn, totalCourseAndYear);
 router.post("/getIncompleteFields", getIncompleteFieldsController);
 
@@ -77,6 +78,8 @@ router.post(
 router.post("/sendopttostudent", sendOptToStudent);
 
 router.post("/verifystudent", verifyToken, verifyStudentByOtpAndEmail);
+
+router.post("/getYearsFromCourse", isSignedIn, getCourseYearsFromFrontend);
 
 // send mail bulk mail to students
 

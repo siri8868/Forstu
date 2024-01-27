@@ -10,7 +10,10 @@ import {
   VStack,
   InputGroup,
 } from "@chakra-ui/react";
-import { getMonthlySubmitCountApi } from "../../../api/DashboardApi/DashboardApi";
+import {
+  getMonthlySubmitCountApi,
+  getYearlySubmitCountApi,
+} from "../../../api/DashboardApi/DashboardApi";
 
 function Analysis() {
   const [filter, setFilter] = useState("Day");
@@ -29,10 +32,9 @@ function Analysis() {
       getMonthlySubmitCount();
     } else if (event.target.value === "Year") {
       console.log("Year");
+      getYearlySubmitCount();
     }
   };
-
-  // getMonthlySubmitCount();
 
   const optionsForPie = {
     series: [
@@ -96,7 +98,7 @@ function Analysis() {
           12: "Dec",
         };
         console.log("getMonthlySubmitCountApi", res);
-        const Month = res.monthCount.map((item) => item.Month);
+        const Month = res?.monthCount?.map((item) => item.Month);
         const count = res.monthCount.map((item) => item.count);
         const monthNames = Month.map(
           (monthNumber) => monthMapping[monthNumber]
@@ -140,14 +142,26 @@ function Analysis() {
       });
   };
 
+  const getYearlySubmitCount = () => {
+    getYearlySubmitCountApi()
+      .then((res) => {
+        console.log("getYearlySubmitCount", res.yearCount);
+        const Year = res.yearCount.map((item) => item.Year);
+        const count = res.yearCount.map((item) => item.YearCount);
+
+        setChartData({
+          series: count,
+          categories: Year,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   console.log("chartData", chartData);
-  // useEffect(() => {
-  // }, []);
 
   const data = ["Day", "Month", "Year"];
-  const month = ["Admin", "User"];
-  const week = ["Admin", "User"];
-  const year = ["Admin", "User"];
 
   return (
     <>

@@ -63,22 +63,24 @@ const generateTOTPToken = (secret) => {
   return speakeasy.totp({
     secret: secret.base32,
     encoding: "base32",
-    initial_time: 15, // set the time step to 15 seconds
+    // initial_time: 1, // set the time step to 15 seconds
+    initial_time: 1, // set the time step to 15 seconds
+    window: 20, // set the allowable margin for token
   });
 };
 
 // Function to verify a TOTP token
-const verifyTOTPToken = (secret, token) => {
-  return speakeasy.totp.verify({
-    secret: secret,
-    encoding: "base32",
-    token: token,
-    // time: 15,
-    initial_time: 123, // specified in seconds
-    // time: Date.now(), // specify the current time for verification
-    // window: 2, // set the allowable margin for token
-  });
-};
+// const verifyTOTPToken = (secret, token) => {
+//   return speakeasy.totp.verify({
+//     secret: secret,
+//     encoding: "base32",
+//     token: token,
+//     // time: 15,
+//     initial_time: 123, // specified in seconds
+//     // time: Date.now(), // specify the current time for verification
+//     // window: 2, // set the allowable margin for token
+//   });
+// };
 
 exports.getAllMahadbtProfiles = (req, res) => {
   console.log("req profile", req.profile.ref_code);
@@ -413,9 +415,9 @@ exports.yearlySubmitCount = async (req, res) => {
 
 // Get course List
 exports.getCourseList = (req, res) => {
-  console.log("hellooooooo from course");
-  console.log("req profile", req.profile.ref_code);
-  console.log("requesed body", req.body);
+  // console.log("hellooooooo from course");
+  // console.log("req profile", req.profile.ref_code);
+  // console.log("requesed body", req.body);
   const selectedCourse = req.body.courseName; // Replace with the actual user input
   const selectedYear = req.body.courseYear;
   // res.send("course year coming ");
@@ -431,7 +433,7 @@ exports.getCourseList = (req, res) => {
     .then((data) => {
       data = JSON.stringify(data);
       data = JSON.parse(data);
-      console.log(data);
+      // console.log(data);
       res.json({
         success: true,
         data,
@@ -448,8 +450,11 @@ exports.getCourseList = (req, res) => {
 
 // get Course Yer
 exports.getCourseYear = (req, res) => {
-  console.log("req profile", req.profile.ref_code);
+  // console.log("req profile", req.profile.ref_code);
   console.log("hellooooooo from course and year");
+  console.log("requesed bodyVIVIVIVIVIV>>>>", req.body);
+  // return res.send("success");
+  return;
   // console.log("requesed body", req.body)
   const selectedCourse = req.body.courseName; // Replace with the actual user input
   // const selectedYear = req.body.courseYear;
@@ -1347,10 +1352,18 @@ exports.sendEmailToStudentWithMicrositeLink = async (req, res) => {
   try {
     // Wait for all email promises to resolve
     await Promise.all(emailPromises);
-    res.status(200).send("Emails sent successfully");
+    // res.status(200).send("Emails sent successfully");
+    return res.status(200).json({
+      status: true,
+      message: "Emails sent successfully",
+    });
   } catch (error) {
     console.error(error);
-    res.status(500).send("Failed to send one or more emails");
+    // res.status(500).send("Failed to send one or more emails");
+    return res.status(400).json({
+      status: false,
+      message: "Failed to send one or more emails",
+    });
   }
 };
 
@@ -1365,7 +1378,7 @@ exports.sendOptToStudent = async (req, res) => {
   const ses = new AWS.SES({ apiVersion: "2010-12-01" });
 
   const to = req.body[0];
-  console.log("diapkkkkkkkkkkkkk", req.body[0])
+  console.log("diapkkkkkkkkkkkkk", req.body[0]);
 
   // console.log(to, subject, message);
 
@@ -1415,27 +1428,79 @@ exports.sendOptToStudent = async (req, res) => {
   try {
     // Wait for all email promises to resolve
     await Promise.all(emailPromises);
-    res.json({
+    return res.status(200).json({
       success: true,
-      message: "Emails sent successfully",
-      data: { secret, generatedToken },
+      message: "OTP sent your mail.",
+      data: { secret, generatedToken, to },
     });
-    // res.status(200).send("Emails sent successfully");
   } catch (error) {
     console.error(error);
-    res.status(500).send("Failed to send one or more emails");
+    return res.status(401).json({
+      status: false,
+      message: "Failed to send OTP",
+    });
   }
 };
 
 exports.verifyStudentByOtpAndEmail = async (req, res) => {
-  // const { secret, generatedToken } = req.body;
+  try {
+    // const isTokenValid = verifyTOTPToken(secret, generatedToken);
+    // console.log("isTokenValid", isTokenValid);
+    console.log("I AM HERERERE NOWWWW!!!");
+    res.json({
+      success: true,
+      message: "Successfully Signed In!",
+    });
+  } catch (error) {
+    return res.status(400).json({
+      success: true,
+      message: "Failed to verify!",
+    });
+  }
+};
 
-  // const isTokenValid = verifyTOTPToken(secret, generatedToken);
-  // console.log("isTokenValid", isTokenValid);
-  console.log("I AM HERERERE NOWWWW!!!")
-  res.json({
-    success: true,
-    message: "verfiedddd",
-    // data: { secret, generatedToken },
-  });
+exports.getCourseYearsFromFrontend = async (req, res) => {
+  console.log("req body", req.body);
+
+  // console.log("requesed body", req.body)
+  const selectedCourse = req.body.courseName; // Replace with the actual user input
+  // const selectedYear = req.body.courseYear;
+  console.log("selectedCourse", selectedCourse);
+  // res.send("course year coming ");
+  Mahadbtprofiles.findAll({
+    attributes: [
+      // 'coursename',
+      // 'current_year'
+      [sequelize.fn("DISTINCT", sequelize.col("current_year")), "current_year"],
+    ],
+    where: {
+      ref_code: req.profile.ref_code,
+      coursename: selectedCourse,
+      // coursename: selectedCourse,
+      // current_year: selectedYear,
+      // applicationStatus: ['pending', 'submitted']
+    },
+    // group: ['coursename', 'current_year', 'applicationStatus']
+  })
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      console.log(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve Mahadbt Profiles",
+        error: error,
+      });
+    });
+
+  // res.json({
+  //   success: true,
+  //   message: "Successfully",
+  // });
 };

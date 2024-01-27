@@ -12,6 +12,7 @@ import {
   getHostelDetailsInfoApi,
   submitFormDataApi,
 } from "../../../api/FormApi/FormApi";
+import { getOTPSecret } from "../../../helpers/AuthHelpers";
 
 function FormSix() {
   const [formData, setFormData] = useState({});
@@ -77,8 +78,9 @@ function FormSix() {
   };
 
   const getHostelDetailsInfo = () => {
+    const studentMail = getOTPSecret().to;
     const data = {
-      email: "nishant@gmail.com",
+      email: studentMail,
     };
     getHostelDetailsInfoApi(data)
       .then((res) => {
