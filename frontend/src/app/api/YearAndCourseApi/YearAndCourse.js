@@ -22,7 +22,7 @@ export async function getCourseListOptionApi() {
 }
 
 export async function courseAndYearWiseDataSent(data) {
-  console.log("MMMMMMMMM", data);
+  // console.log("MMMMMMMMM", data);
   const { accessToken } = isAuthenticated();
 
   const response = await fetch(`${ENDPOINT}/courseandyearwisedata`, {
@@ -54,6 +54,30 @@ export async function getYears(data) {
     },
     body: JSON.stringify(data),
   });
+
+  if (response.status == 401) {
+    redirectOnTokenExpire();
+  }
+
+  return response.json();
+}
+
+export async function courseAndYearWiseApplicationStatus(data) {
+  // console.log("MMMMMMMMM", data);
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(
+    `${ENDPOINT}/applicationcountbycoursenameandyear`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: accessToken,
+      },
+      body: JSON.stringify(data),
+    }
+  );
 
   if (response.status == 401) {
     redirectOnTokenExpire();

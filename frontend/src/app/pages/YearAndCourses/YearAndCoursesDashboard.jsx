@@ -18,6 +18,7 @@ import {
 import YearAndCourseStatus from "./YearAndCoursesComponents/YearAndCourseStatus";
 import YearAndCourseApplicationFailedStatus from "./YearAndCoursesComponents/YearAndCourseApplicationFailedStatus";
 import {
+  courseAndYearWiseApplicationStatus,
   courseAndYearWiseDataSent,
   getCourseListOptionApi,
   // getMeCoursesYears,
@@ -30,6 +31,7 @@ function YearAndCoursesDashboard() {
   const [yearAndCourseData, setYearAndCourseData] = useState([]);
   const [courseList, setCourseList] = useState([]);
   const [yearList, setYearList] = useState([]);
+  const [ApplicationStatus, setApplicationStatus] = useState({});
 
   const getCourseListOptions = () => {
     getCourseListOptionApi()
@@ -129,12 +131,12 @@ function YearAndCoursesDashboard() {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("submit", yearCourseDataSent);
+    // console.log("submit", yearCourseDataSent);
 
     courseAndYearWiseDataSent(yearCourseDataSent)
       .then((res) => {
         if (res.success) {
-          console.log("res", res.data);
+          // console.log("res", res.data);
           setYearAndCourseData(res.data);
           toast({
             title: "Operation successful!",
@@ -167,6 +169,15 @@ function YearAndCoursesDashboard() {
         });
 
         console.error(error);
+      });
+
+    courseAndYearWiseApplicationStatus(yearCourseDataSent)
+      .then((res) => {
+        // console.log("res--viviviviviVIVIVIVIVIV", res);
+        setApplicationStatus(res.data);
+      })
+      .catch((error) => {
+        console.log("error", error);
       });
   };
 
@@ -253,7 +264,7 @@ function YearAndCoursesDashboard() {
       <Box py={5} px={5} bg={"text.light"} borderWidth="1px" borderRadius="lg">
         <Grid templateColumns="repeat(2, 1fr)" gap={6}>
           <GridItem w="100%" bg={"#fff"} borderRadius={"10px"}>
-            <YearAndCourseStatus />
+            <YearAndCourseStatus ApplicationStatus={ApplicationStatus} />
           </GridItem>
           <GridItem w="100%" bg={"#FFFBF5"} borderRadius={"10px"}>
             <YearAndCourseApplicationFailedStatus />
