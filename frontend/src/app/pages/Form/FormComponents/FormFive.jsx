@@ -148,10 +148,10 @@ function FormFive() {
               />
             </FormControl>
             <FormControl id="class10Qualification">
-              <FormLabel>class 10 Qualification Level</FormLabel>
+              <FormLabel>Class 10th Qualification Level</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Qualification Level"
+                placeholder="class 10th Qualification Level"
                 value={formData.class10Qualification}
                 onChange={handleChange("class10Qualification")}
                 required
@@ -159,7 +159,7 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10Stream">
-              <FormLabel>class 10 Stream</FormLabel>
+              <FormLabel>Class 10th Stream</FormLabel>
               <Input
                 type="text"
                 placeholder="class 10 Stream"
@@ -170,10 +170,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10State">
-              <FormLabel>class 10 State</FormLabel>
+              <FormLabel>Class 10th State</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 State"
+                placeholder="Class 10th State"
                 value={formData.class10State}
                 onChange={handleChange("class10State")}
                 required
@@ -181,10 +181,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10District">
-              <FormLabel>class 10 District</FormLabel>
+              <FormLabel>Class 10th District</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 District"
+                placeholder="class 10th District"
                 value={formData.class10District}
                 onChange={handleChange("class10District")}
                 required
@@ -192,10 +192,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10Taluka">
-              <FormLabel>class 10 Taluka</FormLabel>
+              <FormLabel>Class 10th Taluka</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Taluka"
+                placeholder="class 10th Taluka"
                 value={formData.class10Taluka}
                 onChange={handleChange("class10Taluka")}
                 required
@@ -203,10 +203,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10Course">
-              <FormLabel>class 10 Course</FormLabel>
+              <FormLabel>Class 10th Course</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Course"
+                placeholder="class 10th Course"
                 value={formData.class10Course}
                 onChange={handleChange("class10Course")}
                 required
@@ -214,10 +214,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10Board">
-              <FormLabel>class 10 Board</FormLabel>
+              <FormLabel>Class 10th Board</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Board"
+                placeholder="class 10th Board"
                 value={formData.class10Board}
                 onChange={handleChange("class10Board")}
                 required
@@ -225,10 +225,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10Mode">
-              <FormLabel>class 10 Mode</FormLabel>
+              <FormLabel>Class 10th Mode</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Mode"
+                placeholder="class 10th Mode"
                 value={formData.class10Mode}
                 onChange={handleChange("class10Mode")}
                 required
@@ -236,10 +236,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10AdmissionYear">
-              <FormLabel>class 10 Admission Year</FormLabel>
+              <FormLabel>Class 10th Admission Year</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Admission Year"
+                placeholder="class 10th Admission Year"
                 value={formData.class10AdmissionYear}
                 onChange={handleChange("class10AdmissionYear")}
                 required
@@ -247,10 +247,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10PassingYear">
-              <FormLabel>class 10 Passing Year</FormLabel>
+              <FormLabel>Class 10th Passing Year</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Passing Year"
+                placeholder="class 10th Passing Year"
                 value={formData.class10PassingYear}
                 onChange={handleChange("class10PassingYear")}
                 required
@@ -258,10 +258,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10Result">
-              <FormLabel>class 10 Result</FormLabel>
+              <FormLabel>Class 10th Result</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Result"
+                placeholder="class 10th Result"
                 value={formData.class10Result}
                 onChange={handleChange("class10Result")}
                 required
@@ -269,10 +269,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10Percentage">
-              <FormLabel>class 10 Percentage</FormLabel>
+              <FormLabel>Class 10th Percentage</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Percentage"
+                placeholder="class 10th Percentage"
                 value={formData.class10Percentage}
                 onChange={handleChange("class10Percentage")}
                 required
@@ -280,10 +280,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10Attempt">
-              <FormLabel>class 10 Attempt</FormLabel>
+              <FormLabel>Class 10th Attempt</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Attempt"
+                placeholder="class 10th Attempt"
                 value={formData.class10Attempt}
                 onChange={handleChange("class10Attempt")}
                 required
@@ -291,10 +291,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10Doc">
-              <FormLabel>class 10 Doc</FormLabel>
+              <FormLabel>Class 10th Doc</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Doc"
+                placeholder="class 10th Doc"
                 value={formData.class10Doc}
                 onChange={handleChange("class10Doc")}
                 required
@@ -302,10 +302,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10SeatNumber">
-              <FormLabel>class 10 Seat Number</FormLabel>
+              <FormLabel>Class 10th Seat Number</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Seat Number"
+                placeholder="class 10th Seat Number"
                 value={formData.class10SeatNumber}
                 onChange={handleChange("class10SeatNumber")}
                 required
@@ -313,10 +313,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10MonthOfExam">
-              <FormLabel>class 10 Month Of Exam</FormLabel>
+              <FormLabel>Class 10th Month Of Exam</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Month Of Exam"
+                placeholder="Class 10th Month Of Exam"
                 value={formData.class10MonthOfExam}
                 onChange={handleChange("class10MonthOfExam")}
                 required
@@ -324,10 +324,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10MarksObtained">
-              <FormLabel>class 10 Obtained</FormLabel>
+              <FormLabel>Class 10th Marks Obtained</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Obtained"
+                placeholder="class 10th Obtained"
                 value={formData.class10MarksObtained}
                 onChange={handleChange("class10MarksObtained")}
                 required
@@ -335,10 +335,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class10Attempts">
-              <FormLabel>class 10 Attempts</FormLabel>
+              <FormLabel>Class 10th Attempts</FormLabel>
               <Input
                 type="text"
-                placeholder="class 10 Attempts"
+                placeholder="class 10th Attempts"
                 value={formData.class10Attempts}
                 onChange={handleChange("class10Attempts")}
                 required
@@ -346,10 +346,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12QualificationLevel">
-              <FormLabel>class 12 Qualification Level</FormLabel>
+              <FormLabel>Class 12th Qualification Level</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Qualification Level"
+                placeholder="class 12th Qualification Level"
                 value={formData.class12QualificationLevel}
                 onChange={handleChange("class12QualificationLevel")}
                 required
@@ -357,10 +357,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12Stream">
-              <FormLabel>class 12 Stream</FormLabel>
+              <FormLabel>Class 12th Stream</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Stream"
+                placeholder="class 12th Stream"
                 value={formData.class12Stream}
                 onChange={handleChange("class12Stream")}
                 required
@@ -368,10 +368,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12InstituteState">
-              <FormLabel>class 12 Institute State</FormLabel>
+              <FormLabel>Class 12th Institute State</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Institute State"
+                placeholder="class 12th Institute State"
                 value={formData.class12InstituteState}
                 onChange={handleChange("class12InstituteState")}
                 required
@@ -379,10 +379,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12InstituteDistrict">
-              <FormLabel>class 12 Institute District</FormLabel>
+              <FormLabel>Class 12th Institute District</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Institute District"
+                placeholder="class 12th Institute District"
                 value={formData.class12InstituteDistrict}
                 onChange={handleChange("class12InstituteDistrict")}
                 required
@@ -390,10 +390,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12Taluka">
-              <FormLabel>class 12 Institute Taluka</FormLabel>
+              <FormLabel>Class 12th Institute Taluka</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Institute Taluka"
+                placeholder="class 12th Institute Taluka"
                 value={formData.class12Taluka}
                 onChange={handleChange("class12Taluka")}
                 required
@@ -401,10 +401,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12CollegeName">
-              <FormLabel>class 12 Collage Name</FormLabel>
+              <FormLabel>Class 12th Collage Name</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Collage Name"
+                placeholder="class 12th Collage Name"
                 value={formData.class12CollegeName}
                 onChange={handleChange("class12CollegeName")}
                 required
@@ -412,10 +412,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12Course">
-              <FormLabel>class 12 Course</FormLabel>
+              <FormLabel>Class 12th Course</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Course"
+                placeholder="class 12th Course"
                 value={formData.class12Course}
                 onChange={handleChange("class12Course")}
                 required
@@ -423,10 +423,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12Board">
-              <FormLabel>class 12 Board</FormLabel>
+              <FormLabel>Class 12th Board</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Board"
+                placeholder="Class 12th Board"
                 value={formData.class12Board}
                 onChange={handleChange("class12Board")}
                 required
@@ -434,10 +434,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12SeatNumber">
-              <FormLabel>class 12 Seat Number</FormLabel>
+              <FormLabel>Class 12th Seat Number</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Seat Number"
+                placeholder="Class 12th Seat Number"
                 value={formData.class12SeatNumber}
                 onChange={handleChange("class12SeatNumber")}
                 required
@@ -445,10 +445,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12Mode">
-              <FormLabel>class 12 Mode</FormLabel>
+              <FormLabel>Class 12th Mode</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Mode"
+                placeholder="Class 12th Mode"
                 value={formData.class12Mode}
                 onChange={handleChange("class12Mode")}
                 required
@@ -456,10 +456,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12AdmissionYear">
-              <FormLabel>class 12 Admission Year</FormLabel>
+              <FormLabel>Class 12th Admission Year</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Admission Year"
+                placeholder="Class 12th Admission Year"
                 value={formData.class12AdmissionYear}
                 onChange={handleChange("class12AdmissionYear")}
                 required
@@ -467,10 +467,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12PassingYear">
-              <FormLabel>class 12 Passing Year</FormLabel>
+              <FormLabel>Class 12th Passing Year</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Passing Year"
+                placeholder="Class 12th Passing Year"
                 value={formData.class12PassingYear}
                 onChange={handleChange("class12PassingYear")}
                 required
@@ -478,10 +478,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12Result">
-              <FormLabel>class 12 Result</FormLabel>
+              <FormLabel>Class 12th Result</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Result"
+                placeholder="Class 12th Result"
                 value={formData.class12Result}
                 onChange={handleChange("class12Result")}
                 required
@@ -489,10 +489,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12Percentage">
-              <FormLabel>class 12 Percentage</FormLabel>
+              <FormLabel>Class 12th Percentage</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Percentage"
+                placeholder="Class 12th Percentage"
                 value={formData.class12Percentage}
                 onChange={handleChange("class12Percentage")}
                 required
@@ -500,10 +500,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12Attempts">
-              <FormLabel>class 12 Attempts</FormLabel>
+              <FormLabel>Class 12th Attempts</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Attempts"
+                placeholder="Class 12th Attempts"
                 value={formData.class12Attempts}
                 onChange={handleChange("class12Attempts")}
                 required
@@ -511,10 +511,10 @@ function FormFive() {
             </FormControl>
 
             <FormControl id="class12Doc">
-              <FormLabel>class 12 Docs</FormLabel>
+              <FormLabel>Class 12th Docs</FormLabel>
               <Input
                 type="text"
-                placeholder="class 12 Docs"
+                placeholder="Class 12th Docs"
                 value={formData.class12Doc}
                 onChange={handleChange("class12Doc")}
                 required

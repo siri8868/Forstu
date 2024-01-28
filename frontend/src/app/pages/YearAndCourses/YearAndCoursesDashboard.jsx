@@ -125,7 +125,6 @@ function YearAndCoursesDashboard() {
       ...yearCourseDataSent,
       [param]: event.target.value,
     });
-    // getYearsListOptions(event.target.value);
   };
 
   const handleSubmit = (event) => {
@@ -145,9 +144,6 @@ function YearAndCoursesDashboard() {
             isClosable: true,
             position: "top-right",
           });
-
-          // onClose();
-          // getAllFields();
         } else {
           toast({
             title: "Operation failed!",
@@ -176,15 +172,6 @@ function YearAndCoursesDashboard() {
 
   useEffect(() => {
     getCourseListOptions();
-
-    // getYears({ courseName: "Testing" })
-    //   .then((res) => {
-    //     console.log("res", res);
-    //   })
-    //   .catch((error) => {
-    //     console.log("error", error);
-    //   });
-    // getYearsListOptions();
   }, []);
 
   return (

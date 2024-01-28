@@ -167,10 +167,10 @@ function FormSix() {
             </FormControl>
 
             <FormControl id="hostelName">
-              <FormLabel>Hostel Name</FormLabel>
+              <FormLabel>Hostel/ P.G/Rented House Name</FormLabel>
               <Input
                 type="text"
-                placeholder="Hostel Name"
+                placeholder="Hostel/ P.G/Rented House Name"
                 value={formData.hostelName}
                 onChange={handleChange("hostelName")}
                 required
@@ -178,10 +178,10 @@ function FormSix() {
             </FormControl>
 
             <FormControl id="hostelAddress">
-              <FormLabel>Hostel Address</FormLabel>
+              <FormLabel>Hostel/ P.G/Rented House Address</FormLabel>
               <Input
                 type="text"
-                placeholder="Hostel Address"
+                placeholder="Hostel/ P.G/Rented House Address"
                 value={formData.hostelAddress}
                 onChange={handleChange("hostelAddress")}
                 required

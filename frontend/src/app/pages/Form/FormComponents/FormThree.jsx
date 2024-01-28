@@ -161,6 +161,39 @@ function FormThree() {
                 required
               />
             </FormControl>
+
+            <FormControl id="motherName">
+              <FormLabel>Mother Name</FormLabel>
+              <Input
+                type="text"
+                placeholder="motherName"
+                value={formData.motherName}
+                onChange={handleChange("motherName")}
+                required
+              />
+            </FormControl>
+
+            <FormControl id="motherOccupation">
+              <FormLabel>mother Occupation</FormLabel>
+              <Input
+                type="text"
+                placeholder="motherOccupation"
+                value={formData.motherOccupation}
+                onChange={handleChange("motherOccupation")}
+                required
+              />
+            </FormControl>
+
+            <FormControl id="isMotherSalaried">
+              <FormLabel>Is Mother Salaried</FormLabel>
+              <Input
+                type="text"
+                placeholder="isMotherSalaried"
+                value={formData.isMotherSalaried}
+                onChange={handleChange("isMotherSalaried")}
+                required
+              />
+            </FormControl>
           </VStack>
           <Button
             color="text.light"
