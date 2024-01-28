@@ -92,51 +92,6 @@ const dummyModel = sequelize.define("dummy_profiles", {
     allowNull: true,
     field: 'caste_issued_date',
   },
-  casteCategory: {
-    type: Sequelize.DataTypes.STRING(50),
-    allowNull: true,
-    field: 'CasteCategory',
-  },
-  subCaste: {
-    type: Sequelize.DataTypes.STRING(50),
-    allowNull: true,
-    field: 'SubCaste',
-  },
-  doYouHaveCasteCertificate: {
-    type: Sequelize.DataTypes.STRING(10),
-    allowNull: true,
-    field: 'do_you_have_caste_certificate',
-  },
-  casteCertificateNumber: {
-    type: Sequelize.DataTypes.BIGINT,
-    allowNull: true,
-    field: 'caste_certificate_number',
-  },
-  casteIssuedDistrict: {
-    type: Sequelize.DataTypes.STRING(50),
-    allowNull: true,
-    field: 'caste_issued_district',
-  },
-  casteApplicantName: {
-    type: Sequelize.DataTypes.STRING(100),
-    allowNull: true,
-    field: 'caste_applicantName',
-  },
-  casteIssuingAuthority: {
-    type: Sequelize.DataTypes.STRING(100),
-    allowNull: true,
-    field: 'caste_Iss_Authority',
-  },
-  casteDoc: {
-    type: Sequelize.DataTypes.STRING(255),
-    allowNull: true,
-    field: 'caste_doc',
-  },
-  casteIssuedDate: {
-    type: Sequelize.DataTypes.DATE,
-    allowNull: true,
-    field: 'caste_issued_date',
-  },
   annualFamilyIncome: {
     type: Sequelize.DataTypes.BIGINT,
     allowNull: true,
@@ -543,7 +498,7 @@ const dummyModel = sequelize.define("dummy_profiles", {
     field: 'class10_course',
   },
   class10Board: {
-    type: Sequelize.DataTypes.STRING(50),
+    type: Sequelize.DataTypes.STRING(100),
     allowNull: true,
     field: 'class10_board',
   },
