@@ -126,7 +126,7 @@ function FormTwo() {
 
             <FormControl id="correspoAddressSameAsPermanent">
               <FormLabel>
-                Is Correspondence Address same as Permanent?
+                Is Correspondence Address same as Permanent Address?
               </FormLabel>
               <Input
                 type="text"
@@ -138,18 +138,7 @@ function FormTwo() {
             </FormControl>
 
             <FormControl id="correspondanceDistrict">
-              <FormLabel>Enter your Correspondance District</FormLabel>
-              <Input
-                type="text"
-                placeholder="Enter your Correspondance District"
-                value={formData.correspondanceDistrict}
-                onChange={handleChange("correspondanceDistrict")}
-                required
-              />
-            </FormControl>
-
-            <FormControl id="correspondanceDistrict">
-              <FormLabel>Enter your Correspondance District</FormLabel>
+              <FormLabel>Enter your Correspondance Address District</FormLabel>
               <Input
                 type="text"
                 placeholder="Enter your Correspondance District"
@@ -160,7 +149,7 @@ function FormTwo() {
             </FormControl>
 
             <FormControl id="correspondanceTaluka">
-              <FormLabel>Enter your correspondance Taluka</FormLabel>
+              <FormLabel>Enter your correspondance Address Taluka</FormLabel>
               <Input
                 type="text"
                 placeholder="Enter your correspondance Taluka"
@@ -182,7 +171,7 @@ function FormTwo() {
             </FormControl>
 
             <FormControl id="correspondanceState">
-              <FormLabel>Enter your correspondance State</FormLabel>
+              <FormLabel>Enter your correspondance Address State</FormLabel>
               <Input
                 type="text"
                 placeholder="Enter your correspondance State"
@@ -193,7 +182,7 @@ function FormTwo() {
             </FormControl>
 
             <FormControl id="correspondanceVillage">
-              <FormLabel>Enter your correspondance Village</FormLabel>
+              <FormLabel>Enter your correspondance Address Village</FormLabel>
               <Input
                 type="text"
                 placeholder="Enter your correspondance Village"
@@ -204,7 +193,7 @@ function FormTwo() {
             </FormControl>
 
             <FormControl id="correspondancePincode">
-              <FormLabel>Enter your correspondance Pin code</FormLabel>
+              <FormLabel>Enter your correspondance Address Pin code</FormLabel>
               <Input
                 type="text"
                 placeholder="Enter your correspondance Pin code"

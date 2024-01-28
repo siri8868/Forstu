@@ -1,15 +1,10 @@
-import { Box } from "@chakra-ui/layout";
+import { Box, Heading } from "@chakra-ui/layout";
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { getTotalSubmitCountOfApplicationApi } from "../../../api/DashboardApi/DashboardApi";
 
 function ApplicationStatus() {
   const [totalStatus, setTotalStatus] = useState({});
-
-  // const [chartData, setChartData] = useState({
-  //   series: [],
-  //   options: {},
-  // });
 
   const data = {
     series: [totalStatus?.submittedCountData, totalStatus?.pendingCountData],
@@ -25,38 +20,13 @@ function ApplicationStatus() {
       colors: ["#1d3162", "#df7135", "#f6bb61", "#e5e2dc"],
       legend: {
         show: true,
-        // floating: true,
-        // horizontalAlign: "center",
+
         fontSize: "16px",
         position: "bottom",
         verticalAlign: "bottom",
         offsetX: 0,
         offsetY: 0,
-        // labels: {
-        //   useSeriesColors: true,
-        // },
-        // itemMargin: {
-        //   horizontal: 5,
-        //   vertical: 0,
-        // },
-        // markers: {
-        //   size: 0,
-        // },
       },
-
-      // responsive: [
-      //   {
-      //     breakpoint: 480,
-      //     options: {
-      //       chart: {
-      //         width: 300,
-      //       },
-      //       legend: {
-      //         position: "bottom",
-      //       },
-      //     },
-      //   },
-      // ],
     },
   };
   const getTotalSubmitOfApplication = () => {
@@ -73,44 +43,9 @@ function ApplicationStatus() {
       });
   };
 
-  // useEffect(() => {
-  //   getTotalSubmitOfApplication();
-  // }, []);
-
   useEffect(() => {
     getTotalSubmitOfApplication();
-    // Fetch data and update chartData state
-    // setChartData(data);
   }, []);
-
-  // const optionsForPie = {
-  //   series: [totalStatus?.submittedCountData, totalStatus?.pendingCountData],
-  //   options: {
-  //     // series: [20, 20],
-  //     options: {
-  //       chart: {
-  //         type: "pie",
-  //       },
-  //       labels: ["Submitted", "Pending"],
-  //       colors: ["#1d3162", "#df7135"],
-  //       responsive: [
-  //         {
-  //           breakpoint: 480,
-  //           options: {
-  //             chart: {
-  //               width: 200,
-  //             },
-  //             legend: {
-  //               position: "bottom",
-  //             },
-  //           },
-  //         },
-  //       ],
-  //     },
-  //   },
-  // };
-
-  // console.log("optionsForPie", optionsForPie);
 
   return (
     <Box
@@ -120,7 +55,9 @@ function ApplicationStatus() {
       flexDirection={"column"}
       justifyContent={"center"}
     >
-      <h1>Application Status</h1>
+      <Heading as="h4" size="sm" mb={4} ml={2}>
+        Application Status
+      </Heading>
       <div id="chart">
         <ReactApexChart
           options={data.options}

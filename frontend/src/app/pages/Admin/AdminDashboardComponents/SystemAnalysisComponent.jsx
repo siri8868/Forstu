@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/layout";
+import { Box, Heading } from "@chakra-ui/layout";
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
@@ -35,11 +35,15 @@ function SystemAnalysisComponent() {
     <Box
       h="400px"
       //   bg={"#fff"}
-      padding={"10px"}
+      // padding={"10px"}
       display={"flex"}
       flexDirection={"column"}
       justifyContent={"center"}
     >
+      {/* <Box>Application submition failed status</Box> */}
+      <Heading as="h4" size="sm" mb={3} ml={2} mt={4}>
+        Application submition failed status
+      </Heading>
       <div id="chart">
         <ReactApexChart
           //   options={optionsForPie}

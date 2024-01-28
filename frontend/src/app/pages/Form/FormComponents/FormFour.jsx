@@ -190,7 +190,7 @@ function FormFour() {
             </FormControl>
 
             <FormControl id="instituteName">
-              <FormLabel>institute Name</FormLabel>
+              <FormLabel>Institute Name</FormLabel>
               <Input
                 type="text"
                 placeholder="institute Name"
@@ -212,10 +212,10 @@ function FormFour() {
             </FormControl>
 
             <FormControl id="admissionType">
-              <FormLabel>Course name</FormLabel>
+              <FormLabel>Admission Type</FormLabel>
               <Input
                 type="text"
-                placeholder="Course name"
+                placeholder="Enter Your Admission Type"
                 value={formData.admissionType}
                 onChange={handleChange("admissionType")}
                 required
@@ -223,7 +223,7 @@ function FormFour() {
             </FormControl>
 
             <FormControl id="cetPercentAge">
-              <FormLabel>Cet Percentage</FormLabel>
+              <FormLabel>CET / JEE Percentage</FormLabel>
               <Input
                 type="text"
                 placeholder="Cet Percentage"
@@ -234,7 +234,9 @@ function FormFour() {
             </FormControl>
 
             <FormControl id="admissionApplicationId">
-              <FormLabel>Admission Application Id</FormLabel>
+              <FormLabel>
+                Application Admission ID/CAP ID/CLAT Admit Card No
+              </FormLabel>
               <Input
                 type="text"
                 placeholder="Admission Application Id"
@@ -256,7 +258,7 @@ function FormFour() {
             </FormControl>
 
             <FormControl id="currentYear">
-              <FormLabel>current Year</FormLabel>
+              <FormLabel>Year Of Study</FormLabel>
               <Input
                 type="text"
                 placeholder="current Year"
@@ -267,10 +269,10 @@ function FormFour() {
             </FormControl>
 
             <FormControl id="isCompletedPursuing">
-              <FormLabel>Year of study</FormLabel>
+              <FormLabel>Year Of Study Completed Or Pursuing</FormLabel>
               <Input
                 type="text"
-                placeholder="Year of study"
+                placeholder="Enter Your Year Of Study Completed Or Pursuing"
                 value={formData.isCompletedPursuing}
                 onChange={handleChange("isCompletedPursuing")}
                 required
@@ -289,7 +291,7 @@ function FormFour() {
             </FormControl>
 
             <FormControl id="feesPaid">
-              <FormLabel>fees Paid</FormLabel>
+              <FormLabel>Fees Paid</FormLabel>
               <Input
                 type="text"
                 placeholder="fees Paid"
@@ -300,10 +302,12 @@ function FormFour() {
             </FormControl>
 
             <FormControl id="feeReceiptDoc">
-              <FormLabel>fee Receipt Doc</FormLabel>
+              <FormLabel>
+                Upload Fees/Admission Receipt/bonafide certificate
+              </FormLabel>
               <Input
                 type="text"
-                placeholder="fee Receipt Doc"
+                placeholder="Upload Fees/Admission Receipt/bonafide certificate"
                 value={formData.feeReceiptDoc}
                 onChange={handleChange("feeReceiptDoc")}
                 required
@@ -311,10 +315,12 @@ function FormFour() {
             </FormControl>
 
             <FormControl id="admissionCategory">
-              <FormLabel>Admission Category</FormLabel>
+              <FormLabel>
+                Is Admission Through Open Or Reserved Category ?
+              </FormLabel>
               <Input
                 type="text"
-                placeholder="Admission Category"
+                placeholder="Is Admission Through Open Or Reserved Category ?"
                 value={formData.admissionCategory}
                 onChange={handleChange("admissionCategory")}
                 required
@@ -322,21 +328,10 @@ function FormFour() {
             </FormControl>
 
             <FormControl id="modeStudy">
-              <FormLabel>mode Study</FormLabel>
+              <FormLabel>Mode Of Study</FormLabel>
               <Input
                 type="text"
-                placeholder="mode Study"
-                value={formData.modeStudy}
-                onChange={handleChange("modeStudy")}
-                required
-              />
-            </FormControl>
-
-            <FormControl id="modeStudy">
-              <FormLabel>mode Study</FormLabel>
-              <Input
-                type="text"
-                placeholder="mode Study"
+                placeholder="Mode Of Study"
                 value={formData.modeStudy}
                 onChange={handleChange("modeStudy")}
                 required

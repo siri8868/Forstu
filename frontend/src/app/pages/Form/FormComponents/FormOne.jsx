@@ -151,7 +151,7 @@ function FormOne() {
               />
             </FormControl>
             <FormControl id="candidateName">
-              <FormLabel>candidateName</FormLabel>
+              <FormLabel>candidate Name (As Per SSC Marksheet)</FormLabel>
               <Input
                 type="text"
                 placeholder="Enter your candidateName"
@@ -164,7 +164,7 @@ function FormOne() {
             <FormControl id="email">
               <FormLabel>email</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your email"
                 value={formData.email}
@@ -174,9 +174,9 @@ function FormOne() {
             </FormControl>
 
             <FormControl id="whatsappNumber">
-              <FormLabel>Mobile</FormLabel>
+              <FormLabel>Mobile (Student WhatsApp Number)</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your whatsappNumber"
                 value={formData.whatsappNumber}
@@ -188,7 +188,7 @@ function FormOne() {
             <FormControl id="dob">
               <FormLabel>Date of Birth (as per Aadhar)</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your dob"
                 value={formData.dob}
@@ -200,7 +200,7 @@ function FormOne() {
             <FormControl id="gender">
               <FormLabel>Gender</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your gender"
                 value={formData.gender}
@@ -212,7 +212,7 @@ function FormOne() {
             <FormControl id="parentMobileNumber">
               <FormLabel>Parent's/Guardian Mobile No</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your parentMobileNumber"
                 value={formData.parentMobileNumber}
@@ -224,7 +224,7 @@ function FormOne() {
             <FormControl id="maritalStatus">
               <FormLabel>Marital Status</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your maritalStatus"
                 value={formData.maritalStatus}
@@ -236,7 +236,7 @@ function FormOne() {
             <FormControl id="religion">
               <FormLabel>Religion</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your religion"
                 value={formData.religion}
@@ -248,7 +248,7 @@ function FormOne() {
             <FormControl id="casteCategory">
               <FormLabel>Caste Category</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your casteCategory"
                 value={formData.casteCategory}
@@ -260,7 +260,7 @@ function FormOne() {
             <FormControl id="subCaste">
               <FormLabel>Sub Caste</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your subCaste"
                 value={formData.subCaste}
@@ -272,7 +272,7 @@ function FormOne() {
             <FormControl id="doYouHaveCasteCertificate">
               <FormLabel>Do you have Caste Certificate?</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your doYouHaveCasteCertificate"
                 value={formData.doYouHaveCasteCertificate}
@@ -284,7 +284,7 @@ function FormOne() {
             <FormControl id="casteCertificateNumber">
               <FormLabel>Caste Certificate Number</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your casteCertificateNumber"
                 value={formData.casteCertificateNumber}
@@ -294,9 +294,9 @@ function FormOne() {
             </FormControl>
 
             <FormControl id="casteIssuedDistrict">
-              <FormLabel>Issuing District</FormLabel>
+              <FormLabel>Issuing District (Caste Certificate)</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your casteIssuedDistrict"
                 value={formData.casteIssuedDistrict}
@@ -308,7 +308,7 @@ function FormOne() {
             <FormControl id="casteApplicantName">
               <FormLabel> Caste Applicant Name</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your casteApplicantName"
                 value={formData.casteApplicantName}
@@ -320,7 +320,7 @@ function FormOne() {
             <FormControl id="casteIssuingAuthority">
               <FormLabel> Caste Issuing Authority</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your Caste Issuing Authority"
                 value={formData.casteIssuingAuthority}
@@ -332,7 +332,7 @@ function FormOne() {
             <FormControl id="casteDoc">
               <FormLabel> Caste Docs</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your Caste Docs"
                 value={formData.casteDoc}
@@ -344,7 +344,7 @@ function FormOne() {
             <FormControl id="casteIssuedDate">
               <FormLabel> Caste Issuing Date</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your Caste Issuing Date"
                 value={formData.casteIssuedDate}
@@ -356,7 +356,7 @@ function FormOne() {
             <FormControl id="annualFamilyIncome">
               <FormLabel>Family Annual Income</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your Family Annual Income"
                 value={formData.annualFamilyIncome}
@@ -368,19 +368,7 @@ function FormOne() {
             <FormControl id="doYouHaveIncomeCertificate">
               <FormLabel>Do you have Income Certificate?</FormLabel>
               <Input
-                isDisabled={true}
-                type="text"
-                placeholder="Enter your doYouHaveIncomeCertificate"
-                value={formData.doYouHaveIncomeCertificate}
-                onChange={handleChange("doYouHaveIncomeCertificate")}
-                required
-              />
-            </FormControl>
-
-            <FormControl id="doYouHaveIncomeCertificate">
-              <FormLabel>Do you have Income Certificate?</FormLabel>
-              <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your doYouHaveIncomeCertificate"
                 value={formData.doYouHaveIncomeCertificate}
@@ -392,7 +380,7 @@ function FormOne() {
             <FormControl id="incomeCertNo">
               <FormLabel>Income Certificate Number</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your incomeCertNo"
                 value={formData.incomeCertNo}
@@ -402,9 +390,9 @@ function FormOne() {
             </FormControl>
 
             <FormControl id="incomeIssAuthority">
-              <FormLabel>Income Issuing Authority</FormLabel>
+              <FormLabel>Income Certificate Issuing Authority</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your Income Issuing Authority"
                 value={formData.incomeIssAuthority}
@@ -414,9 +402,9 @@ function FormOne() {
             </FormControl>
 
             <FormControl id="incomeDoc">
-              <FormLabel>Income income Doc</FormLabel>
+              <FormLabel>Income Certificate Doc</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your Income income Doc"
                 value={formData.incomeDoc}
@@ -426,9 +414,9 @@ function FormOne() {
             </FormControl>
 
             <FormControl id="incomeIssuedDate">
-              <FormLabel>Income Date of Issue</FormLabel>
+              <FormLabel>Income Certificate Issuing date</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Enter your Income Date of Issue"
                 value={formData.incomeIssuedDate}
@@ -442,7 +430,7 @@ function FormOne() {
                 Are you Domicile of Maharashtra / Maharashtra-Karnataka Border ?
               </FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Are you Domicile of Maharashtra / Maharashtra-Karnataka Border ?"
                 value={formData.doYouHaveDomicileMaharashtraKarnataka}
@@ -454,7 +442,7 @@ function FormOne() {
             <FormControl id="doYouHaveDomicileCertificate">
               <FormLabel>Do you have Domicile Certificate ?</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Do you have Domicile Certificate ?"
                 value={formData.doYouHaveDomicileCertificate}
@@ -464,9 +452,9 @@ function FormOne() {
             </FormControl>
 
             <FormControl id="domicileRelationType">
-              <FormLabel>Relationship Type</FormLabel>
+              <FormLabel>Relationship Type (Domicile)</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Relationship Type"
                 value={formData.domicileRelationType}
@@ -478,7 +466,7 @@ function FormOne() {
             <FormControl id="domicileCertNumber">
               <FormLabel>Domicile Certificate No</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Domicile Certificate No"
                 value={formData.domicileCertNumber}
@@ -490,7 +478,7 @@ function FormOne() {
             <FormControl id="domicileApplicantName">
               <FormLabel>Domicile Applicant Name</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Domicile Applicant Name"
                 value={formData.domicileApplicantName}
@@ -502,7 +490,7 @@ function FormOne() {
             <FormControl id="domicileIssuedAuthority">
               <FormLabel>Domicile Issuing Authority</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Domicile Issuing Authority"
                 value={formData.domicileIssuedAuthority}
@@ -514,7 +502,7 @@ function FormOne() {
             <FormControl id="domicileDoc">
               <FormLabel>Domicile Doc</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Domicile Doc"
                 value={formData.domicileDoc}
@@ -526,7 +514,7 @@ function FormOne() {
             <FormControl id="domicileIssuedDate">
               <FormLabel>Domicile Issued Date</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Domicile Issued Date"
                 value={formData.domicileIssuedDate}
@@ -536,9 +524,9 @@ function FormOne() {
             </FormControl>
 
             <FormControl id="doYouHaveDisability">
-              <FormLabel>Disability of any Type?</FormLabel>
+              <FormLabel>Do You Have Any Disability</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Disability of any Type?"
                 value={formData.doYouHaveDisability}
@@ -550,7 +538,7 @@ function FormOne() {
             <FormControl id="disabilityType">
               <FormLabel>Disability Type</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Disability Type"
                 value={formData.disabilityType}
@@ -562,7 +550,7 @@ function FormOne() {
             <FormControl id="disabilityName">
               <FormLabel>Person with Disability</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Person with Disability"
                 value={formData.disabilityName}
@@ -574,7 +562,7 @@ function FormOne() {
             <FormControl id="doYouHaveDisabilityCertificate">
               <FormLabel>Do you have Disability Certificate ?</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Do you have Disability Certificate ?"
                 value={formData.doYouHaveDisabilityCertificate}
@@ -586,7 +574,7 @@ function FormOne() {
             <FormControl id="disabilityCertificateNo">
               <FormLabel>Disability Certificate Number ?</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Disability Certificate Number ?"
                 value={formData.disabilityCertificateNo}
@@ -600,7 +588,7 @@ function FormOne() {
                 Disability Percentage (Should not less than 40%)
               </FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Disability Percentage (Should not less than 40%)"
                 value={formData.disabilityPercentage}
@@ -612,7 +600,7 @@ function FormOne() {
             <FormControl id="disabilityIssuedDate">
               <FormLabel>Disability Issuing Date</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Disability Issuing Date"
                 value={formData.disabilityIssuedDate}
@@ -624,7 +612,7 @@ function FormOne() {
             <FormControl id="disabilityIssuingAuthority">
               <FormLabel>Disability Issuing Authority</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Disability Issuing Authority"
                 value={formData.disabilityIssuingAuthority}
@@ -636,7 +624,7 @@ function FormOne() {
             <FormControl id="disabilityDoc">
               <FormLabel>Disability Document</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Disability Document"
                 value={formData.disabilityDoc}
@@ -646,11 +634,11 @@ function FormOne() {
             </FormControl>
 
             <FormControl id="bankaccName">
-              <FormLabel>Bank Account Name</FormLabel>
+              <FormLabel>Bank Account Number</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
-                placeholder="Bank Account Name"
+                placeholder="Bank Account Number"
                 value={formData.bankaccName}
                 onChange={handleChange("bankaccName")}
                 required
@@ -660,7 +648,7 @@ function FormOne() {
             <FormControl id="bankIfsc">
               <FormLabel>Bank IFSC Code</FormLabel>
               <Input
-                isDisabled={true}
+                // isDisabled={true}
                 type="text"
                 placeholder="Bank IFSC Code"
                 value={formData.bankIfsc}

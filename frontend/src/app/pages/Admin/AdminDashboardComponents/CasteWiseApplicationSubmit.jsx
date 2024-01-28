@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/layout";
+import { Box, Heading } from "@chakra-ui/layout";
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { getTotalSubmitCountOfApplicationByCasteApi } from "../../../api/DashboardApi/DashboardApi";
@@ -70,7 +70,10 @@ function CasteWiseApplicationSubmit() {
       flexDirection={"column"}
       justifyContent={"center"}
     >
-      <h1>Caste Wise Application</h1>
+      {/* <h1>Caste Wise Application Submission</h1> */}
+      <Heading as="h4" size="sm" mb={3} ml={2}>
+        Caste Wise Application Submission
+      </Heading>
       <div id="chart">
         <ReactApexChart
           options={optionsForPie.options}

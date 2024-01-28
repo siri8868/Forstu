@@ -21,8 +21,6 @@ const YearOfStudy = require("../models/yearOfStudy");
 const admissionYear = require("../models/admissionYearModel");
 const examMonth = require("../models/examMonth");
 
-
-
 User.sync({
   alter: false,
 });
@@ -41,71 +39,71 @@ ExcelInfo.sync({
 
 dummyModel.sync({
   alter: false,
-})
+});
 
 courseData.sync({
-  alter: false
-})
+  alter: false,
+});
 
 streamData.sync({
-  alter: false
-})
+  alter: false,
+});
 
 QualificationLevel.sync({
-  alter: false
-})
+  alter: false,
+});
 
 MahadbtCourseName.sync({
-  alter: false
-})
+  alter: false,
+});
 
 MahadbtCollegeStream.sync({
-  alter: false
-})
+  alter: false,
+});
 
 MahadbtQualificationLevel.sync({
-  alter: false
-})
+  alter: false,
+});
 
 MahadbtMaritalStatus.sync({
-  alter: false
-})
+  alter: false,
+});
 
 MahadbtReligion.sync({
-  alter: false
-})
+  alter: false,
+});
 
 MahadbtCasteCatogory.sync({
-  alter: false
-})
+  alter: false,
+});
 
 MdbtDisabilityType.sync({
-  alter: false
-})
+  alter: false,
+});
 
 MdbtWithDisabilityType.sync({
-  alter: false
-})
+  alter: false,
+});
 
 MahadbtOccupation.sync({
-  alter: false
-})
+  alter: false,
+});
 
 MahadbtHostelTypes.sync({
-  alter: false
-})
+  alter: false,
+});
 
 YearOfStudy.sync({
-  alter: false
-})
+  alter: false,
+});
 
 admissionYear.sync({
-  alter: false
-})
+  alter: false,
+});
 
 examMonth.sync({
-  alter: false
-})
+  alter: false,
+});
 
 module.exports = {
   sequelize,
@@ -114,5 +112,5 @@ module.exports = {
   dummyModel,
   courseData,
   streamData,
-  QualificationLevel
+  QualificationLevel,
 };
