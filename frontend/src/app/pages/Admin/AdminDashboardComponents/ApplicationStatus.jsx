@@ -29,6 +29,7 @@ function ApplicationStatus() {
       },
     },
   };
+
   const getTotalSubmitOfApplication = () => {
     getTotalSubmitCountOfApplicationApi()
       .then((res) => {

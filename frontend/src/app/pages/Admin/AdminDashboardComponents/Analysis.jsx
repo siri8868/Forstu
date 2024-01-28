@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
 import { FormControl, FormLabel, Select } from "@chakra-ui/react";
 import {
+  getDailySubmitCountApi,
   getMonthlySubmitCountApi,
   getYearlySubmitCountApi,
 } from "../../../api/DashboardApi/DashboardApi";
@@ -19,6 +20,7 @@ function Analysis() {
     console.log("filter", event.target.value);
     if (event.target.value === "Day") {
       console.log("Day");
+      getDailySubmitCount();
     } else if (event.target.value === "Month") {
       console.log("Month");
       getMonthlySubmitCount();
@@ -47,10 +49,6 @@ function Analysis() {
       stroke: {
         curve: "straight",
       },
-      // title: {
-      //   text: "Graphical Analysis Of Application Submission",
-      //   align: "left",
-      // },
 
       xaxis: {
         categories: chartData.categories,
@@ -75,7 +73,7 @@ function Analysis() {
           11: "Nov",
           12: "Dec",
         };
-        console.log("getMonthlySubmitCountApi", res);
+        // console.log("getMonthlySubmitCountApi", res);
         const Month = res?.monthCount?.map((item) => item.Month);
         const count = res?.monthCount?.map((item) => item.count);
         const monthNames = Month.map(
@@ -87,7 +85,7 @@ function Analysis() {
           categories: monthNames,
         });
 
-        console.log("count", count);
+        // console.log("count", count);
       })
       .catch((error) => {
         console.error(error);
@@ -110,6 +108,23 @@ function Analysis() {
       });
   };
 
+  const getDailySubmitCount = () => {
+    console.log("getDaylySubmitCountApi");
+    getDailySubmitCountApi()
+      .then((res) => {
+        const formatted_date = res?.map((item) => item.formatted_date);
+        const count = res?.map((item) => item.daily_count);
+
+        setChartData({
+          series: count,
+          categories: formatted_date,
+        });
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   const data = ["Day", "Month", "Year"];
 
   return (
@@ -117,7 +132,6 @@ function Analysis() {
       <Box>
         <form onSubmit={""} style={{ display: "flex", padding: "10px" }}>
           <FormControl id="select">
-            {/* <FormLabel>Graphical Analysis Of Application Submission</FormLabel> */}
             <Heading as="h4" size="sm" mb={4} ml={2} mt={4}>
               Graphical Analysis Of Application Submission
             </Heading>

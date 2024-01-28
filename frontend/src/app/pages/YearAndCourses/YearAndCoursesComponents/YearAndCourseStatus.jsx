@@ -2,31 +2,76 @@ import { Box } from "@chakra-ui/layout";
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
-function YearAndCourseStatus() {
+function YearAndCourseStatus({ ApplicationStatus }) {
+  function getCounts(data) {
+    if (!Array.isArray(data)) {
+      return [0, 0];
+    } else {
+      // let main = [data];
+      // console.log("data", data);
+      let pendingCount = 0;
+      let submittedCount = 0;
+
+      // data?.map((item) => {
+      //   // console.log("item>>>>>>", item.pending_count);
+      //   pendingCount += item.pending_count;
+      //   submittedCount += item.submitted_count;
+      //   // if (item.pending_count) {
+      //   //   pendingCount += item.pending_count;
+      //   // }
+      //   // if (item.submitted_count) {
+      //   //   submittedCount += item.submitted_count;
+      //   // }
+      // });
+
+      data.forEach((item) => {
+        if (item.pending_count) {
+          pendingCount += parseInt(item.pending_count);
+        }
+        if (item.submitted_count) {
+          submittedCount += parseInt(item.submitted_count);
+        }
+      });
+
+      console.log("LOLOLOLOO", [pendingCount, submittedCount]);
+      return [pendingCount, submittedCount];
+
+      // return [pendingCount, submittedCount];
+    }
+  }
+
+  // getCounts(ApplicationStatus) || [0, 0];
+
   const optionsForPie = {
-    series: [10, 20],
+    series: getCounts(ApplicationStatus) || [0, 0],
     options: {
-      series: [55, 55],
-      options: {
-        chart: {
-          type: "donut",
-        },
-        responsive: [
-          {
-            breakpoint: 480,
-            options: {
-              chart: {
-                width: 200,
-              },
-              legend: {
-                position: "bottom",
-              },
-            },
-          },
-        ],
+      chart: {
+        width: 300,
+        type: "pie",
+      },
+      labels: [`submitted `, `pending `],
+      colors: ["#1d3162", "#df7135", "#f6bb61", "#e5e2dc"],
+      legend: {
+        show: true,
+        fontSize: "16px",
+        position: "bottom",
+        verticalAlign: "bottom",
+        offsetX: 0,
+        offsetY: 0,
+      },
+
+      title: {
+        text:
+          getCounts(ApplicationStatus)[0] === 0 &&
+          getCounts(ApplicationStatus)[1] === 0
+            ? "No Data"
+            : "Application Status",
+        align: "center",
       },
     },
   };
+
+  // console.log("ApplicationStatusBYBYEYEBYBYBYEYE--", ApplicationStatus);
 
   return (
     <Box
