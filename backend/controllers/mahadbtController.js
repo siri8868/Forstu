@@ -547,6 +547,60 @@ exports.totalCourseAndYear = (req, res) => {
     });
 };
 
+
+
+exports.getStatusCountbyCoursnameAndYear = (req, res) => {
+  // res.send("hello from course count");
+  const selectedCourse = req.body.courseName;
+  const selectedYear = req.body.currentYear;
+  console.log("coursename", selectedCourse);
+  console.log("courseyear", selectedYear);
+  const whereClause = {};
+  if (selectedCourse) {
+    whereClause.coursename = selectedCourse;
+  }
+  if (selectedYear) {
+    whereClause.current_year = selectedYear;
+  }
+
+  Mahadbtprofiles.findAll({
+    attributes: [
+      'coursename',
+      'current_year',
+      [Sequelize.fn('COUNT', '*'), 'total_count'],
+      [Sequelize.fn('SUM', Sequelize.literal("CASE WHEN application_status = 'submitted' THEN 1 ELSE 0 END")), 'submitted_count'],
+      [Sequelize.fn('SUM', Sequelize.literal("CASE WHEN application_status = 'pending' THEN 1 ELSE 0 END")), 'pending_count'],
+    ],
+    where: {
+      // ref_code: req.profile.ref_code,
+      // ...whereClause,
+      // coursename: selectedCourse,
+      // current_year: selectedYear,
+      ref_code: req.profile.ref_code,
+      ...whereClause,
+    },
+    // group: ["current_year", "application_status"],
+    group: ['coursename', 'current_year'],
+  })
+    .then((data) => {
+      console.log(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      console.error(error);
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve Mahadbt Profiles",
+        error: error,
+      });
+    });
+
+}
+
+
 // exports.testEmailController = async (req, res) => {
 //   console.log("hellooooooo from course and year");
 //   // res.send("course year coming ");

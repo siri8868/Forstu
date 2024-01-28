@@ -166,6 +166,9 @@ exports.uploadFile = async (req, res) => {
       cetPercentAge: item["CET Percentile"],
       coursename: item["Course Name"],
       email: item["Email"],
+      casteCategory: item['Catogory'],
+      ref_code: item['REF_CODE']
+
       // This option will prevent the error from stopping the execution
 
       // prev_qualification_level :item["Qualifying Exam"]
