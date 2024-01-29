@@ -282,9 +282,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
               borderColor={useColorModeValue("gray.200", "gray.700")}
             >
               <MenuItem>
-                <Text>
+                {/* <Text>
                   <NavLink to="/profile">Profile</NavLink>
-                </Text>
+                </Text> */}
               </MenuItem>
 
               <MenuDivider />
