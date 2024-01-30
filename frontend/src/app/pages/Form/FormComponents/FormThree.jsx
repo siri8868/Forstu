@@ -104,7 +104,6 @@ function FormThree() {
                 placeholder="Enter your id"
                 value={formData.id}
                 onChange={handleChange("id")}
-                required
               />
             </FormControl>
             <FormControl id="isFatherAlive">
@@ -114,7 +113,6 @@ function FormThree() {
                 placeholder="Is Father Alive?"
                 value={formData.isFatherAlive}
                 onChange={handleChange("isFatherAlive")}
-                required
               />
             </FormControl>
 
@@ -125,7 +123,6 @@ function FormThree() {
                 placeholder="Father Name"
                 value={formData.fatherName}
                 onChange={handleChange("fatherName")}
-                required
               />
             </FormControl>
 
@@ -136,7 +133,6 @@ function FormThree() {
                 placeholder="Father Occupation"
                 value={formData.fatherOccupation}
                 onChange={handleChange("fatherOccupation")}
-                required
               />
             </FormControl>
 
@@ -147,7 +143,6 @@ function FormThree() {
                 placeholder="Father Is Salaried?"
                 value={formData.fatherSalaried}
                 onChange={handleChange("fatherSalaried")}
-                required
               />
             </FormControl>
 
@@ -158,7 +153,6 @@ function FormThree() {
                 placeholder="Is Mother Alive?"
                 value={formData.motherAlive}
                 onChange={handleChange("motherAlive")}
-                required
               />
             </FormControl>
 
@@ -169,7 +163,6 @@ function FormThree() {
                 placeholder="motherName"
                 value={formData.motherName}
                 onChange={handleChange("motherName")}
-                required
               />
             </FormControl>
 
@@ -180,7 +173,6 @@ function FormThree() {
                 placeholder="motherOccupation"
                 value={formData.motherOccupation}
                 onChange={handleChange("motherOccupation")}
-                required
               />
             </FormControl>
 
@@ -191,7 +183,6 @@ function FormThree() {
                 placeholder="isMotherSalaried"
                 value={formData.isMotherSalaried}
                 onChange={handleChange("isMotherSalaried")}
-                required
               />
             </FormControl>
           </VStack>

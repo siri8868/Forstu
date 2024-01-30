@@ -106,13 +106,6 @@ function FormFive() {
       });
   };
 
-  // useEffect(() => {
-  //   // setFormData(collage);
-  //   setFormData(formDataMain);
-  //   // console.log("formDataMain", formDataMain);
-  // }, [formDataMain]);
-  // console.log("formData", formData);
-
   const getQualificationInfo = () => {
     const studentMail = getOTPSecret().to;
     const data = {
@@ -144,7 +137,6 @@ function FormFive() {
                 placeholder="Enter your id"
                 value={formData.id}
                 onChange={handleChange("id")}
-                required
               />
             </FormControl>
             <FormControl id="class10Qualification">
@@ -154,7 +146,6 @@ function FormFive() {
                 placeholder="class 10th Qualification Level"
                 value={formData.class10Qualification}
                 onChange={handleChange("class10Qualification")}
-                required
               />
             </FormControl>
 
@@ -165,7 +156,6 @@ function FormFive() {
                 placeholder="class 10 Stream"
                 value={formData.class10Stream}
                 onChange={handleChange("class10Stream")}
-                required
               />
             </FormControl>
 
@@ -176,7 +166,6 @@ function FormFive() {
                 placeholder="Class 10th State"
                 value={formData.class10State}
                 onChange={handleChange("class10State")}
-                required
               />
             </FormControl>
 
@@ -187,7 +176,6 @@ function FormFive() {
                 placeholder="class 10th District"
                 value={formData.class10District}
                 onChange={handleChange("class10District")}
-                required
               />
             </FormControl>
 
@@ -198,7 +186,6 @@ function FormFive() {
                 placeholder="class 10th Taluka"
                 value={formData.class10Taluka}
                 onChange={handleChange("class10Taluka")}
-                required
               />
             </FormControl>
 
@@ -209,7 +196,6 @@ function FormFive() {
                 placeholder="class 10th Course"
                 value={formData.class10Course}
                 onChange={handleChange("class10Course")}
-                required
               />
             </FormControl>
 
@@ -220,7 +206,6 @@ function FormFive() {
                 placeholder="class 10th Board"
                 value={formData.class10Board}
                 onChange={handleChange("class10Board")}
-                required
               />
             </FormControl>
 
@@ -231,7 +216,6 @@ function FormFive() {
                 placeholder="class 10th Mode"
                 value={formData.class10Mode}
                 onChange={handleChange("class10Mode")}
-                required
               />
             </FormControl>
 
@@ -242,7 +226,6 @@ function FormFive() {
                 placeholder="class 10th Admission Year"
                 value={formData.class10AdmissionYear}
                 onChange={handleChange("class10AdmissionYear")}
-                required
               />
             </FormControl>
 
@@ -253,7 +236,6 @@ function FormFive() {
                 placeholder="class 10th Passing Year"
                 value={formData.class10PassingYear}
                 onChange={handleChange("class10PassingYear")}
-                required
               />
             </FormControl>
 
@@ -264,7 +246,6 @@ function FormFive() {
                 placeholder="class 10th Result"
                 value={formData.class10Result}
                 onChange={handleChange("class10Result")}
-                required
               />
             </FormControl>
 
@@ -275,7 +256,6 @@ function FormFive() {
                 placeholder="class 10th Percentage"
                 value={formData.class10Percentage}
                 onChange={handleChange("class10Percentage")}
-                required
               />
             </FormControl>
 
@@ -286,7 +266,6 @@ function FormFive() {
                 placeholder="class 10th Attempt"
                 value={formData.class10Attempt}
                 onChange={handleChange("class10Attempt")}
-                required
               />
             </FormControl>
 
@@ -297,7 +276,6 @@ function FormFive() {
                 placeholder="class 10th Doc"
                 value={formData.class10Doc}
                 onChange={handleChange("class10Doc")}
-                required
               />
             </FormControl>
 
@@ -308,7 +286,6 @@ function FormFive() {
                 placeholder="class 10th Seat Number"
                 value={formData.class10SeatNumber}
                 onChange={handleChange("class10SeatNumber")}
-                required
               />
             </FormControl>
 
@@ -319,7 +296,6 @@ function FormFive() {
                 placeholder="Class 10th Month Of Exam"
                 value={formData.class10MonthOfExam}
                 onChange={handleChange("class10MonthOfExam")}
-                required
               />
             </FormControl>
 
@@ -330,7 +306,6 @@ function FormFive() {
                 placeholder="class 10th Obtained"
                 value={formData.class10MarksObtained}
                 onChange={handleChange("class10MarksObtained")}
-                required
               />
             </FormControl>
 
@@ -341,7 +316,6 @@ function FormFive() {
                 placeholder="class 10th Attempts"
                 value={formData.class10Attempts}
                 onChange={handleChange("class10Attempts")}
-                required
               />
             </FormControl>
 
@@ -352,7 +326,6 @@ function FormFive() {
                 placeholder="class 12th Qualification Level"
                 value={formData.class12QualificationLevel}
                 onChange={handleChange("class12QualificationLevel")}
-                required
               />
             </FormControl>
 
@@ -363,7 +336,6 @@ function FormFive() {
                 placeholder="class 12th Stream"
                 value={formData.class12Stream}
                 onChange={handleChange("class12Stream")}
-                required
               />
             </FormControl>
 
@@ -374,7 +346,6 @@ function FormFive() {
                 placeholder="class 12th Institute State"
                 value={formData.class12InstituteState}
                 onChange={handleChange("class12InstituteState")}
-                required
               />
             </FormControl>
 
@@ -385,7 +356,6 @@ function FormFive() {
                 placeholder="class 12th Institute District"
                 value={formData.class12InstituteDistrict}
                 onChange={handleChange("class12InstituteDistrict")}
-                required
               />
             </FormControl>
 
@@ -396,7 +366,6 @@ function FormFive() {
                 placeholder="class 12th Institute Taluka"
                 value={formData.class12Taluka}
                 onChange={handleChange("class12Taluka")}
-                required
               />
             </FormControl>
 
@@ -407,7 +376,6 @@ function FormFive() {
                 placeholder="class 12th Collage Name"
                 value={formData.class12CollegeName}
                 onChange={handleChange("class12CollegeName")}
-                required
               />
             </FormControl>
 
@@ -418,7 +386,6 @@ function FormFive() {
                 placeholder="class 12th Course"
                 value={formData.class12Course}
                 onChange={handleChange("class12Course")}
-                required
               />
             </FormControl>
 
@@ -429,7 +396,6 @@ function FormFive() {
                 placeholder="Class 12th Board"
                 value={formData.class12Board}
                 onChange={handleChange("class12Board")}
-                required
               />
             </FormControl>
 
@@ -440,7 +406,6 @@ function FormFive() {
                 placeholder="Class 12th Seat Number"
                 value={formData.class12SeatNumber}
                 onChange={handleChange("class12SeatNumber")}
-                required
               />
             </FormControl>
 
@@ -451,7 +416,6 @@ function FormFive() {
                 placeholder="Class 12th Mode"
                 value={formData.class12Mode}
                 onChange={handleChange("class12Mode")}
-                required
               />
             </FormControl>
 
@@ -462,7 +426,6 @@ function FormFive() {
                 placeholder="Class 12th Admission Year"
                 value={formData.class12AdmissionYear}
                 onChange={handleChange("class12AdmissionYear")}
-                required
               />
             </FormControl>
 
@@ -473,7 +436,6 @@ function FormFive() {
                 placeholder="Class 12th Passing Year"
                 value={formData.class12PassingYear}
                 onChange={handleChange("class12PassingYear")}
-                required
               />
             </FormControl>
 
@@ -484,7 +446,6 @@ function FormFive() {
                 placeholder="Class 12th Result"
                 value={formData.class12Result}
                 onChange={handleChange("class12Result")}
-                required
               />
             </FormControl>
 
@@ -495,7 +456,6 @@ function FormFive() {
                 placeholder="Class 12th Percentage"
                 value={formData.class12Percentage}
                 onChange={handleChange("class12Percentage")}
-                required
               />
             </FormControl>
 
@@ -506,7 +466,6 @@ function FormFive() {
                 placeholder="Class 12th Attempts"
                 value={formData.class12Attempts}
                 onChange={handleChange("class12Attempts")}
-                required
               />
             </FormControl>
 
@@ -517,7 +476,6 @@ function FormFive() {
                 placeholder="Class 12th Docs"
                 value={formData.class12Doc}
                 onChange={handleChange("class12Doc")}
-                required
               />
             </FormControl>
 
@@ -528,7 +486,6 @@ function FormFive() {
                 placeholder="Do You Have Gap"
                 value={formData.doYouHaveGap}
                 onChange={handleChange("doYouHaveGap")}
-                required
               />
             </FormControl>
 
@@ -539,7 +496,6 @@ function FormFive() {
                 placeholder="Gap Year"
                 value={formData.gapYear}
                 onChange={handleChange("gapYear")}
-                required
               />
             </FormControl>
 
@@ -550,7 +506,6 @@ function FormFive() {
                 placeholder="Gap Document"
                 value={formData.gapDoc}
                 onChange={handleChange("gapDoc")}
-                required
               />
             </FormControl>
           </VStack>

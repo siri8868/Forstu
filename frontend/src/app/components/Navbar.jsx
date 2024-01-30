@@ -44,8 +44,8 @@ const AdminMenu = [
 
   { name: "Colleges", icon: MdGroup, path: "/dashboard/admin/colleges" },
 
-  { name: "Upload", icon: MdGroup, path: "/dashboard/admin/upload" },
-  // { name: "Tagging", icon: BsFillTagsFill, path: "/dashboard/admin/tags" },
+  { name: "Upload", icon: MdCameraRoll, path: "/dashboard/admin/upload" },
+  { name: "Student", icon: MdGroup, path: "/dashboard/admin/student" },
 
   // { name: "Seasons", icon: MdSportsCricket, path: "/dashboard/admin/seasons" },
 ];
@@ -241,12 +241,12 @@ const MobileNav = ({ onOpen, ...rest }) => {
       </Text>
 
       <HStack spacing={{ base: "0", md: "6" }}>
-        <IconButton
+        {/* <IconButton
           size="lg"
           variant="ghost"
           aria-label="open menu"
           icon={<FiBell />}
-        />
+        /> */}
 
         <Flex alignItems={"center"}>
           <Menu>

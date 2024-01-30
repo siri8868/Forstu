@@ -1,4 +1,4 @@
-import { Box } from "@chakra-ui/layout";
+import { Box, Heading } from "@chakra-ui/layout";
 import React, { useState } from "react";
 import ReactApexChart from "react-apexcharts";
 
@@ -40,6 +40,9 @@ function YearAndCourseApplicationFailedStatus() {
       flexDirection={"column"}
       justifyContent={"center"}
     >
+      <Heading as="h4" size="sm" mb={3} ml={2} mt={4}>
+        Application submition failed status
+      </Heading>
       <div id="chart">
         <ReactApexChart
           //   options={optionsForPie}

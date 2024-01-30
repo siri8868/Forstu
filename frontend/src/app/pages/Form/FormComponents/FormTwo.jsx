@@ -110,7 +110,6 @@ function FormTwo() {
                 placeholder="Enter your id"
                 value={formData.id}
                 onChange={handleChange("id")}
-                required
               />
             </FormControl>
             <FormControl id="permanentVillage">
@@ -120,7 +119,6 @@ function FormTwo() {
                 placeholder="Enter your permanent Village"
                 value={formData.permanentVillage}
                 onChange={handleChange("permanentVillage")}
-                required
               />
             </FormControl>
 
@@ -133,7 +131,6 @@ function FormTwo() {
                 placeholder=" Is Correspondence Address same as Permanent?"
                 value={formData.correspoAddressSameAsPermanent}
                 onChange={handleChange("correspoAddressSameAsPermanent")}
-                required
               />
             </FormControl>
 
@@ -144,7 +141,6 @@ function FormTwo() {
                 placeholder="Enter your Correspondance District"
                 value={formData.correspondanceDistrict}
                 onChange={handleChange("correspondanceDistrict")}
-                required
               />
             </FormControl>
 
@@ -155,7 +151,6 @@ function FormTwo() {
                 placeholder="Enter your correspondance Taluka"
                 value={formData.correspondanceTaluka}
                 onChange={handleChange("correspondanceTaluka")}
-                required
               />
             </FormControl>
 
@@ -166,7 +161,6 @@ function FormTwo() {
                 placeholder="Enter your correspondance Address"
                 value={formData.correspondanceAddress}
                 onChange={handleChange("correspondanceAddress")}
-                required
               />
             </FormControl>
 
@@ -177,7 +171,6 @@ function FormTwo() {
                 placeholder="Enter your correspondance State"
                 value={formData.correspondanceState}
                 onChange={handleChange("correspondanceState")}
-                required
               />
             </FormControl>
 
@@ -188,7 +181,6 @@ function FormTwo() {
                 placeholder="Enter your correspondance Village"
                 value={formData.correspondanceVillage}
                 onChange={handleChange("correspondanceVillage")}
-                required
               />
             </FormControl>
 
@@ -199,7 +191,6 @@ function FormTwo() {
                 placeholder="Enter your correspondance Pin code"
                 value={formData.correspondancePincode}
                 onChange={handleChange("correspondancePincode")}
-                required
               />
             </FormControl>
           </VStack>

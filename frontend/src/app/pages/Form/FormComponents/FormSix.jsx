@@ -108,7 +108,6 @@ function FormSix() {
                 placeholder="Enter your id"
                 value={formData.id}
                 onChange={handleChange("id")}
-                required
               />
             </FormControl>
             <FormControl id="areYouHostellerDayScholar">
@@ -118,7 +117,6 @@ function FormSix() {
                 placeholder="Are you a Hosteller or Day Scholar"
                 value={formData.areYouHostellerDayScholar}
                 onChange={handleChange("areYouHostellerDayScholar")}
-                required
               />
             </FormControl>
 
@@ -129,7 +127,6 @@ function FormSix() {
                 placeholder="Hostel State"
                 value={formData.hostelState}
                 onChange={handleChange("hostelState")}
-                required
               />
             </FormControl>
 
@@ -140,7 +137,6 @@ function FormSix() {
                 placeholder="Hostel District"
                 value={formData.hostelDistrict}
                 onChange={handleChange("hostelDistrict")}
-                required
               />
             </FormControl>
 
@@ -151,7 +147,6 @@ function FormSix() {
                 placeholder="Hostel Taluka"
                 value={formData.hostelTaluka}
                 onChange={handleChange("hostelTaluka")}
-                required
               />
             </FormControl>
 
@@ -162,7 +157,6 @@ function FormSix() {
                 placeholder="Hostel Type"
                 value={formData.hostelType}
                 onChange={handleChange("hostelType")}
-                required
               />
             </FormControl>
 
@@ -173,7 +167,6 @@ function FormSix() {
                 placeholder="Hostel/ P.G/Rented House Name"
                 value={formData.hostelName}
                 onChange={handleChange("hostelName")}
-                required
               />
             </FormControl>
 
@@ -184,7 +177,6 @@ function FormSix() {
                 placeholder="Hostel/ P.G/Rented House Address"
                 value={formData.hostelAddress}
                 onChange={handleChange("hostelAddress")}
-                required
               />
             </FormControl>
 
@@ -195,7 +187,6 @@ function FormSix() {
                 placeholder="Hostel Pin Code"
                 value={formData.hostelPincode}
                 onChange={handleChange("hostelPincode")}
-                required
               />
             </FormControl>
 
@@ -206,7 +197,6 @@ function FormSix() {
                 placeholder="Hostel Admission Date"
                 value={formData.hostelAdmissionDate}
                 onChange={handleChange("hostelAdmissionDate")}
-                required
               />
             </FormControl>
 
@@ -217,7 +207,6 @@ function FormSix() {
                 placeholder="Hostel Docs"
                 value={formData.hostelDoc}
                 onChange={handleChange("hostelDoc")}
-                required
               />
             </FormControl>
           </VStack>

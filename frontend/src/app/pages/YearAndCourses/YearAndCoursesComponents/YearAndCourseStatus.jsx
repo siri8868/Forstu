@@ -64,7 +64,7 @@ function YearAndCourseStatus({ ApplicationStatus }) {
         text:
           getCounts(ApplicationStatus)[0] === 0 &&
           getCounts(ApplicationStatus)[1] === 0
-            ? "No Data"
+            ? "No Data For Application Status"
             : "Application Status",
         align: "center",
       },

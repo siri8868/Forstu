@@ -12,6 +12,7 @@ import YearAndCoursesDashboard from "./pages/YearAndCourses/YearAndCoursesDashbo
 import FormDashboard from "./pages/Form/FormDashboard";
 import Upload from "./pages/upload/Upload";
 import MicrositeLogin from "./pages/MicroiteLogin/MicrositeLogin";
+import StudentDashboard from "./pages/Student/StudentDashboard";
 
 function App() {
   return (
@@ -25,15 +26,13 @@ function App() {
         <Route exact path="/signin">
           <Login />
         </Route>
-        <Route exact path="/signup">
+        <Route path="/signup">
           <Signup />
         </Route>
-        <Route exact path="/incompletprofile">
-          {/* <Profile /> */}
+        <Route path="/incompletprofile">
           <FormDashboard />
         </Route>
-        <Route exact path="/micrositelogin">
-          {/* <Profile /> */}
+        <Route path="/micrositelogin">
           <MicrositeLogin />
         </Route>
 
@@ -71,6 +70,12 @@ function App() {
           exact
           path="/dashboard/admin/upload"
           component={Upload}
+          role={ROLES.ADMIN}
+        ></ProtectedRoute>
+        <ProtectedRoute
+          exact
+          path="/dashboard/admin/student"
+          component={StudentDashboard}
           role={ROLES.ADMIN}
         ></ProtectedRoute>
         {/* <Route path="/dashboard/admin">

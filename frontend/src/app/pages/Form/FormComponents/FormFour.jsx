@@ -120,7 +120,6 @@ function FormFour() {
                 placeholder="Enter your id"
                 value={formData.id}
                 onChange={handleChange("id")}
-                required
               />
             </FormControl>
             <FormControl id="admissionYear">
@@ -130,7 +129,6 @@ function FormFour() {
                 placeholder="Admission Year In Current Course"
                 value={formData.admissionYear}
                 onChange={handleChange("admissionYear")}
-                required
               />
             </FormControl>
 
@@ -141,7 +139,6 @@ function FormFour() {
                 placeholder="Institute State"
                 value={formData.instituteState}
                 onChange={handleChange("instituteState")}
-                required
               />
             </FormControl>
 
@@ -152,7 +149,6 @@ function FormFour() {
                 placeholder="Institute District"
                 value={formData.instituteDistrict}
                 onChange={handleChange("instituteDistrict")}
-                required
               />
             </FormControl>
 
@@ -163,7 +159,6 @@ function FormFour() {
                 placeholder="Institute Taluka"
                 value={formData.instituteTaluka}
                 onChange={handleChange("instituteTaluka")}
-                required
               />
             </FormControl>
 
@@ -174,7 +169,6 @@ function FormFour() {
                 placeholder="Qualification Level"
                 value={formData.qualificationLevel}
                 onChange={handleChange("qualificationLevel")}
-                required
               />
             </FormControl>
 
@@ -185,7 +179,6 @@ function FormFour() {
                 placeholder="Course Stream"
                 value={formData.courseStream}
                 onChange={handleChange("courseStream")}
-                required
               />
             </FormControl>
 
@@ -196,7 +189,6 @@ function FormFour() {
                 placeholder="institute Name"
                 value={formData.instituteName}
                 onChange={handleChange("instituteName")}
-                required
               />
             </FormControl>
 
@@ -207,7 +199,6 @@ function FormFour() {
                 placeholder="Course name"
                 value={formData.coursename}
                 onChange={handleChange("coursename")}
-                required
               />
             </FormControl>
 
@@ -218,7 +209,6 @@ function FormFour() {
                 placeholder="Enter Your Admission Type"
                 value={formData.admissionType}
                 onChange={handleChange("admissionType")}
-                required
               />
             </FormControl>
 
@@ -334,7 +324,6 @@ function FormFour() {
                 placeholder="Mode Of Study"
                 value={formData.modeStudy}
                 onChange={handleChange("modeStudy")}
-                required
               />
             </FormControl>
           </VStack>
