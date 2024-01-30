@@ -11,6 +11,7 @@ function SystemAnalysisComponent() {
         data: [12, 22, 7],
       },
     ],
+
     options: {
       chart: {
         type: "bar",
@@ -40,7 +41,6 @@ function SystemAnalysisComponent() {
       flexDirection={"column"}
       justifyContent={"center"}
     >
-      {/* <Box>Application submition failed status</Box> */}
       <Heading as="h4" size="sm" mb={3} ml={2} mt={4}>
         Application submition failed status
       </Heading>

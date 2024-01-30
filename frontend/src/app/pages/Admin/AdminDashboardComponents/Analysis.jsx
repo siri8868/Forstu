@@ -33,7 +33,7 @@ function Analysis() {
   const optionsForPie = {
     series: [
       {
-        name: "Desktops",
+        name: "Application Submission",
         data: chartData.series,
       },
     ],
