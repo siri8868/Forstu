@@ -27,20 +27,17 @@ const { isSignedIn, isAdmin } = require("../controllers/authController");
 
 const router = express.Router();
 
-router.get("/getAllCollegeProfiles", getAllCollegeProfile);
+router.get("/getAllCollegeProfiles", isSignedIn, isAdmin, getAllCollegeProfile);
 
 // router.get("/getCollegeProfile", isSignedIn, isAdmin, getUserValidationSchema, getCollegeProfile);
 
 // router.get("/getSingleCollegeProfile/id", getSingleCollegeProfile);
 
-router.post("/createNewCollegeProfile", addCollegeProfile);
+router.post("/createNewCollegeProfile", isSignedIn, isAdmin, addCollegeProfile);
 
-router.put("/updatecollegeProfile", updateCollegeProfile);
+router.put("/updatecollegeProfile", isSignedIn, isAdmin, updateCollegeProfile);
 
-router.delete("/deletecollegeProfile", deleteCollegeProfile);
-
-
-
+router.delete("/deletecollegeProfile", isSignedIn, isAdmin, deleteCollegeProfile);
 
 
 // router.delete("/deletecollegeProfile", isSignedIn, isAdmin, getUserValidationSchema, deleteCollegeProfile);

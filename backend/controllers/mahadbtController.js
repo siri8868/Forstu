@@ -1202,6 +1202,7 @@ exports.currentcourseInfo = (req, res) => {
       });
     });
 };
+
 exports.pastQualificationInfo = (req, res) => {
   // res.send("Hello from past qaulification info");
   Mahadbtprofiles.findAll({
@@ -1571,3 +1572,75 @@ exports.getCourseYearsFromFrontend = async (req, res) => {
   //   message: "Successfully",
   // });
 };
+
+// Get Emails of studets whose profiles are incomplete for sending them email
+exports.getEmailsOfPendingStduents = async (req, res) => {
+  // res.send("hiii from email");
+  console.log("req profile", req.profile.ref_code);
+  // console.log("hellvgrtvr");
+  // res.send("dddddddd");
+  Mahadbtprofiles.findAll({
+    attributes: [
+      "id",
+      "email",
+      "application_status"
+    ],
+    where: {
+      ref_code: req.profile.ref_code,
+      application_status: "Pending",
+    },
+  })
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve Mahadbt Profiles",
+        error: error,
+      });
+    });
+
+}
+
+// For viewing details after excel uploaded 
+exports.getStudentsView = async (req, res) => {
+  // res.send("hiii from email");
+  console.log("req profile", req.profile.ref_code);
+  // console.log("hellvgrtvr");
+  // res.send("dddddddd");
+  Mahadbtprofiles.findAll({
+    attributes: [
+      "id",
+      "candidate_name",
+      "coursename",
+      "current_year",
+      // "application_status"
+    ],
+    // where: {
+    //   ref_code: req.profile.ref_code,
+    //   application_status: "Pending",
+    // },
+  })
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve Mahadbt Profiles",
+        error: error,
+      });
+    });
+
+}

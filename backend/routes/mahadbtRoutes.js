@@ -26,7 +26,9 @@ const {
   sendEmailToStudentWithMicrositeLink,
   verifyStudentByOtpAndEmail,
   getCourseYearsFromFrontend,
-  getStatusCountbyCoursnameAndYear
+  getStatusCountbyCoursnameAndYear,
+  getEmailsOfPendingStduents,
+  getStudentsView
 } = require("../controllers/mahadbtController");
 
 const {
@@ -56,6 +58,9 @@ router.post("/courseandyearwisedata", isSignedIn, totalCourseAndYear);
 
 router.post("/applicationcountbycoursenameandyear", isSignedIn, getStatusCountbyCoursnameAndYear);
 router.post("/getIncompleteFields", getIncompleteFieldsController);
+
+router.post("/getEmailsofpendingstudents", isSignedIn, getEmailsOfPendingStduents)
+router.get("/getStudentsView", isSignedIn, getStudentsView)
 
 // for microsite routes for students
 router.put("/submitFormData", sendDatatoDB);
