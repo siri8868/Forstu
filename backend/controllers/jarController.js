@@ -1,11 +1,10 @@
 // const express = require('express');
 const dotenv = require("dotenv");
-const { spawn } = require('child_process');
-const fs = require('fs');
+const { spawn } = require("child_process");
+const fs = require("fs");
 const path = require("path");
 
 dotenv.config();
-
 
 // exports.submitjarController = (req, res) => {
 
@@ -20,8 +19,6 @@ dotenv.config();
 
 //   const seleniumProcess = spawn('java', ['-jar', req.files.deepak]);
 //   // const seleniumProcess = spawn('java', ['-jar', './files/example.jar']);
-
-
 
 //   seleniumProcess.stdout.on('data', (data) => {
 //     console.log(`Selenium Script Output: ${data}`);
@@ -40,7 +37,6 @@ dotenv.config();
 
 //   // const  jarFilePath  = req.files.deepak;
 //   // console.log("your file", req.files.deepak)
-
 
 //   // if (!jarFilePath) {
 //   //   return res.status(400).json({ error: 'Jar file path is required.' });
@@ -61,7 +57,6 @@ dotenv.config();
 //   // process.on('close', (code) => {
 //   //   res.json({ code, output });
 //   // });
-
 
 //   // const jarFile = req.files.deepak;
 //   // const jarFilePath = `${__dirname}/uploads/${jarFile.name}`;
@@ -88,8 +83,6 @@ dotenv.config();
 //   //     return res.status(500).send(err);
 //   //   }
 
-
-
 //   //   seleniumProcess.stdout.on('data', (data) => {
 //   //     console.log(`Selenium Script Output: ${data}`);
 //   //   });
@@ -104,11 +97,7 @@ dotenv.config();
 //   //   });
 //   // });
 
-
 // };
-
-
-
 
 // exports.submitjarController = (req, res) => {
 //   // if (!req.files || !req.files.deepak) {
@@ -143,11 +132,12 @@ dotenv.config();
 //   });
 // };
 
-
 exports.submitjarController = (req, res) => {
-
-  console.log("DIRIRIIRIRIRI:::", __dirname)
-
+  // console.log("DIRIRIIRIRIRI:::", __dirname)
+  console.log(
+    "DIRIRIIRIRIRI:::",
+    path.join(__dirname, "..", "uploads", "123-0.0.1-SNAPSHOT-shaded.jar")
+  );
 
   // const seleniumProcess = spawn('java', [
   //   '-cp',
@@ -156,27 +146,48 @@ exports.submitjarController = (req, res) => {
   //   'dbmanager.DBConnectionManager'
   // ]);
 
+  // const seleniumProcess = spawn("java", [
+  //   "-cp",
+  //   path.join(__dirname, "..", "uploads", "123-0.0.1-SNAPSHOT-shaded.jar") +
+  //     ";" +
+  //     path.join(__dirname, "..", "uploads", "dependency", "*"),
+  //   "dbmanager.DBConnectionManager",
+  // ]);
 
+  const classpath = [
+    path.join(__dirname, "..", "uploads", "123-0.0.1-SNAPSHOT-shaded.jar"),
+    path.join(__dirname, "..", "uploads", "dependency", "*"),
+  ].join(":"); // Join paths with colon as separator
 
-  const seleniumProcess = spawn('java', [
-    '-cp',
-    path.join(__dirname, '..', 'uploads', '123-0.0.1-SNAPSHOT-shaded.jar') + ';' +
-    path.join(__dirname, '..', 'uploads', 'dependency', '*'),
-    'dbmanager.DBConnectionManager'
+  const seleniumProcess = spawn("java", [
+    "-cp",
+    classpath,
+    "dbmanager.DBConnectionManager",
   ]);
 
   // return res.send("workingggg!!!!")
 
-  seleniumProcess.stdout.on('data', (data) => {
+  seleniumProcess.stdout.on("data", (data) => {
     console.log(`Selenium Script Output: ${data}`);
   });
 
-  seleniumProcess.stderr.on('data', (data) => {
+  seleniumProcess.stderr.on("data", (data) => {
     console.error(`Selenium Script Error: ${data}`);
   });
 
-  seleniumProcess.on('close', (code) => {
-    console.log(`Selenium Script exited with code ${code}`);
-    res.send(`Selenium Script exited with code ${code}`);
-  });
+  seleniumProcess
+    .on("close", (code) => {
+      console.log(`Selenium Script exited with code ${code}`);
+      res.json({
+        success: true,
+        message: `Successfully Submited Scholarship Application.`,
+      });
+    })
+    .on("error", (err) => {
+      console.log("Failed to start subprocess.", err);
+      res.json({
+        success: false,
+        message: `Failed to Submit Scholarship Application.`,
+      });
+    });
 };
