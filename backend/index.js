@@ -13,7 +13,7 @@ const mahadbtRoutes = require("./routes/mahadbtRoutes");
 const uploadRoute = require("./routes/uploadRoute");
 const courseRoutes = require("./routes/courseRoutes");
 const dropdownRoutes = require("./routes/dropDownRoutes");
-
+const jarRoutes = require("./routes/jarRoutes");
 
 dotenv.config();
 // comment
@@ -39,6 +39,7 @@ app.use("/api", mahadbtRoutes);
 app.use('/api', uploadRoute);
 app.use('/api', courseRoutes);
 app.use('/api', dropdownRoutes);
+app.use('/api', jarRoutes);
 
 dropdownRoutes
 
