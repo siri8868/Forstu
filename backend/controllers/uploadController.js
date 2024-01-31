@@ -10,6 +10,8 @@ const { QueryTypes } = require("sequelize");
 const storage = multer.memoryStorage();
 
 // const ExcelInfo = require("../models/testExcelModel");
+const Mahadbtprofiles = require("../models/mahadbtModel");
+
 
 // const executeStoredProcedure = require('./database/storedProcedures');
 const dotenv = require("dotenv");
@@ -76,7 +78,7 @@ const UpdateClass12BoardData = async () => {
 };
 
 async function loadAndExecuteStoredProcedure() {
-  const result = await sequelize.query("CALL UpdateClass12Board", {
+  const result = await sequelize.query("CALL updateData()", {
     type: Sequelize.QueryTypes.RAW,
   });
   // console.log('Stored procedure result:', result[0]);
@@ -168,7 +170,10 @@ exports.uploadFile = async (req, res) => {
       coursename: item["Course Name"],
       email: item["Email"],
       casteCategory: item['Catogory'],
-      ref_code: item['REF_CODE']
+      ref_code: item['REF_CODE'],
+      applicationStatus: item['Application Status'],
+      currentYear: item['Course Year'],
+
 
       // This option will prevent the error from stopping the execution
 
@@ -182,7 +187,8 @@ exports.uploadFile = async (req, res) => {
     // console.log("filtered dataaaaaaa", filteredData);
 
 
-    const createdData = await dummyModel.bulkCreate(filteredData, {
+    // const createdData = await dummyModel.bulkCreate(filteredData, {
+    const createdData = await Mahadbtprofiles.bulkCreate(filteredData, {
       updateOnDuplicate: ["email"], // Specify the fields to update in case of duplicates
       // ignoreDuplicates: true, // This option will prevent the error from stopping the execution
     });
@@ -191,12 +197,21 @@ exports.uploadFile = async (req, res) => {
     console.log("Data inserted successfully", createdData);
     // return
     console.log("Data inserted successfully");
-    // executeStoredProcedure();
-    res.json({
-      success: true,
-      message: "Data inserted successfully",
-      data: createdData
-    });
+    setTimeout(() => {
+      console.log("Delayed for 5 second.");
+      loadAndExecuteStoredProcedure();
+      res.json({
+        success: true,
+        message: "Data inserted successfully",
+        data: createdData
+      });
+    }, "5000");
+    // loadAndExecuteStoredProcedure()
+    // res.json({
+    //   success: true,
+    //   message: "Data inserted successfully",
+    //   data: createdData
+    // });
   } catch (error) {
     console.error("Error inserting data:", error);
   }
