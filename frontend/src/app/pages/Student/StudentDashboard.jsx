@@ -1,10 +1,119 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Base from "../../components/Base";
-import { Box } from "@chakra-ui/react";
+import {
+  Box,
+  Breadcrumb,
+  BreadcrumbItem,
+  BreadcrumbLink,
+  Button,
+  Flex,
+  Heading,
+  Spacer,
+} from "@chakra-ui/react";
 import { Table as AntTable } from "antd";
+import {
+  executeScholarShipApplicationApi,
+  getEmailsofpendingstudentsApi,
+  getStudentsViewApi,
+  sendEmailToStudentMicrositeApi,
+} from "../../api/Student/StudentApis";
+import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
+import { ChevronRightIcon } from "@chakra-ui/icons";
+import { useToast } from "@chakra-ui/react";
 
 function StudentDashboard() {
+  const [getStudent, setStudent] = useState([]);
+  // const [getPendingStudentEmail, setPendingStudentEmail] = useState([]);
+  const toast = useToast();
+
   const onChange = (pagination, filters, sorter, extra) => {};
+
+  const getAllStudents = () => {
+    getStudentsViewApi()
+      .then((res) => {
+        // console.log("res", res);
+        setStudent(res.data);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+
+  const executeScholarShipApplication = () => {
+    console.log("executeScholarShipApplication");
+    return;
+    executeScholarShipApplicationApi()
+      .then((res) => {
+        console.log("res", res);
+
+        toast({
+          title: "Scholarship Application Submitted Successfully!.",
+          // description: res.message,
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
+      })
+      .catch((err) => {
+        console.log("err", err);
+        toast({
+          title: "Error",
+          description: "Operation Failed!",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
+      });
+  };
+
+  const sendEmailToStudentMicrosite = (data) => {
+    console.log("sendEmailToStudentMicrosite", data);
+    sendEmailToStudentMicrositeApi(data)
+      .then((res) => {
+        // console.log("res", res);
+        toast({
+          title: "Email sent successfully!.",
+          // description: res.message,
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
+      })
+      .catch((err) => {
+        console.log("err", err);
+        toast({
+          title: "Error",
+          description: "Operation Failed!",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
+      });
+  };
+
+  const triggerFormForMicroSite = () => {
+    // console.log("triggerFormForMicroSite");
+    getEmailsofpendingstudentsApi()
+      .then((res) => {
+        console.log("res", res);
+        const Emails = res?.data?.map((item) => item.email);
+        console.log("Emails", Emails);
+        const data = {
+          to: Emails,
+          subject: "Fill The forstu Form",
+          message:
+            "This is the microsite link - http://localhost:3000/micrositeLogin ",
+        };
+        sendEmailToStudentMicrosite(data);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
 
   const columns = [
     {
@@ -17,7 +126,7 @@ function StudentDashboard() {
     },
     {
       title: "Name",
-      dataIndex: "institute_choice_code",
+      dataIndex: "candidate_name",
       filterSearch: true,
       // filters: userNameFilterList,
 
@@ -32,7 +141,7 @@ function StudentDashboard() {
 
     {
       title: "Course Name",
-      dataIndex: "institute_name",
+      dataIndex: "coursename",
       filterSearch: true,
       // filters: userRoleFilterList,
 
@@ -46,7 +155,7 @@ function StudentDashboard() {
 
     {
       title: "Course Current Year",
-      dataIndex: "institute_state",
+      dataIndex: "current_year",
       filterSearch: true,
       // filters: userRoleFilterList,
 
@@ -58,66 +167,118 @@ function StudentDashboard() {
       sortDirections: ["ascend", "descend"],
     },
 
-    {
-      title: "Action",
-      // key: 'action',
-      //   render: (_, record) => {
-      //     return (
-      //       <>
-      //         {currentUser == record.name ? (
-      //           <div
-      //             style={{
-      //               color: "green",
-      //               alignSelf: "center",
-      //               display: "flex",
-      //               // alignItems: "center",
-      //               // justifyContent: "center",
-      //               marginLeft: 15,
-      //             }}
-      //           >
-      //             <HiCheckCircle size={"20"} />
-      //           </div>
-      //         ) : (
-      //           <Menu>
-      //             <MenuButton
-      //               as={Button}
-      //               variant={"ghost"}
-      //               // rightIcon={<ChevronDownIcon />}
-      //             >
-      //               <BsThreeDotsVertical />
-      //             </MenuButton>
-      //             <MenuList minWidth="50px">
-      //               <>
-      //                 <MenuItem py={"-0.3"}>
-      //                   <ConformEditCollage
-      //                     collage={record}
-      //                     getAllColleges={getAllColleges}
-      //                   />
-      //                 </MenuItem>
-      //                 <MenuItem py={"-0.3"}>
-      //                   <ConformDeleteCollage
-      //                     id={record.id}
-      //                     getAllColleges={getAllColleges}
-      //                   />
-      //                 </MenuItem>
-      //               </>
-      //             </MenuList>
-      //           </Menu>
-      //         )}
-      //       </>
-      //     );
-      //   },
-    },
+    // {
+    //   title: "Action",
+    //   // key: 'action',
+    //   //   render: (_, record) => {
+    //   //     return (
+    //   //       <>
+    //   //         {currentUser == record.name ? (
+    //   //           <div
+    //   //             style={{
+    //   //               color: "green",
+    //   //               alignSelf: "center",
+    //   //               display: "flex",
+    //   //               // alignItems: "center",
+    //   //               // justifyContent: "center",
+    //   //               marginLeft: 15,
+    //   //             }}
+    //   //           >
+    //   //             <HiCheckCircle size={"20"} />
+    //   //           </div>
+    //   //         ) : (
+    //   //           <Menu>
+    //   //             <MenuButton
+    //   //               as={Button}
+    //   //               variant={"ghost"}
+    //   //               // rightIcon={<ChevronDownIcon />}
+    //   //             >
+    //   //               <BsThreeDotsVertical />
+    //   //             </MenuButton>
+    //   //             <MenuList minWidth="50px">
+    //   //               <>
+    //   //                 <MenuItem py={"-0.3"}>
+    //   //                   <ConformEditCollage
+    //   //                     collage={record}
+    //   //                     getAllColleges={getAllColleges}
+    //   //                   />
+    //   //                 </MenuItem>
+    //   //                 <MenuItem py={"-0.3"}>
+    //   //                   <ConformDeleteCollage
+    //   //                     id={record.id}
+    //   //                     getAllColleges={getAllColleges}
+    //   //                   />
+    //   //                 </MenuItem>
+    //   //               </>
+    //   //             </MenuList>
+    //   //           </Menu>
+    //   //         )}
+    //   //       </>
+    //   //     );
+    //   //   },
+    // },
   ];
 
+  useEffect(() => {
+    getAllStudents();
+  }, []);
   return (
     <Base>
-      <div>StudentDashboard</div>
+      <Box py={5} px={5} bg={"text.light"} borderWidth="1px" borderRadius="lg">
+        <Flex>
+          <Box pb={2}>
+            <Heading as="h4" size={"md"} my={2}>
+              Student List
+            </Heading>
+            <Breadcrumb
+              spacing="8px"
+              separator={<ChevronRightIcon color="gray.500" />}
+              fontSize={15}
+            >
+              <BreadcrumbItem>
+                <BreadcrumbLink>
+                  <NavLink to="/dashboard/admin">Dashboard</NavLink>
+                </BreadcrumbLink>
+              </BreadcrumbItem>
+
+              <BreadcrumbItem>
+                <NavLink to="/dashboard/admin/student">Student</NavLink>
+              </BreadcrumbItem>
+
+              <BreadcrumbItem isCurrentPage>
+                <BreadcrumbLink>List</BreadcrumbLink>
+              </BreadcrumbItem>
+            </Breadcrumb>
+          </Box>
+          <Spacer />
+        </Flex>
+        <Box display={"flex"} justifyContent={"space-between"}>
+          {/* <h1>Send</h1> */}
+          <Button
+            variant={"solid"}
+            bg="primary.main"
+            color={"text.light"}
+            py={4}
+            onClick={triggerFormForMicroSite}
+          >
+            Trigger Form
+          </Button>
+          <Button
+            variant={"solid"}
+            bg="red.500"
+            color={"text.light"}
+            py={4}
+            onClick={executeScholarShipApplication}
+          >
+            Submit Scholarship Application
+          </Button>
+        </Box>
+      </Box>
       <Box bg="white" my={3}>
         <AntTable
           rowKey={"id"}
           columns={columns}
-          // dataSource={college}
+          dataSource={getStudent}
           onChange={onChange}
           bordered={true}
           loading={false}
