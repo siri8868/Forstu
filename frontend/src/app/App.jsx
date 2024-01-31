@@ -32,7 +32,7 @@ function App() {
         <Route path="/incompletprofile">
           <FormDashboard />
         </Route>
-        <Route path="/micrositelogin">
+        <Route path="/micrologin">
           <MicrositeLogin />
         </Route>
 

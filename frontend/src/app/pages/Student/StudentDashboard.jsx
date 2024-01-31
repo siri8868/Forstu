@@ -41,7 +41,6 @@ function StudentDashboard() {
 
   const executeScholarShipApplication = () => {
     console.log("executeScholarShipApplication");
-    return;
     executeScholarShipApplicationApi()
       .then((res) => {
         console.log("res", res);
@@ -106,7 +105,7 @@ function StudentDashboard() {
           to: Emails,
           subject: "Fill The forstu Form",
           message:
-            "This is the microsite link - http://localhost:3000/micrositeLogin ",
+            "This is the microsite link - http://localhost:3000/micrologin",
         };
         sendEmailToStudentMicrosite(data);
       })
