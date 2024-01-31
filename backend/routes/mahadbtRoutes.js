@@ -28,7 +28,8 @@ const {
   getCourseYearsFromFrontend,
   getStatusCountbyCoursnameAndYear,
   getEmailsOfPendingStduents,
-  getStudentsView
+  getStudentsView,
+  flushdata
 } = require("../controllers/mahadbtController");
 
 const {
@@ -61,6 +62,7 @@ router.post("/getIncompleteFields", getIncompleteFieldsController);
 
 router.post("/getEmailsofpendingstudents", isSignedIn, getEmailsOfPendingStduents)
 router.get("/getStudentsView", isSignedIn, getStudentsView)
+router.delete("/flushdataofdb", flushdata)
 
 // for microsite routes for students
 router.put("/submitFormData", sendDatatoDB);

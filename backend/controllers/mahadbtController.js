@@ -1644,3 +1644,24 @@ exports.getStudentsView = async (req, res) => {
     });
 
 }
+
+exports.flushdata = async (req, res) => {
+  // res.send("heiiiiiiii flush data");
+  // console.log("req profile", req.profile.ref_code);
+  // console.log("hellvgrtvr");
+  // res.send("dddddddd");
+  Mahadbtprofiles.truncate()
+    .then(() => {
+      res.json({
+        success: true,
+        message: "Mahadbt Profiles truncated successfully.",
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to truncate Mahadbt Profiles",
+        error: error,
+      });
+    });
+}
