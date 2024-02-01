@@ -104,8 +104,7 @@ function StudentDashboard() {
         const data = {
           to: Emails,
           subject: "Fill The forstu Form",
-          message:
-            "This is the microsite link - http://localhost:3000/micrologin",
+          message: "This is the microsite link - http://52.66.147.244/",
         };
         sendEmailToStudentMicrosite(data);
       })
