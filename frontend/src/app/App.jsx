@@ -13,8 +13,11 @@ import FormDashboard from "./pages/Form/FormDashboard";
 import Upload from "./pages/upload/Upload";
 import MicrositeLogin from "./pages/MicroiteLogin/MicrositeLogin";
 import StudentDashboard from "./pages/Student/StudentDashboard";
+import MicroRoute from "./components/MicroRoute";
+import MainLogin from "./components/MainLogin";
 
 function App() {
+  // const [loginState, setLoginState] = useState("");
   return (
     <>
       <Switch>
@@ -24,17 +27,21 @@ function App() {
           <Redirect to="/signin" />
         </Route>
         <Route exact path="/signin">
-          <Login />
+          {/* <Login /> */}
+          <MainLogin />
         </Route>
+
         <Route path="/signup">
           <Signup />
         </Route>
-        <Route path="/incompletprofile">
+        <Route exact path="/signin/incompletprofile">
           <FormDashboard />
         </Route>
-        <Route path="/micrologin">
-          <MicrositeLogin />
-        </Route>
+        <MicroRoute
+          exact
+          path="/microsite/login"
+          component={MicrositeLogin}
+        ></MicroRoute>
 
         {/* //admin */}
 
