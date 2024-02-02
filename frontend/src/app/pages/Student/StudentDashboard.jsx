@@ -8,6 +8,10 @@ import {
   Button,
   Flex,
   Heading,
+  Menu,
+  MenuButton,
+  MenuItem,
+  MenuList,
   Spacer,
 } from "@chakra-ui/react";
 import { Table as AntTable } from "antd";
@@ -16,10 +20,14 @@ import {
   getEmailsofpendingstudentsApi,
   getStudentsViewApi,
   sendEmailToStudentMicrositeApi,
+  studentprofileviewApi,
 } from "../../api/Student/StudentApis";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
+import { HiCheckCircle } from "react-icons/hi";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import StudentDetailsModel from "./StudentComponents/StudentDetailsModel";
 
 function StudentDashboard() {
   const [getStudent, setStudent] = useState([]);
@@ -113,6 +121,21 @@ function StudentDashboard() {
       });
   };
 
+  const testMe = () => {
+    console.log("testMe clicked");
+
+    let data = {
+      name: "test",
+    };
+    studentprofileviewApi(data)
+      .then((res) => {
+        console.log("res", res);
+      })
+      .catch((err) => {
+        console.log("err", err);
+      });
+  };
+
   const columns = [
     {
       title: "ID",
@@ -165,61 +188,39 @@ function StudentDashboard() {
       sortDirections: ["ascend", "descend"],
     },
 
-    // {
-    //   title: "Action",
-    //   // key: 'action',
-    //   //   render: (_, record) => {
-    //   //     return (
-    //   //       <>
-    //   //         {currentUser == record.name ? (
-    //   //           <div
-    //   //             style={{
-    //   //               color: "green",
-    //   //               alignSelf: "center",
-    //   //               display: "flex",
-    //   //               // alignItems: "center",
-    //   //               // justifyContent: "center",
-    //   //               marginLeft: 15,
-    //   //             }}
-    //   //           >
-    //   //             <HiCheckCircle size={"20"} />
-    //   //           </div>
-    //   //         ) : (
-    //   //           <Menu>
-    //   //             <MenuButton
-    //   //               as={Button}
-    //   //               variant={"ghost"}
-    //   //               // rightIcon={<ChevronDownIcon />}
-    //   //             >
-    //   //               <BsThreeDotsVertical />
-    //   //             </MenuButton>
-    //   //             <MenuList minWidth="50px">
-    //   //               <>
-    //   //                 <MenuItem py={"-0.3"}>
-    //   //                   <ConformEditCollage
-    //   //                     collage={record}
-    //   //                     getAllColleges={getAllColleges}
-    //   //                   />
-    //   //                 </MenuItem>
-    //   //                 <MenuItem py={"-0.3"}>
-    //   //                   <ConformDeleteCollage
-    //   //                     id={record.id}
-    //   //                     getAllColleges={getAllColleges}
-    //   //                   />
-    //   //                 </MenuItem>
-    //   //               </>
-    //   //             </MenuList>
-    //   //           </Menu>
-    //   //         )}
-    //   //       </>
-    //   //     );
-    //   //   },
-    // },
+    {
+      title: "Action",
+      key: "action",
+      render: (_, record) => {
+        return (
+          <>
+            <Menu>
+              <MenuButton
+                as={Button}
+                variant={"ghost"}
+                // rightIcon={<ChevronDownIcon />}
+              >
+                <BsThreeDotsVertical />
+              </MenuButton>
+              <MenuList minWidth="50px">
+                <MenuItem py={"-0.3"}>
+                  <StudentDetailsModel
+                    id={record.id}
+                    // getAllColleges={getAllColleges}
+                  />
+                </MenuItem>
+              </MenuList>
+            </Menu>
+          </>
+        );
+      },
+    },
   ];
 
   useEffect(() => {
     getAllStudents();
   }, []);
+
   return (
     <Base>
       <Box py={5} px={5} bg={"text.light"} borderWidth="1px" borderRadius="lg">
@@ -260,6 +261,16 @@ function StudentDashboard() {
             onClick={triggerFormForMicroSite}
           >
             Trigger Form
+          </Button>
+
+          <Button
+            variant={"solid"}
+            bg="primary.main"
+            color={"text.light"}
+            py={4}
+            onClick={testMe}
+          >
+            Click Me
           </Button>
           <Button
             variant={"solid"}

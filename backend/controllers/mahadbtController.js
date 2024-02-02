@@ -1580,11 +1580,7 @@ exports.getEmailsOfPendingStduents = async (req, res) => {
   // console.log("hellvgrtvr");
   // res.send("dddddddd");
   Mahadbtprofiles.findAll({
-    attributes: [
-      "id",
-      "email",
-      "application_status"
-    ],
+    attributes: ["id", "email", "application_status"],
     where: {
       ref_code: req.profile.ref_code,
       application_status: "Pending",
@@ -1605,10 +1601,9 @@ exports.getEmailsOfPendingStduents = async (req, res) => {
         error: error,
       });
     });
+};
 
-}
-
-// For viewing details after excel uploaded 
+// For viewing details after excel uploaded
 exports.getStudentsView = async (req, res) => {
   // res.send("hiii from email");
   console.log("req profile", req.profile.ref_code);
@@ -1642,8 +1637,7 @@ exports.getStudentsView = async (req, res) => {
         error: error,
       });
     });
-
-}
+};
 
 exports.flushdata = async (req, res) => {
   // res.send("heiiiiiiii flush data");
@@ -1664,4 +1658,71 @@ exports.flushdata = async (req, res) => {
         error: error,
       });
     });
-}
+};
+
+// exports.getSingleMahadbtProfile = (req, res) => {
+//   console.log("id:::::", req.body);
+//   res.send("success");
+//   return;
+
+//   // console.log("uour email", req.profile.email);
+//   // console.log("hellvgrtvr");
+//   // res.send("dddddddd");
+//   Mahadbtprofiles.findOne({
+//     where: {
+//       // ref_code: req.profile.ref_code,
+//       // email: req.profile.email,
+//       id: req.body.id,
+//     },
+//   })
+//     .then((data) => {
+//       data = JSON.stringify(data);
+//       data = JSON.parse(data);
+//       res.json({
+//         success: true,
+//         data,
+//       });
+//     })
+//     .catch((error) => {
+//       res.status(500).json({
+//         success: false,
+//         message: "Failed to retrieve Mahadbt Profiles",
+//         error: error,
+//       });
+//     });
+// };
+
+exports.getSingleMahadbtProfileByRefCode = (req, res) => {
+  // console.log("id:::::", req.body);
+  // console.log("clicked on single profile");
+  // res.json({
+  //   success: true,
+  // });
+  // return;
+
+  // console.log("uour email", req.profile.email);
+  // console.log("hellvgrtvr");
+  // res.send("dddddddd");
+  Mahadbtprofiles.findOne({
+    where: {
+      // ref_code: req.profile.ref_code,
+      // email: req.profile.email,
+      id: req.body.id,
+    },
+  })
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve Mahadbt Profiles",
+        error: error,
+      });
+    });
+};

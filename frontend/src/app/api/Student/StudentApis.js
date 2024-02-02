@@ -78,3 +78,24 @@ export async function executeScholarShipApplicationApi(data) {
 
   return response.json();
 }
+
+export async function studentprofileviewApi(data) {
+  console.log(data, "data");
+  // const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/studentprofileview`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      // Authorization: accessToken,
+    },
+    body: JSON.stringify(data),
+  });
+
+  if (response.status == 401) {
+    redirectOnTokenExpire();
+  }
+
+  return response.json();
+}

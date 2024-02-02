@@ -29,7 +29,10 @@ const {
   getStatusCountbyCoursnameAndYear,
   getEmailsOfPendingStduents,
   getStudentsView,
-  flushdata
+  flushdata,
+  getSingleMahadbtProfile,
+  getSingleMahadbtProfileByRefCode,
+  test,
 } = require("../controllers/mahadbtController");
 
 const {
@@ -38,7 +41,6 @@ const {
   isStudent,
   verifyToken,
 } = require("../controllers/authController");
-
 
 const router = express.Router();
 
@@ -57,12 +59,20 @@ router.post("/getYearsFromCourse", isSignedIn, getCourseYearsFromFrontend);
 
 router.post("/courseandyearwisedata", isSignedIn, totalCourseAndYear);
 
-router.post("/applicationcountbycoursenameandyear", isSignedIn, getStatusCountbyCoursnameAndYear);
+router.post(
+  "/applicationcountbycoursenameandyear",
+  isSignedIn,
+  getStatusCountbyCoursnameAndYear
+);
 router.post("/getIncompleteFields", getIncompleteFieldsController);
 
-router.post("/getEmailsofpendingstudents", isSignedIn, getEmailsOfPendingStduents)
-router.get("/getStudentsView", isSignedIn, getStudentsView)
-router.delete("/flushdataofdb", flushdata)
+router.post(
+  "/getEmailsofpendingstudents",
+  isSignedIn,
+  getEmailsOfPendingStduents
+);
+router.get("/getStudentsView", isSignedIn, getStudentsView);
+router.delete("/flushdataofdb", flushdata);
 
 // for microsite routes for students
 router.put("/submitFormData", sendDatatoDB);
@@ -83,6 +93,12 @@ router.post("/sendopttostudent", sendOptToStudent);
 
 router.post("/verifystudent", verifyToken, verifyStudentByOtpAndEmail);
 
+// router.post("/getprofileview", isSignedIn, getSingleMahadbtProfile);
+router.post(
+  "/studentprofileview",
+  // isSignedIn,
+  getSingleMahadbtProfileByRefCode
+);
 
 // send mail bulk mail to students
 
