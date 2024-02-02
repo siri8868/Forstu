@@ -121,20 +121,20 @@ function StudentDashboard() {
       });
   };
 
-  const testMe = () => {
-    console.log("testMe clicked");
+  // const testMe = () => {
+  //   console.log("testMe clicked");
 
-    let data = {
-      name: "test",
-    };
-    studentprofileviewApi(data)
-      .then((res) => {
-        console.log("res", res);
-      })
-      .catch((err) => {
-        console.log("err", err);
-      });
-  };
+  //   let data = {
+  //     name: "test",
+  //   };
+  //   studentprofileviewApi(data)
+  //     .then((res) => {
+  //       console.log("res", res);
+  //     })
+  //     .catch((err) => {
+  //       console.log("err", err);
+  //     });
+  // };
 
   const columns = [
     {
@@ -263,15 +263,6 @@ function StudentDashboard() {
             Trigger Form
           </Button>
 
-          <Button
-            variant={"solid"}
-            bg="primary.main"
-            color={"text.light"}
-            py={4}
-            onClick={testMe}
-          >
-            Click Me
-          </Button>
           <Button
             variant={"solid"}
             bg="red.500"
