@@ -139,6 +139,7 @@ exports.submitjarController = (req, res) => {
     path.join(__dirname, "..", "uploads", "123-0.0.1-SNAPSHOT-shaded.jar")
   );
 
+
   // const seleniumProcess = spawn('java', [
   //   '-cp',
   //   path.join(__dirname, '..', 'uploads', '123-0.0.1-SNAPSHOT-shaded.jar') + ';' +
@@ -157,12 +158,12 @@ exports.submitjarController = (req, res) => {
   const classpath = [
     path.join(__dirname, "..", "uploads", "123-0.0.1-SNAPSHOT-shaded.jar"),
     path.join(__dirname, "..", "uploads", "dependency", "*"),
-  ].join(":"); // Join paths with colon as separator
+  ].join(process.platform === "win32" ? ";" : ":"); // Join paths with colon as separator
 
   const seleniumProcess = spawn("java", [
     "-cp",
     classpath,
-    "dbmanager.DBConnectionManager",
+    "dbmanager.Demo_Script",
   ]);
 
   // return res.send("workingggg!!!!")
