@@ -2,6 +2,7 @@ const express = require("express");
 const {
   submitjarController
 } = require("../controllers/jarController");
+const { isSignedIn } = require("../controllers/authController");
 
 const router = express.Router();
 
@@ -10,7 +11,7 @@ const router = express.Router();
 
 // router.post("/upload", uploadController.uploadFile);
 
-router.post('/executejar', submitjarController);
+router.post('/executejar', isSignedIn, submitjarController);
 
 
 module.exports = router;
