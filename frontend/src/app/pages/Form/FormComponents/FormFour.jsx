@@ -6,6 +6,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Select,
   VStack,
   useToast,
 } from "@chakra-ui/react";
@@ -14,10 +15,15 @@ import {
   submitFormDataApi,
 } from "../../../api/FormApi/FormApi";
 import { getOTPSecret } from "../../../helpers/AuthHelpers";
+import {
+  getQualificationLevelListApi,
+  getYearOfStudylListApi,
+} from "../../../api/FormApi/FormDropdownApi";
 
 function FormFour() {
   const [formData, setFormData] = useState({});
-  //   const [data, setData] = useState([]);
+  const [qualificationLevelList, setQualificationLevelList] = useState([]);
+  const [yearOfStudylList, setYearOfStudylList] = useState([]);
   const toast = useToast();
 
   const handleChange = (param) => (event) => {
@@ -104,8 +110,32 @@ function FormFour() {
       });
   };
 
+  const getQualificationLevelListData = () => {
+    getQualificationLevelListApi()
+      .then((res) => {
+        // console.log("res getQualificationLevelListApi", res);
+        setQualificationLevelList(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const getYearOfStudylListData = () => {
+    getYearOfStudylListApi()
+      .then((res) => {
+        // console.log("res getYearOfStudylListApi", res);
+        setYearOfStudylList(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   useEffect(() => {
     getcurrentcourseInfo();
+    getQualificationLevelListData();
+    getYearOfStudylListData();
   }, []);
 
   return (
@@ -131,6 +161,20 @@ function FormFour() {
                 onChange={handleChange("admissionYear")}
               />
             </FormControl>
+            {/* <FormControl id="admissionYear">
+              <FormLabel>Admission Year In Current Course</FormLabel>
+              <Select
+                placeholder="Select your Admission Year In Current Course"
+                value={formData.admissionYear}
+                onChange={handleChange("admissionYear")}
+              >
+                {sscAdmissionYear?.map((status, index) => (
+                  <option key={index} value={status.year}>
+                    {status.year}
+                  </option>
+                ))}
+              </Select>
+            </FormControl> */}
 
             <FormControl id="instituteState">
               <FormLabel>Institute State</FormLabel>
@@ -162,7 +206,7 @@ function FormFour() {
               />
             </FormControl>
 
-            <FormControl id="qualificationLevel">
+            {/* <FormControl id="qualificationLevel">
               <FormLabel>Qualification Level</FormLabel>
               <Input
                 type="text"
@@ -170,6 +214,20 @@ function FormFour() {
                 value={formData.qualificationLevel}
                 onChange={handleChange("qualificationLevel")}
               />
+            </FormControl> */}
+            <FormControl id="qualificationLevel">
+              <FormLabel>Qualification Level</FormLabel>
+              <Select
+                placeholder="Select your Qualification Level"
+                value={formData.qualificationLevel}
+                onChange={handleChange("qualificationLevel")}
+              >
+                {qualificationLevelList?.map((status, index) => (
+                  <option key={index} value={status.qualification_name}>
+                    {status.qualification_name}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
 
             <FormControl id="courseStream">
@@ -219,7 +277,6 @@ function FormFour() {
                 placeholder="Cet Percentage"
                 value={formData.cetPercentAge}
                 onChange={handleChange("cetPercentAge")}
-                required
               />
             </FormControl>
 
@@ -232,7 +289,6 @@ function FormFour() {
                 placeholder="Admission Application Id"
                 value={formData.admissionApplicationId}
                 onChange={handleChange("admissionApplicationId")}
-                required
               />
             </FormControl>
 
@@ -243,19 +299,31 @@ function FormFour() {
                 placeholder="Admission Letter Doc"
                 value={formData.admissionLetterDoc}
                 onChange={handleChange("admissionLetterDoc")}
-                required
               />
             </FormControl>
 
-            <FormControl id="currentYear">
+            {/* <FormControl id="currentYear">
               <FormLabel>Year Of Study</FormLabel>
               <Input
                 type="text"
                 placeholder="current Year"
                 value={formData.currentYear}
                 onChange={handleChange("currentYear")}
-                required
               />
+            </FormControl> */}
+            <FormControl id="currentYear">
+              <FormLabel>Year Of Study</FormLabel>
+              <Select
+                placeholder="Select your Year Of Study"
+                value={formData.currentYear}
+                onChange={handleChange("currentYear")}
+              >
+                {yearOfStudylList?.map((status, index) => (
+                  <option key={index} value={status.year}>
+                    {status.year}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
 
             <FormControl id="isCompletedPursuing">
@@ -265,7 +333,6 @@ function FormFour() {
                 placeholder="Enter Your Year Of Study Completed Or Pursuing"
                 value={formData.isCompletedPursuing}
                 onChange={handleChange("isCompletedPursuing")}
-                required
               />
             </FormControl>
 
@@ -276,7 +343,6 @@ function FormFour() {
                 placeholder="Admission Date"
                 value={formData.admissionDate}
                 onChange={handleChange("admissionDate")}
-                required
               />
             </FormControl>
 
@@ -287,7 +353,6 @@ function FormFour() {
                 placeholder="fees Paid"
                 value={formData.feesPaid}
                 onChange={handleChange("feesPaid")}
-                required
               />
             </FormControl>
 
@@ -300,7 +365,6 @@ function FormFour() {
                 placeholder="Upload Fees/Admission Receipt/bonafide certificate"
                 value={formData.feeReceiptDoc}
                 onChange={handleChange("feeReceiptDoc")}
-                required
               />
             </FormControl>
 
@@ -313,7 +377,6 @@ function FormFour() {
                 placeholder="Is Admission Through Open Or Reserved Category ?"
                 value={formData.admissionCategory}
                 onChange={handleChange("admissionCategory")}
-                required
               />
             </FormControl>
 

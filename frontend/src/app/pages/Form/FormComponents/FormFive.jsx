@@ -5,6 +5,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Select,
   VStack,
   useToast,
 } from "@chakra-ui/react";
@@ -13,9 +14,18 @@ import {
   submitFormDataApi,
 } from "../../../api/FormApi/FormApi";
 import { getOTPSecret } from "../../../helpers/AuthHelpers";
+import {
+  getHSCAdmissionYearApi,
+  getSSCAdmissionYearApi,
+  getSSCExamMonthApi,
+} from "../../../api/FormApi/FormDropdownApi";
 
 function FormFive() {
   const [formData, setFormData] = useState({});
+  const [sscAdmissionYear, setSSCAdmissionYear] = useState([]);
+  const [hscAdmissionYear, setHSCAdmissionYear] = useState([]);
+  const [sscExamMonth, setSSCExamMonth] = useState([]);
+
   //   const [data, setData] = useState([]);
   const toast = useToast();
 
@@ -121,8 +131,44 @@ function FormFive() {
       });
   };
 
+  const getSSCAdmissionYearData = () => {
+    getSSCAdmissionYearApi()
+      .then((res) => {
+        // console.log("res getSSCAdmissionYearApi", res);
+        setSSCAdmissionYear(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const getHSCAdmissionYearData = () => {
+    getHSCAdmissionYearApi()
+      .then((res) => {
+        // console.log("res getHSCAdmissionYearApi", res);
+        setHSCAdmissionYear(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const getSSCExamMonthData = () => {
+    getSSCExamMonthApi()
+      .then((res) => {
+        // console.log("res getSSCExamMonthApi", res);
+        setSSCExamMonth(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   useEffect(() => {
     getQualificationInfo();
+    getSSCAdmissionYearData();
+    getHSCAdmissionYearData();
+    getSSCExamMonthData();
   }, []);
 
   return (
@@ -219,7 +265,7 @@ function FormFive() {
               />
             </FormControl>
 
-            <FormControl id="class10AdmissionYear">
+            {/* <FormControl id="class10AdmissionYear">
               <FormLabel>Class 10th Admission Year</FormLabel>
               <Input
                 type="text"
@@ -227,6 +273,20 @@ function FormFive() {
                 value={formData.class10AdmissionYear}
                 onChange={handleChange("class10AdmissionYear")}
               />
+            </FormControl> */}
+            <FormControl id="class10AdmissionYear">
+              <FormLabel>Class 10th Admission Year</FormLabel>
+              <Select
+                placeholder="Select your Class 10th Admission Year"
+                value={formData.class10AdmissionYear}
+                onChange={handleChange("class10AdmissionYear")}
+              >
+                {sscAdmissionYear?.map((status, index) => (
+                  <option key={index} value={status.year}>
+                    {status.year}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
 
             <FormControl id="class10PassingYear">
@@ -289,7 +349,7 @@ function FormFive() {
               />
             </FormControl>
 
-            <FormControl id="class10MonthOfExam">
+            {/* <FormControl id="class10MonthOfExam">
               <FormLabel>Class 10th Month Of Exam</FormLabel>
               <Input
                 type="text"
@@ -297,6 +357,20 @@ function FormFive() {
                 value={formData.class10MonthOfExam}
                 onChange={handleChange("class10MonthOfExam")}
               />
+            </FormControl> */}
+            <FormControl id="class10MonthOfExam">
+              <FormLabel>Class 10th Month Of Exam</FormLabel>
+              <Select
+                placeholder="Select your Class 10th Month Of Exam"
+                value={formData.class10MonthOfExam}
+                onChange={handleChange("class10MonthOfExam")}
+              >
+                {sscExamMonth?.map((status, index) => (
+                  <option key={index} value={status.month}>
+                    {status.month}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
 
             <FormControl id="class10MarksObtained">
@@ -419,7 +493,7 @@ function FormFive() {
               />
             </FormControl>
 
-            <FormControl id="class12AdmissionYear">
+            {/* <FormControl id="class12AdmissionYear">
               <FormLabel>Class 12th Admission Year</FormLabel>
               <Input
                 type="text"
@@ -427,6 +501,20 @@ function FormFive() {
                 value={formData.class12AdmissionYear}
                 onChange={handleChange("class12AdmissionYear")}
               />
+            </FormControl> */}
+            <FormControl id="class12AdmissionYear">
+              <FormLabel>Class 12th Admission Year</FormLabel>
+              <Select
+                placeholder="Select your Class 12th Admission Year"
+                value={formData.class12AdmissionYear}
+                onChange={handleChange("class12AdmissionYear")}
+              >
+                {hscAdmissionYear?.map((status, index) => (
+                  <option key={index} value={status.year}>
+                    {status.year}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
 
             <FormControl id="class12PassingYear">
