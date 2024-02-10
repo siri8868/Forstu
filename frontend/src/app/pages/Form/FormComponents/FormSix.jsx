@@ -5,6 +5,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Select,
   VStack,
   useToast,
 } from "@chakra-ui/react";
@@ -13,9 +14,12 @@ import {
   submitFormDataApi,
 } from "../../../api/FormApi/FormApi";
 import { getOTPSecret } from "../../../helpers/AuthHelpers";
+import { getHostelTypeApi } from "../../../api/FormApi/FormDropdownApi";
 
 function FormSix() {
   const [formData, setFormData] = useState({});
+  const [hostelTypeList, setHostelTypeList] = useState([]);
+
   const toast = useToast();
 
   const handleChange = (param) => (event) => {
@@ -92,8 +96,20 @@ function FormSix() {
       });
   };
 
+  const getHostelTypeData = () => {
+    getHostelTypeApi()
+      .then((res) => {
+        // console.log("res getHostelTypeApi", res);
+        setHostelTypeList(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   useEffect(() => {
     getHostelDetailsInfo();
+    getHostelTypeData();
   }, []);
 
   return (
@@ -150,7 +166,7 @@ function FormSix() {
               />
             </FormControl>
 
-            <FormControl id="hostelType">
+            {/* <FormControl id="hostelType">
               <FormLabel>Hostel Type</FormLabel>
               <Input
                 type="text"
@@ -158,6 +174,21 @@ function FormSix() {
                 value={formData.hostelType}
                 onChange={handleChange("hostelType")}
               />
+            </FormControl> */}
+            <FormControl id="hostelType">
+              <FormLabel>Hostel Type</FormLabel>
+              <Select
+                placeholder="Select your Hostel Type"
+                value={formData.hostelType}
+                onChange={handleChange("hostelType")}
+                required
+              >
+                {hostelTypeList?.map((status, index) => (
+                  <option key={index} value={status.hostel_type_name}>
+                    {status.hostel_type_name}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
 
             <FormControl id="hostelName">

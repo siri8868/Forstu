@@ -15,9 +15,22 @@ import {
   submitFormDataApi,
 } from "../../../api/FormApi/FormApi";
 import { getOTPSecret } from "../../../helpers/AuthHelpers";
+import {
+  getCasteCatogoryListApi,
+  getDisabilityTypeListApi,
+  getDisabilityWithTypeListApi,
+  getMaritalStatusApi,
+  getReligionListApi,
+} from "../../../api/FormApi/FormDropdownApi";
 
 function FormOne() {
   const [formData, setFormData] = useState({});
+  const [maritalStatus, setMaritalStatus] = useState([]);
+  const [religionList, setReligionList] = useState([]);
+  const [casteCategoryList, setCasteCategoryList] = useState([]);
+  const [disabilityTypeList, setDisabilityTypeList] = useState([]);
+  const [disabilityWithTypelist, setDisabilityWithTypelist] = useState([]);
+
   const toast = useToast();
 
   const handleChange = (param) => (event) => {
@@ -130,8 +143,65 @@ function FormOne() {
       });
   };
 
+  const getMaritalStatusData = () => {
+    getMaritalStatusApi()
+      .then((res) => {
+        setMaritalStatus(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const getReligionListData = () => {
+    getReligionListApi()
+      .then((res) => {
+        // console.log("getReligionListData:::", res.data);
+        setReligionList(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const getCasteCatogoryListData = () => {
+    getCasteCatogoryListApi()
+      .then((res) => {
+        // console.log("getReligionListData:::", res.data);
+        setCasteCategoryList(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const getDisabilityTypeListData = () => {
+    getDisabilityTypeListApi()
+      .then((res) => {
+        setDisabilityTypeList(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
+  const getDisabilityWithTypelistData = () => {
+    getDisabilityWithTypeListApi()
+      .then((res) => {
+        setDisabilityWithTypelist(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   useEffect(() => {
     getPersonalInfo();
+    getMaritalStatusData();
+    getReligionListData();
+    getCasteCatogoryListData();
+    getDisabilityTypeListData();
+    getDisabilityWithTypelistData();
   }, []);
 
   return (
@@ -208,7 +278,7 @@ function FormOne() {
               />
             </FormControl>
 
-            <FormControl id="maritalStatus">
+            {/* <FormControl id="maritalStatus">
               <FormLabel>Marital Status</FormLabel>
               <Input
                 type="text"
@@ -216,9 +286,24 @@ function FormOne() {
                 value={formData.maritalStatus}
                 onChange={handleChange("maritalStatus")}
               />
+            </FormControl> */}
+            <FormControl id="maritalStatus">
+              <FormLabel>Marital Status</FormLabel>
+              <Select
+                placeholder="Select your maritalStatus"
+                value={formData.maritalStatus}
+                onChange={handleChange("maritalStatus")}
+                required
+              >
+                {maritalStatus?.map((status, index) => (
+                  <option key={index} value={status.marital_status}>
+                    {status.marital_status}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
 
-            <FormControl id="religion">
+            {/* <FormControl id="religion">
               <FormLabel>Religion</FormLabel>
               <Input
                 type="text"
@@ -226,9 +311,24 @@ function FormOne() {
                 value={formData.religion}
                 onChange={handleChange("religion")}
               />
+            </FormControl> */}
+            <FormControl id="religion">
+              <FormLabel>Religion</FormLabel>
+              <Select
+                placeholder="Select your religion"
+                value={formData.religion}
+                onChange={handleChange("religion")}
+                required
+              >
+                {religionList?.map((status, index) => (
+                  <option key={index} value={status.religion_id}>
+                    {status.religion_id}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
 
-            <FormControl id="casteCategory">
+            {/* <FormControl id="casteCategory">
               <FormLabel>Caste Category</FormLabel>
               <Input
                 type="text"
@@ -236,6 +336,21 @@ function FormOne() {
                 value={formData.casteCategory}
                 onChange={handleChange("casteCategory")}
               />
+            </FormControl> */}
+            <FormControl id="casteCategory">
+              <FormLabel>Caste Category</FormLabel>
+              <Select
+                placeholder="Select your casteCategory"
+                value={formData.casteCategory}
+                onChange={handleChange("casteCategory")}
+                required
+              >
+                {casteCategoryList?.map((status, index) => (
+                  <option key={index} value={status.category_name}>
+                    {status.category_name}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
 
             <FormControl id="subCaste">
@@ -470,7 +585,7 @@ function FormOne() {
               />
             </FormControl>
 
-            <FormControl id="disabilityType">
+            {/* <FormControl id="disabilityType">
               <FormLabel>Disability Type</FormLabel>
               <Input
                 type="text"
@@ -478,9 +593,24 @@ function FormOne() {
                 value={formData.disabilityType}
                 onChange={handleChange("disabilityType")}
               />
+            </FormControl> */}
+            <FormControl id="disabilityType">
+              <FormLabel>Disability Type</FormLabel>
+              <Select
+                placeholder="Select your Disability Type"
+                value={formData.disabilityType}
+                onChange={handleChange("disabilityType")}
+                required
+              >
+                {disabilityTypeList?.map((status, index) => (
+                  <option key={index} value={status.disability_type}>
+                    {status.disability_type}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
 
-            <FormControl id="disabilityName">
+            {/* <FormControl id="disabilityName">
               <FormLabel>Person with Disability</FormLabel>
               <Input
                 type="text"
@@ -488,6 +618,21 @@ function FormOne() {
                 value={formData.disabilityName}
                 onChange={handleChange("disabilityName")}
               />
+            </FormControl> */}
+            <FormControl id="disabilityName">
+              <FormLabel>Person with Disability</FormLabel>
+              <Select
+                placeholder="Select your Disability"
+                value={formData.disabilityName}
+                onChange={handleChange("disabilityName")}
+                required
+              >
+                {disabilityWithTypelist?.map((status, index) => (
+                  <option key={index} value={status.Disability}>
+                    {status.Disability}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
 
             <FormControl id="doYouHaveDisabilityCertificate">

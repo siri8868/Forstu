@@ -6,6 +6,7 @@ import {
   FormControl,
   FormLabel,
   Input,
+  Select,
   VStack,
   useToast,
 } from "@chakra-ui/react";
@@ -14,9 +15,12 @@ import {
   submitFormDataApi,
 } from "../../../api/FormApi/FormApi";
 import { getOTPSecret } from "../../../helpers/AuthHelpers";
+import { getOccpationListApi } from "../../../api/FormApi/FormDropdownApi";
 
 function FormThree() {
   const [formData, setFormData] = useState({});
+  const [occupationList, setOccupationList] = useState([]);
+
   const toast = useToast();
 
   const handleChange = (param) => (event) => {
@@ -38,8 +42,20 @@ function FormThree() {
       });
   };
 
+  const getoccpationlistData = () => {
+    getOccpationListApi()
+      .then((res) => {
+        // console.log("res getOccpationListApi", res);
+        setOccupationList(res.data);
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  };
+
   useEffect(() => {
     getOtherInfo();
+    getoccpationlistData();
   }, []);
 
   const handleSubmit = (event) => {
@@ -52,6 +68,9 @@ function FormThree() {
       fatherOccupation: formData.fatherOccupation,
       fatherSalaried: formData.fatherSalaried,
       motherAlive: formData.motherAlive,
+      motherName: formData.motherName,
+      motherOccupation: formData.motherOccupation,
+      isMotherSalaried: formData.isMotherSalaried,
     };
 
     console.log("data", data);
@@ -126,7 +145,7 @@ function FormThree() {
               />
             </FormControl>
 
-            <FormControl id="fatherOccupation">
+            {/* <FormControl id="fatherOccupation">
               <FormLabel>Father Occupation</FormLabel>
               <Input
                 type="text"
@@ -134,6 +153,22 @@ function FormThree() {
                 value={formData.fatherOccupation}
                 onChange={handleChange("fatherOccupation")}
               />
+            </FormControl> */}
+
+            <FormControl id="fatherOccupation">
+              <FormLabel>Father Occupation</FormLabel>
+              <Select
+                placeholder="Select your Father Occupation"
+                value={formData.fatherOccupation}
+                onChange={handleChange("fatherOccupation")}
+                required
+              >
+                {occupationList?.map((status, index) => (
+                  <option key={index} value={status.occu_name}>
+                    {status.occu_name}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
 
             <FormControl id="fatherSalaried">
@@ -166,7 +201,7 @@ function FormThree() {
               />
             </FormControl>
 
-            <FormControl id="motherOccupation">
+            {/* <FormControl id="motherOccupation">
               <FormLabel>mother Occupation</FormLabel>
               <Input
                 type="text"
@@ -174,6 +209,22 @@ function FormThree() {
                 value={formData.motherOccupation}
                 onChange={handleChange("motherOccupation")}
               />
+            </FormControl> */}
+
+            <FormControl id="motherOccupation">
+              <FormLabel>Mother Occupation</FormLabel>
+              <Select
+                placeholder="Select your Mother Occupation"
+                value={formData.motherOccupation}
+                onChange={handleChange("motherOccupation")}
+                required
+              >
+                {occupationList?.map((status, index) => (
+                  <option key={index} value={status.occu_name}>
+                    {status.occu_name}
+                  </option>
+                ))}
+              </Select>
             </FormControl>
 
             <FormControl id="isMotherSalaried">
