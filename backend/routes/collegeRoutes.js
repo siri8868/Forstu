@@ -6,6 +6,8 @@ const {
   addCollegeProfile,
   updateCollegeProfile,
   deleteCollegeProfile,
+  getQualificationlevel,
+  getStramlevel
   // addUser,
   // deleteUser,
   // updateUser,
@@ -39,7 +41,8 @@ router.put("/updatecollegeProfile", isSignedIn, isAdmin, updateCollegeProfile);
 
 router.delete("/deletecollegeProfile", isSignedIn, isAdmin, deleteCollegeProfile);
 
-
+router.get("/getqualificationlevel", getQualificationlevel);
+router.get("/getstreamlevel", getStramlevel);
 // router.delete("/deletecollegeProfile", isSignedIn, isAdmin, getUserValidationSchema, deleteCollegeProfile);
 
 

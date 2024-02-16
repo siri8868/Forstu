@@ -20,6 +20,7 @@ const MahadbtHostelTypes = require("../models/MahadbtHostelTypeModel");
 const YearOfStudy = require("../models/yearOfStudy");
 const admissionYear = require("../models/admissionYearModel");
 const examMonth = require("../models/examMonth");
+const MahadbtSubCaste = require("../models/mahadbtSubCaste.js");
 
 User.sync({
   alter: false,
@@ -104,6 +105,10 @@ admissionYear.sync({
 examMonth.sync({
   alter: false,
 });
+
+MahadbtSubCaste.sync({
+  alter: false
+})
 
 module.exports = {
   sequelize,
