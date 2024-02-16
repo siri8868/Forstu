@@ -24,7 +24,11 @@ import {
 } from "../../../api/FormApi/FormDropdownApi";
 
 function FormOne() {
+  const doYouHaveCasteCertificateDropDown = ["Yes", "No"];
+
+  const [stateOfCasteCertificate, setStateOfCasteCertificate] = useState(true);
   const [formData, setFormData] = useState({});
+  const [tempFormData, setTempFormData] = useState({});
   const [maritalStatus, setMaritalStatus] = useState([]);
   const [religionList, setReligionList] = useState([]);
   const [casteCategoryList, setCasteCategoryList] = useState([]);
@@ -35,6 +39,15 @@ function FormOne() {
 
   const handleChange = (param) => (event) => {
     setFormData({ ...formData, [param]: event.target.value });
+  };
+  // const handleChangedoYouHaveCasteCertificateDropDown = (param) => (event) => {
+  //   setStateOfCasteCertificate(event.target.value === "Yes" ? true : false);
+  //   setFormData({ ...formData, [param]: event.target.value });
+  // };
+  const handleChangedoYouHaveCasteCertificateDropDown = (param) => (event) => {
+    const newValue = event.target.value;
+    setStateOfCasteCertificate(newValue === "Yes");
+    setFormData({ ...formData, [param]: newValue });
   };
 
   const handleSubmit = (event) => {
@@ -137,6 +150,7 @@ function FormOne() {
       .then((res) => {
         console.log("res", res.data[0]);
         setFormData(res.data[0]);
+        setTempFormData(res.data[0]);
       })
       .catch((error) => {
         console.error(error);
@@ -365,74 +379,94 @@ function FormOne() {
 
             <FormControl id="doYouHaveCasteCertificate">
               <FormLabel>Do you have Caste Certificate?</FormLabel>
-              <Input
+              {/* <Input
                 type="text"
                 placeholder="Enter your doYouHaveCasteCertificate"
                 value={formData.doYouHaveCasteCertificate}
                 onChange={handleChange("doYouHaveCasteCertificate")}
-              />
+              /> */}
+              <Select
+                placeholder="Select your Caste Certificate"
+                value={formData.doYouHaveCasteCertificate}
+                onChange={handleChangedoYouHaveCasteCertificateDropDown(
+                  "doYouHaveCasteCertificate"
+                )}
+                required
+              >
+                {doYouHaveCasteCertificateDropDown?.map((status, index) => (
+                  <option key={index} value={status}>
+                    {status}
+                  </option>
+                ))}
+                {/* <option key={""} value={""}>
+                 "Yes"
+                </option> */}
+              </Select>
             </FormControl>
 
-            <FormControl id="casteCertificateNumber">
-              <FormLabel>Caste Certificate Number</FormLabel>
-              <Input
-                type="text"
-                placeholder="Enter your casteCertificateNumber"
-                value={formData.casteCertificateNumber}
-                onChange={handleChange("casteCertificateNumber")}
-              />
-            </FormControl>
+            {stateOfCasteCertificate && (
+              <>
+                <FormControl id="casteCertificateNumber">
+                  <FormLabel>Caste Certificate Number</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Enter your casteCertificateNumber"
+                    value={formData.casteCertificateNumber}
+                    onChange={handleChange("casteCertificateNumber")}
+                  />
+                </FormControl>
 
-            <FormControl id="casteIssuedDistrict">
-              <FormLabel>Issuing District (Caste Certificate)</FormLabel>
-              <Input
-                type="text"
-                placeholder="Enter your casteIssuedDistrict"
-                value={formData.casteIssuedDistrict}
-                onChange={handleChange("casteIssuedDistrict")}
-              />
-            </FormControl>
+                <FormControl id="casteIssuedDistrict">
+                  <FormLabel>Issuing District (Caste Certificate)</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Enter your casteIssuedDistrict"
+                    value={formData.casteIssuedDistrict}
+                    onChange={handleChange("casteIssuedDistrict")}
+                  />
+                </FormControl>
 
-            <FormControl id="casteApplicantName">
-              <FormLabel> Caste Applicant Name</FormLabel>
-              <Input
-                type="text"
-                placeholder="Enter your casteApplicantName"
-                value={formData.casteApplicantName}
-                onChange={handleChange("casteApplicantName")}
-              />
-            </FormControl>
+                <FormControl id="casteApplicantName">
+                  <FormLabel> Caste Applicant Name</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Enter your casteApplicantName"
+                    value={formData.casteApplicantName}
+                    onChange={handleChange("casteApplicantName")}
+                  />
+                </FormControl>
 
-            <FormControl id="casteIssuingAuthority">
-              <FormLabel> Caste Issuing Authority</FormLabel>
-              <Input
-                type="text"
-                placeholder="Enter your Caste Issuing Authority"
-                value={formData.casteIssuingAuthority}
-                onChange={handleChange("casteIssuingAuthority")}
-              />
-            </FormControl>
+                <FormControl id="casteIssuingAuthority">
+                  <FormLabel> Caste Issuing Authority</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Enter your Caste Issuing Authority"
+                    value={formData.casteIssuingAuthority}
+                    onChange={handleChange("casteIssuingAuthority")}
+                  />
+                </FormControl>
 
-            <FormControl id="casteDoc">
-              <FormLabel> Caste Docs</FormLabel>
-              <Input
-                type="text"
-                placeholder="Enter your Caste Docs"
-                value={formData.casteDoc}
-                onChange={handleChange("casteDoc")}
-              />
-            </FormControl>
+                <FormControl id="casteDoc">
+                  <FormLabel> Caste Docs</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Enter your Caste Docs"
+                    value={formData.casteDoc}
+                    onChange={handleChange("casteDoc")}
+                  />
+                </FormControl>
 
-            <FormControl id="casteIssuedDate">
-              <FormLabel> Caste Issuing Date</FormLabel>
-              <Input
-                type="text"
-                placeholder="Enter your Caste Issuing Date"
-                value={formData.casteIssuedDate}
-                onChange={handleChange("casteIssuedDate")}
-              />
-            </FormControl>
-
+                <FormControl id="casteIssuedDate">
+                  <FormLabel> Caste Issuing Date</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Enter your Caste Issuing Date"
+                    value={formData.casteIssuedDate}
+                    onChange={handleChange("casteIssuedDate")}
+                  />
+                </FormControl>
+              </>
+            )}
             <FormControl id="annualFamilyIncome">
               <FormLabel>Family Annual Income</FormLabel>
               <Input
