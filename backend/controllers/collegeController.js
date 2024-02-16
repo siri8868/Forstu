@@ -2,7 +2,8 @@ const { Op } = require("sequelize");
 const ROLES = require("../helpers/roles");
 // const User = require("../models/usersModel");
 const collegeprofile = require("../models/collegeModel");
-
+const streamData = require("../models/streamModel");
+const QualificationLevel = require("../models/qaulfification-levelModel");
 
 const { validationResult } = require("express-validator");
 const { createHmac } = require("crypto");
@@ -265,7 +266,64 @@ exports.deleteCollegeProfile = (req, res) => {
   }
 };
 
+// get Qualification level Data for addding the college
+exports.getQualificationlevel = (req, res) => {
+  // res.send("Bhaiyajiiiiiii tesnion mat lo");
+  console.log("your reqq data for course");
+  QualificationLevel.findAll({
+    attributes: [
+      "qualification_name"
+    ]
+  })
+    .then((data) => {
+      // console.log("your data req", data)
+      // return 
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      // console.log(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to Marital Status list",
+        error: error,
+      });
+    });
+}
 
+
+// get Stream Data for addding the college
+exports.getStramlevel = (req, res) => {
+  // res.send("Bhaiyajiiiiiii tesnion mat lo");
+  console.log("your reqq data for course");
+  streamData.findAll({
+    attributes: [
+      "stream_name"
+    ]
+  })
+    .then((data) => {
+      // console.log("your data req", data)
+      // return 
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      // console.log(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to Marital Status list",
+        error: error,
+      });
+    });
+}
 
 // exports.deleteUsers = (req, res) => {
 //   try {
