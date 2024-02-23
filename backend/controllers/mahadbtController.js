@@ -3,6 +3,13 @@ const { Sequelize, Op } = require("sequelize");
 
 const ROLES = require("../helpers/roles");
 const speakeasy = require("speakeasy");
+
+const {
+  S3Client,
+  PutObjectCommand,
+  GetObjectCommand,
+  DeleteObjectCommand,
+} = require("@aws-sdk/client-s3");
 // const User = require("../models/usersModel");
 // const collegeprofile = require("../models/collegeModel");
 const Mahadbtprofiles = require("../models/mahadbtModel");
@@ -25,6 +32,14 @@ AWS.config.update({
   accessKeyId: process.env.AWS_ACCESS_KEY,
   secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
   region: process.env.AWS_BUCKET_REGION, // For example, 'us-east-1'
+});
+
+const s3 = new S3Client({
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY, // store it in .env file to keep it safe
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+  },
+  region: process.env.AWS_BUCKET_REGION, // this is the region that you select in AWS account
 });
 
 // Function to generate a TOTP secret
@@ -959,49 +974,125 @@ exports.getIncompleteFieldsController = async (req, res) => {
 // }
 // };
 
+// exports.sendDatatoDB = async (req, res) => {
+//   // console.log("success");
+//   // res.send("Data send to db");
+//   // console.log("req profile", req.profile.ref_code);
+//   // const { id } = req.body.id;
+//   // console.log("req body", req.body);
+//   // console.log("req body ID:::::", req.body.id);
+
+//   // return res.send("success");
+
+//   // const savedData = {
+//   //   candidateName: "nishantttt",
+//   //   whatsappNumber: 9999999999,
+//   //   gender: "Female",
+//   //   parentMobileNumber: 888888888888,
+//   //   maritalStatus: "Unmarried",
+//   //   religion: "Hindu",
+//   //   casteCategory: "SBC",
+//   //   subCaste: "PADMASHALI",
+//   //   doYouHaveCasteCertificate: "Yes",
+//   //   casteCertificateNumber: 9999090099099,
+//   // };
+
+//   Mahadbtprofiles.update(req.body, {
+//     // Specify the condition for the update
+//     where: {
+//       id: req.body.id,
+//     },
+//   })
+//     .then((result) => {
+//       console.log("result", result);
+//       // The result is an array where the first element is the number of updated rows
+//       // console.log(`${result[0]} row(s) updated`);
+//       // res.status(200).json({ message: ` row(s) updated` });
+//       return res.status(200).json({
+//         success: true,
+//         message: `${result[0]} row(s) updated`,
+//       });
+//     })
+//     .catch((error) => {
+//       console.error("Error updating records:", error);
+//       res.status(500).json({ error: "Internal Server Error" });
+//     });
+// };
+
 exports.sendDatatoDB = async (req, res) => {
-  // console.log("success");
-  // res.send("Data send to db");
-  // console.log("req profile", req.profile.ref_code);
-  // const { id } = req.body.id;
-  // console.log("req body", req.body);
-  // console.log("req body ID:::::", req.body.id);
+  try {
+    // let files = req.files.video;
+    // let files = [...req.files.video, ...req.files.incomeDocumentFile];
+    const dataOfMain = req.body;
+    // console.log("Caste Certificateee", req.files.video);
+    // console.log("incomeDocumentFile:::", req.files.incomeDocumentFile);
 
-  // return res.send("success");
+    // console.log("dataOfMain", req.body);
 
-  // const savedData = {
-  //   candidateName: "nishantttt",
-  //   whatsappNumber: 9999999999,
-  //   gender: "Female",
-  //   parentMobileNumber: 888888888888,
-  //   maritalStatus: "Unmarried",
-  //   religion: "Hindu",
-  //   casteCategory: "SBC",
-  //   subCaste: "PADMASHALI",
-  //   doYouHaveCasteCertificate: "Yes",
-  //   casteCertificateNumber: 9999090099099,
-  // };
+    let files = [];
+    if (req.files.video) {
+      if (Array.isArray(req.files.video)) {
+        files.push(...req.files.video);
+      } else {
+        files.push(req.files.video);
+      }
+    }
 
-  Mahadbtprofiles.update(req.body, {
-    // Specify the condition for the update
-    where: {
-      id: req.body.id,
-    },
-  })
-    .then((result) => {
-      console.log("result", result);
-      // The result is an array where the first element is the number of updated rows
-      // console.log(`${result[0]} row(s) updated`);
-      // res.status(200).json({ message: ` row(s) updated` });
-      return res.status(200).json({
-        success: true,
-        message: `${result[0]} row(s) updated`,
-      });
-    })
-    .catch((error) => {
-      console.error("Error updating records:", error);
-      res.status(500).json({ error: "Internal Server Error" });
+    if (req.files.incomeDocumentFile) {
+      if (Array.isArray(req.files.incomeDocumentFile)) {
+        files.push(...req.files.incomeDocumentFile);
+      } else {
+        files.push(req.files.incomeDocumentFile);
+      }
+    }
+
+    // if (!Array.isArray(files)) {
+    //   files = [files];
+    // }
+
+    console.log("Caste Certificateee", files);
+    // return;
+
+    // Upload files to S3
+    const s3UploadPromises = files.map((file) => {
+      const uploadParams = {
+        Bucket: "mahadbtdocs",
+        Key: `${file.name}`,
+        Body: file.data,
+      };
+      // return s3.upload(uploadParams).promise();
+      s3.send(new PutObjectCommand(uploadParams));
+      // Construct the URL of the uploaded object manually
+      const objectUrl = `https://${uploadParams.Bucket}.s3.${AWS.config.region}.amazonaws.com/${uploadParams.Key}`;
+
+      return objectUrl; // Return the URL of the uploaded object
     });
+
+    const uploadedObjectUrls = await Promise.all(s3UploadPromises);
+
+    const updatedDataOfMain = {
+      ...dataOfMain,
+      casteDoc: uploadedObjectUrls[0],
+      incomeDoc: uploadedObjectUrls[1],
+    };
+    console.log("S3 Upload updatedDataOfMain>>>>>>:", updatedDataOfMain);
+    console.log("S3 Upload Responses:", uploadedObjectUrls);
+
+    // Update database entry
+    await Mahadbtprofiles.update(updatedDataOfMain, {
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `${uploadedObjectUrls.length} file(s) uploaded to S3 and database entry updated successfully.`,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
 };
 
 exports.personalInfo = (req, res) => {

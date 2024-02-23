@@ -25,9 +25,18 @@ function FormFive() {
   const [sscAdmissionYear, setSSCAdmissionYear] = useState([]);
   const [hscAdmissionYear, setHSCAdmissionYear] = useState([]);
   const [sscExamMonth, setSSCExamMonth] = useState([]);
+  const [stateOfHaveGap, setStateOfHaveGap] = useState(false);
 
   //   const [data, setData] = useState([]);
   const toast = useToast();
+
+  const listForHaveGap = ["Yes", "No"];
+
+  const handleChangeForHaveGapDropDown = (param) => (event) => {
+    const newValue = event.target.value;
+    setStateOfHaveGap(newValue === "Yes");
+    setFormData({ ...formData, [param]: newValue });
+  };
 
   const handleChange = (param) => (event) => {
     setFormData({ ...formData, [param]: event.target.value });
@@ -567,7 +576,7 @@ function FormFive() {
               />
             </FormControl>
 
-            <FormControl id="doYouHaveGap">
+            {/* <FormControl id="doYouHaveGap">
               <FormLabel>Do You Have Gap</FormLabel>
               <Input
                 type="text"
@@ -575,27 +584,49 @@ function FormFive() {
                 value={formData.doYouHaveGap}
                 onChange={handleChange("doYouHaveGap")}
               />
+            </FormControl> */}
+            <FormControl id="doYouHaveGap">
+              <FormLabel>Do You Have Gap</FormLabel>
+
+              <Select
+                placeholder="Select your Admission Type"
+                value={formData.doYouHaveGap}
+                onChange={handleChangeForHaveGapDropDown("doYouHaveGap")}
+              >
+                {listForHaveGap?.map((status, index) => {
+                  // console.log("status", status);
+                  return (
+                    <option key={index} value={status}>
+                      {status}
+                    </option>
+                  );
+                })}
+              </Select>
             </FormControl>
 
-            <FormControl id="gapYear">
-              <FormLabel>Gap Year</FormLabel>
-              <Input
-                type="text"
-                placeholder="Gap Year"
-                value={formData.gapYear}
-                onChange={handleChange("gapYear")}
-              />
-            </FormControl>
+            {stateOfHaveGap && (
+              <>
+                <FormControl id="gapYear">
+                  <FormLabel>Gap Year</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Gap Year"
+                    value={formData.gapYear}
+                    onChange={handleChange("gapYear")}
+                  />
+                </FormControl>
 
-            <FormControl id="gapDoc">
-              <FormLabel>Gap Document</FormLabel>
-              <Input
-                type="text"
-                placeholder="Gap Document"
-                value={formData.gapDoc}
-                onChange={handleChange("gapDoc")}
-              />
-            </FormControl>
+                <FormControl id="gapDoc">
+                  <FormLabel>Gap Document</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Gap Document"
+                    value={formData.gapDoc}
+                    onChange={handleChange("gapDoc")}
+                  />
+                </FormControl>
+              </>
+            )}
           </VStack>
           <Button
             color="text.light"
