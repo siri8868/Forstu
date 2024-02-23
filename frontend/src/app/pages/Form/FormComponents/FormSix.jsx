@@ -19,11 +19,28 @@ import { getHostelTypeApi } from "../../../api/FormApi/FormDropdownApi";
 function FormSix() {
   const [formData, setFormData] = useState({});
   const [hostelTypeList, setHostelTypeList] = useState([]);
+  const [
+    stateOfAreYouHostelleOrrDayScholar,
+    setStateOfAreYouHostellerOrDayScholar,
+  ] = useState(false);
 
   const toast = useToast();
+  const listForHostellerOrDayScholar = ["Hosteller", "Day Scholar"];
 
   const handleChange = (param) => (event) => {
     setFormData({ ...formData, [param]: event.target.value });
+  };
+
+  const handleChangeAreYouHostellerDayScholarDropDown = (param) => (event) => {
+    // if (formData.isFatherAlive === "Yes") {
+    //   setStateOfIsFatherAlive(false);
+    // } else {
+    //   setStateOfIsFatherAlive(true);
+    // }
+    const newValue = event.target.value;
+    setStateOfAreYouHostellerOrDayScholar(newValue === "Hosteller");
+    // setStateOfCasteCertificate(newValue === "Yes");
+    setFormData({ ...formData, [param]: newValue });
   };
 
   const handleSubmit = (event) => {
@@ -126,7 +143,7 @@ function FormSix() {
                 onChange={handleChange("id")}
               />
             </FormControl>
-            <FormControl id="areYouHostellerDayScholar">
+            {/* <FormControl id="areYouHostellerDayScholar">
               <FormLabel>Are you a Hosteller or Day Scholar</FormLabel>
               <Input
                 type="text"
@@ -134,112 +151,127 @@ function FormSix() {
                 value={formData.areYouHostellerDayScholar}
                 onChange={handleChange("areYouHostellerDayScholar")}
               />
-            </FormControl>
-
-            <FormControl id="hostelState">
-              <FormLabel>Hostel State</FormLabel>
-              <Input
-                type="text"
-                placeholder="Hostel State"
-                value={formData.hostelState}
-                onChange={handleChange("hostelState")}
-              />
-            </FormControl>
-
-            <FormControl id="hostelDistrict">
-              <FormLabel>Hostel District</FormLabel>
-              <Input
-                type="text"
-                placeholder="Hostel District"
-                value={formData.hostelDistrict}
-                onChange={handleChange("hostelDistrict")}
-              />
-            </FormControl>
-
-            <FormControl id="hostelTaluka">
-              <FormLabel>Hostel Taluka</FormLabel>
-              <Input
-                type="text"
-                placeholder="Hostel Taluka"
-                value={formData.hostelTaluka}
-                onChange={handleChange("hostelTaluka")}
-              />
-            </FormControl>
-
-            {/* <FormControl id="hostelType">
-              <FormLabel>Hostel Type</FormLabel>
-              <Input
-                type="text"
-                placeholder="Hostel Type"
-                value={formData.hostelType}
-                onChange={handleChange("hostelType")}
-              />
             </FormControl> */}
-            <FormControl id="hostelType">
-              <FormLabel>Hostel Type</FormLabel>
+            <FormControl id="areYouHostellerDayScholar">
+              <FormLabel>Are you a Hosteller or Day Scholar</FormLabel>
+
               <Select
-                placeholder="Select your Hostel Type"
-                value={formData.hostelType}
-                onChange={handleChange("hostelType")}
-                required
+                placeholder="Select your Hosteller or Day Scholar"
+                value={formData.areYouHostellerDayScholar}
+                onChange={handleChangeAreYouHostellerDayScholarDropDown(
+                  "areYouHostellerDayScholar"
+                )}
               >
-                {hostelTypeList?.map((status, index) => (
-                  <option key={index} value={status.hostel_type_name}>
-                    {status.hostel_type_name}
-                  </option>
-                ))}
+                {listForHostellerOrDayScholar?.map((status, index) => {
+                  // console.log("status", status);
+                  return (
+                    <option key={index} value={status}>
+                      {status}
+                    </option>
+                  );
+                })}
               </Select>
             </FormControl>
 
-            <FormControl id="hostelName">
-              <FormLabel>Hostel/ P.G/Rented House Name</FormLabel>
-              <Input
-                type="text"
-                placeholder="Hostel/ P.G/Rented House Name"
-                value={formData.hostelName}
-                onChange={handleChange("hostelName")}
-              />
-            </FormControl>
+            {stateOfAreYouHostelleOrrDayScholar && (
+              <>
+                <FormControl id="hostelState">
+                  <FormLabel>Hostel State</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Hostel State"
+                    value={formData.hostelState}
+                    onChange={handleChange("hostelState")}
+                  />
+                </FormControl>
 
-            <FormControl id="hostelAddress">
-              <FormLabel>Hostel/ P.G/Rented House Address</FormLabel>
-              <Input
-                type="text"
-                placeholder="Hostel/ P.G/Rented House Address"
-                value={formData.hostelAddress}
-                onChange={handleChange("hostelAddress")}
-              />
-            </FormControl>
+                <FormControl id="hostelDistrict">
+                  <FormLabel>Hostel District</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Hostel District"
+                    value={formData.hostelDistrict}
+                    onChange={handleChange("hostelDistrict")}
+                  />
+                </FormControl>
 
-            <FormControl id="hostelPincode">
-              <FormLabel>Hostel Pin Code</FormLabel>
-              <Input
-                type="text"
-                placeholder="Hostel Pin Code"
-                value={formData.hostelPincode}
-                onChange={handleChange("hostelPincode")}
-              />
-            </FormControl>
+                <FormControl id="hostelTaluka">
+                  <FormLabel>Hostel Taluka</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Hostel Taluka"
+                    value={formData.hostelTaluka}
+                    onChange={handleChange("hostelTaluka")}
+                  />
+                </FormControl>
 
-            <FormControl id="hostelAdmissionDate">
-              <FormLabel>Hostel Admission Date</FormLabel>
-              <Input
-                type="text"
-                placeholder="Hostel Admission Date"
-                value={formData.hostelAdmissionDate}
-                onChange={handleChange("hostelAdmissionDate")}
-              />
-            </FormControl>
+                <FormControl id="hostelType">
+                  <FormLabel>Hostel Type</FormLabel>
+                  <Select
+                    placeholder="Select your Hostel Type"
+                    value={formData.hostelType}
+                    onChange={handleChange("hostelType")}
+                    required
+                  >
+                    {hostelTypeList?.map((status, index) => (
+                      <option key={index} value={status.hostel_type_name}>
+                        {status.hostel_type_name}
+                      </option>
+                    ))}
+                  </Select>
+                </FormControl>
 
-            <FormControl id="hostelDoc">
-              <FormLabel>Hostel Docs</FormLabel>
-              <Input
-                type="text"
-                placeholder="Hostel Docs"
-                value={formData.hostelDoc}
-                onChange={handleChange("hostelDoc")}
-              />
-            </FormControl>
+                <FormControl id="hostelName">
+                  <FormLabel>Hostel/ P.G/Rented House Name</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Hostel/ P.G/Rented House Name"
+                    value={formData.hostelName}
+                    onChange={handleChange("hostelName")}
+                  />
+                </FormControl>
+
+                <FormControl id="hostelAddress">
+                  <FormLabel>Hostel/ P.G/Rented House Address</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Hostel/ P.G/Rented House Address"
+                    value={formData.hostelAddress}
+                    onChange={handleChange("hostelAddress")}
+                  />
+                </FormControl>
+
+                <FormControl id="hostelPincode">
+                  <FormLabel>Hostel Pin Code</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Hostel Pin Code"
+                    value={formData.hostelPincode}
+                    onChange={handleChange("hostelPincode")}
+                  />
+                </FormControl>
+
+                <FormControl id="hostelAdmissionDate">
+                  <FormLabel>Hostel Admission Date</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Hostel Admission Date"
+                    value={formData.hostelAdmissionDate}
+                    onChange={handleChange("hostelAdmissionDate")}
+                  />
+                </FormControl>
+
+                <FormControl id="hostelDoc">
+                  <FormLabel>Hostel Docs</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Hostel Docs"
+                    value={formData.hostelDoc}
+                    onChange={handleChange("hostelDoc")}
+                  />
+                </FormControl>
+              </>
+            )}
           </VStack>
           <Button
             color="text.light"

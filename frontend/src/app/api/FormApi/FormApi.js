@@ -154,11 +154,11 @@ export async function submitFormDataApi(data) {
   const response = await fetch(`${ENDPOINT}/submitFormData`, {
     method: "PUT",
     headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
+      // "Content-Type": "application/json",
+      // Accept: "application/json",
       //   Authorization: accessToken,
     },
-    body: JSON.stringify(data),
+    body: data,
   });
 
   //   if (response.status == 401) {

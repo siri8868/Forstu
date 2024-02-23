@@ -21,13 +21,31 @@ import {
 } from "../../../api/FormApi/FormDropdownApi";
 
 function FormFour() {
+  const [stateOfAdmissionType, setStateOfAdmissionType] = useState(false);
+
   const [formData, setFormData] = useState({});
   const [qualificationLevelList, setQualificationLevelList] = useState([]);
   const [yearOfStudylList, setYearOfStudylList] = useState([]);
   const toast = useToast();
 
+  const listForAdmissionType = [
+    "Through CAP/Govt. Quota",
+    "Through TFWS",
+    "Through Spot Admission/Institute Level",
+    "Through Management Quota",
+    "Through CLAT",
+  ];
+
   const handleChange = (param) => (event) => {
     setFormData({ ...formData, [param]: event.target.value });
+  };
+
+  const handleChangeAdmissionTypeDropDown = (param) => (event) => {
+    const newValue = event.target.value;
+    const isAdmissionTypeSelected =
+      newValue === "Through CAP/Govt. Quota" || newValue === "Through CLAT";
+    setStateOfAdmissionType(isAdmissionTypeSelected);
+    setFormData({ ...formData, [param]: newValue });
   };
 
   const handleSubmit = (event) => {
@@ -260,47 +278,68 @@ function FormFour() {
               />
             </FormControl>
 
-            <FormControl id="admissionType">
+            {/* <FormControl id="admissionType">
               <FormLabel>Admission Type</FormLabel>
               <Input
                 type="text"
                 placeholder="Enter Your Admission Type"
                 value={formData.admissionType}
-                onChange={handleChange("admissionType")}
+                onChange={handleChangeAdmissionTypeDropDown("admissionType")}
               />
-            </FormControl>
+            </FormControl> */}
+            <FormControl id="admissionType">
+              <FormLabel>Admission Type</FormLabel>
 
-            <FormControl id="cetPercentAge">
-              <FormLabel>CET / JEE Percentage</FormLabel>
-              <Input
-                type="text"
-                placeholder="Cet Percentage"
-                value={formData.cetPercentAge}
-                onChange={handleChange("cetPercentAge")}
-              />
+              <Select
+                placeholder="Select your Admission Type"
+                value={formData.admissionType}
+                onChange={handleChangeAdmissionTypeDropDown("admissionType")}
+              >
+                {listForAdmissionType?.map((status, index) => {
+                  // console.log("status", status);
+                  return (
+                    <option key={index} value={status}>
+                      {status}
+                    </option>
+                  );
+                })}
+              </Select>
             </FormControl>
+            {stateOfAdmissionType && (
+              <>
+                <FormControl id="cetPercentAge">
+                  <FormLabel>CET / JEE Percentage</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Cet Percentage"
+                    value={formData.cetPercentAge}
+                    onChange={handleChange("cetPercentAge")}
+                  />
+                </FormControl>
 
-            <FormControl id="admissionApplicationId">
-              <FormLabel>
-                Application Admission ID/CAP ID/CLAT Admit Card No
-              </FormLabel>
-              <Input
-                type="text"
-                placeholder="Admission Application Id"
-                value={formData.admissionApplicationId}
-                onChange={handleChange("admissionApplicationId")}
-              />
-            </FormControl>
+                <FormControl id="admissionApplicationId">
+                  <FormLabel>
+                    Application Admission ID/CAP ID/CLAT Admit Card No
+                  </FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Admission Application Id"
+                    value={formData.admissionApplicationId}
+                    onChange={handleChange("admissionApplicationId")}
+                  />
+                </FormControl>
 
-            <FormControl id="admissionLetterDoc">
-              <FormLabel>Admission Letter Doc</FormLabel>
-              <Input
-                type="text"
-                placeholder="Admission Letter Doc"
-                value={formData.admissionLetterDoc}
-                onChange={handleChange("admissionLetterDoc")}
-              />
-            </FormControl>
+                <FormControl id="admissionLetterDoc">
+                  <FormLabel>Admission Letter Doc</FormLabel>
+                  <Input
+                    type="text"
+                    placeholder="Admission Letter Doc"
+                    value={formData.admissionLetterDoc}
+                    onChange={handleChange("admissionLetterDoc")}
+                  />
+                </FormControl>
+              </>
+            )}
 
             {/* <FormControl id="currentYear">
               <FormLabel>Year Of Study</FormLabel>
