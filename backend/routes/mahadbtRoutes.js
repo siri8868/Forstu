@@ -32,6 +32,9 @@ const {
   flushdata,
   getSingleMahadbtProfile,
   getSingleMahadbtProfileByRefCode,
+  downloadCSVFileforApplicationStatus,
+  downloadCSVFileforCasteWiseApplication,
+  downloadCSVFileforPendingReason,
   test,
 } = require("../controllers/mahadbtController");
 
@@ -58,6 +61,10 @@ router.get("/getcourseslist", isSignedIn, getCourseList);
 router.post("/getYearsFromCourse", isSignedIn, getCourseYearsFromFrontend);
 
 router.post("/courseandyearwisedata", isSignedIn, totalCourseAndYear);
+
+router.post("/downloadcsvforapplicationstatus", isSignedIn, downloadCSVFileforApplicationStatus);
+router.post("/downloadcsvforcastewiseapplicationstatus", isSignedIn, downloadCSVFileforCasteWiseApplication);
+router.post("/downloadcsvforpendingreason", isSignedIn, downloadCSVFileforPendingReason);
 
 router.post(
   "/applicationcountbycoursenameandyear",
