@@ -1,6 +1,6 @@
 // const { Op } = require("sequelize");
 const { Sequelize, Op } = require("sequelize");
-
+const { createObjectCsvWriter } = require('csv-writer');
 const ROLES = require("../helpers/roles");
 const speakeasy = require("speakeasy");
 
@@ -22,7 +22,6 @@ const sequelize = require("../database/connection");
 const AWS = require("aws-sdk");
 const ExcelInfo = require("../models/testExcelModel");
 const User = require("../models/usersModel");
-
 const nodemailer = require("nodemailer");
 
 // const { Json } = require("sequelize/types/utils");
@@ -1708,10 +1707,10 @@ exports.getStudentsView = async (req, res) => {
       "current_year",
       // "application_status"
     ],
-    // where: {
-    //   ref_code: req.profile.ref_code,
-    //   application_status: "Pending",
-    // },
+    where: {
+      ref_code: req.profile.ref_code,
+      //   application_status: "Pending",
+    },
   })
     .then((data) => {
       data = JSON.stringify(data);
@@ -1817,3 +1816,175 @@ exports.getSingleMahadbtProfileByRefCode = (req, res) => {
       });
     });
 };
+
+// Download CSV FIle
+
+
+exports.downloadCSVFileforApplicationStatus = async (req, res) => {
+  console.log("req profile", req.profile.ref_code);
+
+  try {
+    const data = await Mahadbtprofiles.findAll({
+      attributes: ['id', 'Candidate_name', 'whatsapp_number', 'qualification_level', 'coursename', 'current_year', 'course_stream', 'application_status', 'ref_code'],
+      where: {
+        [Op.or]: [
+          { application_status: 'Submitted' },
+          { application_status: 'Pending' }
+        ],
+        ref_code: req.profile.ref_code
+      },
+      order: [
+        ['application_status', 'ASC']
+      ]
+    });
+
+    const csvWriter = createObjectCsvWriter({
+      path: 'application_status_data.csv',  // You can customize the file name
+      header: [
+        { id: 'id', title: 'ID' },
+        { id: 'Candidate_name', title: 'Candidate Name' },
+        { id: 'whatsapp_number', title: 'WhatsApp Number' },
+        { id: 'qualification_level', title: 'Qualification Level' },
+        { id: 'coursename', title: 'Course Name' },
+        { id: 'current_year', title: 'Current Year' },
+        { id: 'course_stream', title: 'Course Stream' },
+        { id: 'application_status', title: 'Application Status' },
+        { id: 'ref_code', title: 'Reference Code' },
+      ]
+    });
+
+    const records = data.map(row => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+
+    csvWriter.writeRecords(records)
+      .then(() => {
+        console.log('CSV file written successfully');
+        res.download('application_status_data.csv');
+      })
+      .catch((error) => {
+        res.status(500).json({
+          success: false,
+          message: "Failed to write CSV file",
+          error: error,
+        });
+      });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve Mahadbt Profiles",
+      error: error,
+    });
+  }
+};
+
+exports.downloadCSVFileforCasteWiseApplication = async (req, res) => {
+  console.log("req profile", req.profile.ref_code);
+
+  try {
+    const data = await Mahadbtprofiles.findAll({
+      attributes: ['id', 'Candidate_name', 'whatsapp_number', 'CasteCategory', 'qualification_level', 'coursename', 'current_year', 'course_stream', 'application_status', 'ref_code'],
+      where: {
+        application_status: 'Pending',
+        ref_code: req.profile.ref_code
+      },
+      order: [
+        ['CasteCategory', 'ASC']
+      ]
+    });
+
+    const csvWriter = createObjectCsvWriter({
+      path: 'caste_wise_applications.csv',  // You can customize the file name
+      header: [
+        { id: 'id', title: 'ID' },
+        { id: 'Candidate_name', title: 'Candidate Name' },
+        { id: 'whatsapp_number', title: 'WhatsApp Number' },
+        { id: 'CasteCategory', title: 'Caste Category' },
+        { id: 'qualification_level', title: 'Qualification Level' },
+        { id: 'coursename', title: 'Course Name' },
+        { id: 'current_year', title: 'Current Year' },
+        { id: 'course_stream', title: 'Course Stream' },
+        { id: 'application_status', title: 'Application Status' },
+        { id: 'ref_code', title: 'Reference Code' },
+      ]
+    });
+
+    const records = data.map(row => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+
+    csvWriter.writeRecords(records)
+      .then(() => {
+        console.log('CSV file written successfully');
+        res.download('caste_wise_applications.csv');
+
+      })
+      .catch((error) => {
+        res.status(500).json({
+          success: false,
+          message: "Failed to write CSV file",
+          error: error,
+        });
+      });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve Mahadbt Profiles",
+      error: error,
+    });
+  }
+};
+
+exports.downloadCSVFileforPendingReason = async (req, res) => {
+  console.log("req profile", req.profile.ref_code);
+
+  try {
+    const data = await Mahadbtprofiles.findAll({
+      attributes: ['id', 'Candidate_name', 'whatsapp_number', 'CasteCategory', 'application_status', 'qualification_level', 'coursename', 'current_year', 'course_stream', 'application_failed_reason', 'ref_code'],
+      where: {
+        application_status: 'Pending',
+        ref_code: req.profile.ref_code
+      },
+      order: [
+        ['application_failed_reason', 'ASC']
+      ]
+    });
+
+    const csvWriter = createObjectCsvWriter({
+      path: 'pending_reason.csv',  // You can customize the file name
+      header: [
+        { id: 'id', title: 'ID' },
+        { id: 'Candidate_name', title: 'Candidate Name' },
+        { id: 'whatsapp_number', title: 'WhatsApp Number' },
+        { id: 'CasteCategory', title: 'Caste Category' },
+        { id: 'application_status', title: 'Application Status' },
+        { id: 'qualification_level', title: 'Qualification Level' },
+        { id: 'coursename', title: 'Course Name' },
+        { id: 'current_year', title: 'Current Year' },
+        { id: 'course_stream', title: 'Course Stream' },
+        { id: 'application_failed_reason', title: 'Applicaton Failed Reason' },
+
+
+        // Add other columns based on your attributes
+      ]
+    });
+
+    const records = data.map(row => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+
+    csvWriter.writeRecords(records)
+      .then(() => {
+        console.log('CSV file written successfully');
+        res.download('pending_reason.csv');
+      })
+      .catch((error) => {
+        res.status(500).json({
+          success: false,
+          message: "Failed to write CSV file",
+          error: error,
+        });
+      });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve Mahadbt Profiles",
+      error: error,
+    });
+  }
+};
+
