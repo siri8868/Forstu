@@ -167,3 +167,23 @@ export async function submitFormDataApi(data) {
 
   return response.json();
 }
+
+export async function submitFormDataForCasteUploadDocumentApi(data) {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/submitCasteDocument`, {
+    method: "PUT",
+    headers: {
+      // "Content-Type": "application/json",
+      // Accept: "application/json",
+      //   Authorization: accessToken,
+    },
+    body: data,
+  });
+
+  //   if (response.status == 401) {
+  //     redirectOnTokenExpire();
+  //   }
+
+  return response.json();
+}

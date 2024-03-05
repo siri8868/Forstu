@@ -15,6 +15,8 @@ import MicrositeLogin from "./pages/MicroiteLogin/MicrositeLogin";
 import StudentDashboard from "./pages/Student/StudentDashboard";
 import MicroRoute from "./components/MicroRoute";
 import MainLogin from "./components/MainLogin";
+import SubmitedStudents from "./pages/Submited/SubmitedStudents";
+import PendingStudents from "./pages/Pending/PendingStudents";
 
 function App() {
   // const [loginState, setLoginState] = useState("");
@@ -83,6 +85,20 @@ function App() {
           exact
           path="/dashboard/admin/student"
           component={StudentDashboard}
+          role={ROLES.ADMIN}
+        ></ProtectedRoute>
+
+        <ProtectedRoute
+          exact
+          path="/dashboard/admin/submited"
+          component={SubmitedStudents}
+          role={ROLES.ADMIN}
+        ></ProtectedRoute>
+
+        <ProtectedRoute
+          exact
+          path="/dashboard/admin/pending"
+          component={PendingStudents}
           role={ROLES.ADMIN}
         ></ProtectedRoute>
         {/* <Route path="/dashboard/admin">
