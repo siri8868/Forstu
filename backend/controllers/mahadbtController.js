@@ -11,7 +11,7 @@ const {
   DeleteObjectCommand,
 } = require("@aws-sdk/client-s3");
 // const User = require("../models/usersModel");
-// const collegeprofile = require("../models/collegeModel");
+const collegeprofile = require("../models/collegeModel");
 const Mahadbtprofiles = require("../models/mahadbtModel");
 
 const { validationResult } = require("express-validator");
@@ -1988,3 +1988,116 @@ exports.downloadCSVFileforPendingReason = async (req, res) => {
   }
 };
 
+exports.downloadCSVFileOfUserList = async (req, res) => {
+  console.log("req profile", req.profile.ref_code);
+
+  try {
+    const data = await User.findAll({
+      attributes: ['id', 'username', 'email', 'mobile', 'role', 'ref_code'],
+      // where: {
+      //   application_status: 'Pending',
+      //   ref_code: req.profile.ref_code
+      // },
+      order: [
+        ['id', 'ASC']
+      ]
+    });
+
+    const csvWriter = createObjectCsvWriter({
+      path: 'User-list.csv',  // You can customize the file name
+      header: [
+        { id: 'id', title: 'ID' },
+        { id: 'username', title: 'User Name' },
+        { id: 'email', title: 'Email' },
+        { id: 'mobile', title: 'Mobile Number' },
+        { id: 'role', title: 'ROle' },
+        { id: 'ref_code', title: 'REF CODE' },
+        // { id: 'coursename', title: 'Course Name' },
+        // { id: 'current_year', title: 'Current Year' },
+        // { id: 'course_stream', title: 'Course Stream' },
+        // { id: 'application_failed_reason', title: 'Applicaton Failed Reason' },
+
+
+        // Add other columns based on your attributes
+      ]
+    });
+
+    const records = data.map(row => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+
+    csvWriter.writeRecords(records)
+      .then(() => {
+        console.log('CSV file written successfully');
+        res.download('User-list.csv');
+      })
+      .catch((error) => {
+        res.status(500).json({
+          success: false,
+          message: "Failed to write CSV file",
+          error: error,
+        });
+      });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve Mahadbt Profiles",
+      error: error,
+    });
+  }
+};
+
+exports.downloadCSVFileOfUCollegeList = async (req, res) => {
+  console.log("req profile", req.profile.ref_code);
+
+  try {
+    const data = await collegeprofile.findAll({
+      attributes: ['id', 'institute_choice_code', 'institute_name', 'institute_state', 'institute_district', 'institute_taluka'],
+      // where: {
+      //   application_status: 'Pending',
+      //   ref_code: req.profile.ref_code
+      // },
+      order: [
+        ['id', 'ASC']
+      ]
+    });
+
+    const csvWriter = createObjectCsvWriter({
+      path: 'College-List.csv',  // You can customize the file name
+      header: [
+        { id: 'id', title: 'ID' },
+        { id: 'institute_choice_code', title: 'Institute Choice Code' },
+        { id: 'institute_name', title: 'Institute Name' },
+        { id: 'institute_state', title: 'Institute State' },
+        { id: 'institute_district', title: 'Institute  District' },
+        { id: 'institute_taluka', title: 'Institute  Taluka' },
+        // { id: 'coursename', title: 'Course Name' },
+        // { id: 'current_year', title: 'Current Year' },
+        // { id: 'course_stream', title: 'Course Stream' },
+        // { id: 'application_failed_reason', title: 'Applicaton Failed Reason' },
+
+
+        // Add other columns based on your attributes
+      ]
+    });
+
+    const records = data.map(row => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+
+    csvWriter.writeRecords(records)
+      .then(() => {
+        console.log('CSV file written successfully');
+        res.download('COllege-list.csv');
+      })
+      .catch((error) => {
+        res.status(500).json({
+          success: false,
+          message: "Failed to write CSV file",
+          error: error,
+        });
+      });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve Mahadbt Profiles",
+      error: error,
+    });
+  }
+};
