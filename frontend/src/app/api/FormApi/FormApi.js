@@ -187,3 +187,63 @@ export async function submitFormDataForCasteUploadDocumentApi(data) {
 
   return response.json();
 }
+
+export async function submitFormDataForIncomeUploadDocumentApi(data) {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/submitincomedocument`, {
+    method: "PUT",
+    headers: {
+      // "Content-Type": "application/json",
+      // Accept: "application/json",
+      //   Authorization: accessToken,
+    },
+    body: data,
+  });
+
+  //   if (response.status == 401) {
+  //     redirectOnTokenExpire();
+  //   }
+
+  return response.json();
+}
+
+export async function submitFormDataForDomacileUploadDocumentApi(data) {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/submitdomaciledocument`, {
+    method: "PUT",
+    headers: {
+      // "Content-Type": "application/json",
+      // Accept: "application/json",
+      //   Authorization: accessToken,
+    },
+    body: data,
+  });
+
+  //   if (response.status == 401) {
+  //     redirectOnTokenExpire();
+  //   }
+
+  return response.json();
+}
+
+export async function submitFormDataForDisabilityUploadDocumentApi(data) {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/submitdisabiltiydocument`, {
+    method: "PUT",
+    headers: {
+      // "Content-Type": "application/json",
+      // Accept: "application/json",
+      //   Authorization: accessToken,
+    },
+    body: data,
+  });
+
+  //   if (response.status == 401) {
+  //     redirectOnTokenExpire();
+  //   }
+
+  return response.json();
+}

@@ -39,6 +39,9 @@ const {
   downloadCSVFileOfUCollegeList,
   test,
   sendCasteDocumentToS3,
+  sendIncomeDocumentToS3,
+  sendDomacileDocumentToS3,
+  sendDisabilityDocumentToS3,
 } = require("../controllers/mahadbtController");
 
 const {
@@ -105,7 +108,12 @@ router.delete("/flushdataofdb", flushdata);
 // for microsite routes for students
 router.put("/submitFormData", sendDatatoDB);
 
-router.put("/submitCasteDocument", sendCasteDocumentToS3);
+// ROutes for uploading Documents 
+router.put("/submitcastedocument", sendCasteDocumentToS3);
+router.put("/submitincomedocument", sendIncomeDocumentToS3);
+router.put("/submitdomaciledocument", sendDomacileDocumentToS3);
+router.put("/submitdisabiltiydocument", sendDisabilityDocumentToS3);
+// router.put("/submi", sendIncomeDocumentToS3);
 
 router.post("/getPersonalInfo", personalInfo);
 router.post("/getAddressInfo", addressInfo);
