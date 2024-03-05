@@ -1072,6 +1072,223 @@ exports.sendCasteDocumentToS3 = async (req, res) => {
   // const uploadedObjectUrls = await Promise.all(s3UploadPromises);
 };
 
+exports.sendIncomeDocumentToS3 = async (req, res) => {
+  // console.log("req profile", req.files);
+  // return res.send("success");
+  // const dataOfMain = req.body;
+  // console.log("req body id", req.body);
+  // return;
+  try {
+    const file = req.files.video;
+    const uploadParams = {
+      Bucket: "mahadbtdocs",
+      Key: `${file.name}`,
+      Body: file.data,
+    };
+    const data = s3.send(new PutObjectCommand(uploadParams));
+
+    // Construct the URL of the uploaded object manually
+    const objectUrl = `https://${uploadParams.Bucket}.s3.${AWS.config.region}.amazonaws.com/${uploadParams.Key}`;
+
+    const updatedDataOfMain = {
+      casteDoc: objectUrl,
+    };
+    console.log("updatedDataOfMain", updatedDataOfMain);
+    // return res.status(200).json({
+    //   success: true,
+    //   message: "File uploaded to S3",
+    //   data: objectUrl,
+    // });
+    // Update database entry
+    await Mahadbtprofiles.update(updatedDataOfMain, {
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `${objectUrl} file(s) uploaded to S3 and database entry updated successfully.`,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  //   res.status(200).json({
+  //     success: true,
+  //     message: "File uploaded to S3",
+  //     data: objectUrl,
+  //   });
+  // } catch (error) {
+  //   console.error("Error:", error);
+  //   res.status(500).json({ error: "Internal Server Error" });
+  // }
+  // const uploadedObjectUrls = await Promise.all(s3UploadPromises);
+};
+
+exports.sendDomacileDocumentToS3 = async (req, res) => {
+  // console.log("req profile", req.files);
+  // return res.send("success");
+  // const dataOfMain = req.body;
+  // console.log("req body id", req.body);
+  // return;
+  try {
+    const file = req.files.video;
+    const uploadParams = {
+      Bucket: "mahadbtdocs",
+      Key: `${file.name}`,
+      Body: file.data,
+    };
+    const data = s3.send(new PutObjectCommand(uploadParams));
+
+    // Construct the URL of the uploaded object manually
+    const objectUrl = `https://${uploadParams.Bucket}.s3.${AWS.config.region}.amazonaws.com/${uploadParams.Key}`;
+
+    const updatedDataOfMain = {
+      casteDoc: objectUrl,
+    };
+    console.log("updatedDataOfMain", updatedDataOfMain);
+    // return res.status(200).json({
+    //   success: true,
+    //   message: "File uploaded to S3",
+    //   data: objectUrl,
+    // });
+    // Update database entry
+    await Mahadbtprofiles.update(updatedDataOfMain, {
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `${objectUrl} file(s) uploaded to S3 and database entry updated successfully.`,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  //   res.status(200).json({
+  //     success: true,
+  //     message: "File uploaded to S3",
+  //     data: objectUrl,
+  //   });
+  // } catch (error) {
+  //   console.error("Error:", error);
+  //   res.status(500).json({ error: "Internal Server Error" });
+  // }
+  // const uploadedObjectUrls = await Promise.all(s3UploadPromises);
+};
+
+exports.sendDisabilityDocumentToS3 = async (req, res) => {
+  // console.log("req profile", req.files);
+  // return res.send("success");
+  // const dataOfMain = req.body;
+  // console.log("req body id", req.body);
+  // return;
+  try {
+    const file = req.files.video;
+    const uploadParams = {
+      Bucket: "mahadbtdocs",
+      Key: `${file.name}`,
+      Body: file.data,
+    };
+    const data = s3.send(new PutObjectCommand(uploadParams));
+
+    // Construct the URL of the uploaded object manually
+    const objectUrl = `https://${uploadParams.Bucket}.s3.${AWS.config.region}.amazonaws.com/${uploadParams.Key}`;
+
+    const updatedDataOfMain = {
+      casteDoc: objectUrl,
+    };
+    console.log("updatedDataOfMain", updatedDataOfMain);
+    // return res.status(200).json({
+    //   success: true,
+    //   message: "File uploaded to S3",
+    //   data: objectUrl,
+    // });
+    // Update database entry
+    await Mahadbtprofiles.update(updatedDataOfMain, {
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `${objectUrl} file(s) uploaded to S3 and database entry updated successfully.`,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  //   res.status(200).json({
+  //     success: true,
+  //     message: "File uploaded to S3",
+  //     data: objectUrl,
+  //   });
+  // } catch (error) {
+  //   console.error("Error:", error);
+  //   res.status(500).json({ error: "Internal Server Error" });
+  // }
+  // const uploadedObjectUrls = await Promise.all(s3UploadPromises);
+};
+
+exports.sendIncomeDocumentToS3 = async (req, res) => {
+  // console.log("req profile", req.files);
+  // return res.send("success");
+  // const dataOfMain = req.body;
+  // console.log("req body id", req.body);
+  // return;
+  try {
+    const file = req.files.video;
+    const uploadParams = {
+      Bucket: "mahadbtdocs",
+      Key: `${file.name}`,
+      Body: file.data,
+    };
+    const data = s3.send(new PutObjectCommand(uploadParams));
+
+    // Construct the URL of the uploaded object manually
+    const objectUrl = `https://${uploadParams.Bucket}.s3.${AWS.config.region}.amazonaws.com/${uploadParams.Key}`;
+
+    const updatedDataOfMain = {
+      casteDoc: objectUrl,
+    };
+    console.log("updatedDataOfMain", updatedDataOfMain);
+    // return res.status(200).json({
+    //   success: true,
+    //   message: "File uploaded to S3",
+    //   data: objectUrl,
+    // });
+    // Update database entry
+    await Mahadbtprofiles.update(updatedDataOfMain, {
+      where: {
+        id: req.body.id,
+      },
+    });
+
+    res.status(200).json({
+      success: true,
+      message: `${objectUrl} file(s) uploaded to S3 and database entry updated successfully.`,
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+  //   res.status(200).json({
+  //     success: true,
+  //     message: "File uploaded to S3",
+  //     data: objectUrl,
+  //   });
+  // } catch (error) {
+  //   console.error("Error:", error);
+  //   res.status(500).json({ error: "Internal Server Error" });
+  // }
+  // const uploadedObjectUrls = await Promise.all(s3UploadPromises);
+};
+
+
 // exports.sendDatatoDB = async (req, res) => {
 //   try {
 //     // let files = req.files.video;
