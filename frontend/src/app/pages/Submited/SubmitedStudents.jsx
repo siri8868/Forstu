@@ -8,10 +8,6 @@ import {
   Button,
   Flex,
   Heading,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Spacer,
 } from "@chakra-ui/react";
 import { Table as AntTable } from "antd";
@@ -27,9 +23,9 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
 import { HiCheckCircle } from "react-icons/hi";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import StudentDetailsModel from "./StudentComponents/StudentDetailsModel";
+// import StudentDetailsModel from "./StudentComponents/StudentDetailsModel";
 
-function StudentDashboard() {
+function SubmitedStudents() {
   const [getStudent, setStudent] = useState([]);
   // const [getPendingStudentEmail, setPendingStudentEmail] = useState([]);
   const toast = useToast();
@@ -112,7 +108,7 @@ function StudentDashboard() {
         const data = {
           to: Emails,
           subject: "Fill The forstu Form",
-          message: "This is the microsite link - http://52.66.147.244/",
+          message: "This is the microsite link - http://localhost:3000",
         };
         sendEmailToStudentMicrosite(data);
       })
@@ -187,34 +183,6 @@ function StudentDashboard() {
       //   },
       sortDirections: ["ascend", "descend"],
     },
-
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => {
-        return (
-          <>
-            <Menu>
-              <MenuButton
-                as={Button}
-                variant={"ghost"}
-                // rightIcon={<ChevronDownIcon />}
-              >
-                <BsThreeDotsVertical />
-              </MenuButton>
-              <MenuList minWidth="50px">
-                <MenuItem py={"-0.3"}>
-                  <StudentDetailsModel
-                    id={record.id}
-                    // getAllColleges={getAllColleges}
-                  />
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          </>
-        );
-      },
-    },
   ];
 
   useEffect(() => {
@@ -251,7 +219,7 @@ function StudentDashboard() {
           </Box>
           <Spacer />
         </Flex>
-        <Box display={"flex"} justifyContent={"space-between"}>
+        <Box display={"flex"}>
           {/* <h1>Send</h1> */}
           {/* <Button
             variant={"solid"}
@@ -261,7 +229,7 @@ function StudentDashboard() {
             onClick={triggerFormForMicroSite}
           >
             Trigger Form
-          </Button>
+          </Button> */}
 
           <Button
             variant={"solid"}
@@ -271,7 +239,7 @@ function StudentDashboard() {
             onClick={executeScholarShipApplication}
           >
             Submit Scholarship Application
-          </Button> */}
+          </Button>
         </Box>
       </Box>
       <Box bg="white" my={3}>
@@ -288,4 +256,4 @@ function StudentDashboard() {
   );
 }
 
-export default StudentDashboard;
+export default SubmitedStudents;

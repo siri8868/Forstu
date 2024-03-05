@@ -20,6 +20,7 @@ import { InboxOutlined } from "@ant-design/icons";
 import {
   getPersonalInfoApi,
   submitFormDataApi,
+  submitFormDataForCasteUploadDocumentApi,
 } from "../../../api/FormApi/FormApi";
 import { getOTPSecret } from "../../../helpers/AuthHelpers";
 import {
@@ -33,7 +34,10 @@ import {
 function FormOne() {
   const [videoFile, setVideoFile] = useState([]);
   const [incomeFile, setIncomeFile] = useState([]);
+  const [domicileFile, setDomicile] = useState([]);
+  const [DisabilityFile, setDisabilityFile] = useState([]);
   const [buttonLoading, setButtonLoading] = useState(false);
+  // const [displayCasteLink, setDisplayCasteLink] = useState("");
 
   const doYouHaveCasteCertificateDropDown = ["Yes", "No"];
   const doYouHaveIncomeCertificateDropDown = ["Yes", "No"];
@@ -71,6 +75,252 @@ function FormOne() {
     setIncomeFile(Object.entries(event.target.files));
   };
 
+  const handleDomicileUpload = (event) => {
+    console.log("event from domicile", event);
+    setDomicile(Object.entries(event.target.files));
+  };
+
+  const handleDisabilityUpload = (event) => {
+    console.log("event from Disability", event);
+    setDisabilityFile(Object.entries(event.target.files));
+  };
+
+  const uploadCasteDocument = () => {
+    console.log("uploadCasteDocument");
+
+    const formDataMain = new FormData();
+
+    const data = { id: formData.id };
+
+    for (const key in data) {
+      formDataMain.append(key, data[key]);
+    }
+
+    videoFile.map((item, index) => {
+      // test.push(item);
+      console.log("item-caste", item);
+      formDataMain.append(`video`, item[1]);
+    });
+
+    submitFormDataForCasteUploadDocumentApi(formDataMain)
+      .then((res) => {
+        console.log("res", res);
+        if (res.success) {
+          // onClose();
+          // getAllColleges();
+          toast({
+            title: "Caste Document uploaded.",
+            description: res.message,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+          // setDisplayCasteLink(res.url);
+          // setFormData({ ...formData, casteDoc: res.url });
+        } else {
+          // onClose();
+          toast({
+            title: "Operation failed!",
+            description: res.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: "Operation Failed!",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
+
+        console.error(error);
+      });
+  };
+
+  const uploadIncomeDocument = () => {
+    console.log("uploadIncomeDocument");
+
+    const formDataMain = new FormData();
+
+    const data = { id: formData.id };
+
+    for (const key in data) {
+      formDataMain.append(key, data[key]);
+    }
+
+    incomeFile.map((item, index) => {
+      // test.push(item);
+      console.log("item-income", item);
+      formDataMain.append(`incomedocument`, item[1]);
+    });
+    console.log("formDataMain", formDataMain);
+    // submitFormDataForCasteUploadDocumentApi(formDataMain)
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     if (res.success) {
+    //       // onClose();
+    //       // getAllColleges();
+    //       toast({
+    //         title: "Income Document uploaded.",
+    //         description: res.message,
+    //         status: "success",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //       // setDisplayCasteLink(res.url);
+    //       // setFormData({ ...formData, casteDoc: res.url });
+    //     } else {
+    //       // onClose();
+    //       toast({
+    //         title: "Operation failed!",
+    //         description: res.message,
+    //         status: "error",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     toast({
+    //       title: "Error",
+    //       description: "Operation Failed!",
+    //       status: "error",
+    //       duration: 9000,
+    //       isClosable: true,
+    //       position: "top-right",
+    //     });
+
+    //     console.error(error);
+    //   });
+  };
+
+  const uploadDomicileDocument = () => {
+    console.log("uploadDomicileDocument");
+
+    const formDataMain = new FormData();
+
+    const data = { id: formData.id };
+
+    for (const key in data) {
+      formDataMain.append(key, data[key]);
+    }
+
+    incomeFile.map((item, index) => {
+      // test.push(item);
+      console.log("item-domicile", item);
+      formDataMain.append(`domiciledocument`, item[1]);
+    });
+    console.log("formDataMain", formDataMain);
+    // submitFormDataForCasteUploadDocumentApi(formDataMain)
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     if (res.success) {
+    //       // onClose();
+    //       // getAllColleges();
+    //       toast({
+    //         title: "Income Document uploaded.",
+    //         description: res.message,
+    //         status: "success",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //       // setDisplayCasteLink(res.url);
+    //       // setFormData({ ...formData, casteDoc: res.url });
+    //     } else {
+    //       // onClose();
+    //       toast({
+    //         title: "Operation failed!",
+    //         description: res.message,
+    //         status: "error",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     toast({
+    //       title: "Error",
+    //       description: "Operation Failed!",
+    //       status: "error",
+    //       duration: 9000,
+    //       isClosable: true,
+    //       position: "top-right",
+    //     });
+
+    //     console.error(error);
+    //   });
+  };
+
+  const uploadDisabilityDDocument = () => {
+    console.log("uploadDisabilityDDocument");
+
+    const formDataMain = new FormData();
+
+    const data = { id: formData.id };
+
+    for (const key in data) {
+      formDataMain.append(key, data[key]);
+    }
+
+    incomeFile.map((item, index) => {
+      // test.push(item);
+      console.log("item-domicile", item);
+      formDataMain.append(`domiciledocument`, item[1]);
+    });
+    console.log("formDataMain", formDataMain);
+    // submitFormDataForCasteUploadDocumentApi(formDataMain)
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     if (res.success) {
+    //       // onClose();
+    //       // getAllColleges();
+    //       toast({
+    //         title: "Income Document uploaded.",
+    //         description: res.message,
+    //         status: "success",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //       // setDisplayCasteLink(res.url);
+    //       // setFormData({ ...formData, casteDoc: res.url });
+    //     } else {
+    //       // onClose();
+    //       toast({
+    //         title: "Operation failed!",
+    //         description: res.message,
+    //         status: "error",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     toast({
+    //       title: "Error",
+    //       description: "Operation Failed!",
+    //       status: "error",
+    //       duration: 9000,
+    //       isClosable: true,
+    //       position: "top-right",
+    //     });
+
+    //     console.error(error);
+    //   });
+  };
+
   // const handleChangeDate = (param) => (date) => {
   //   console.log("Selected date:", param, "---", date);
   //   // setFormData({ ...formData, [param]: date });
@@ -91,13 +341,28 @@ function FormOne() {
     setIncomeFile(temp || []);
   };
 
+  const removeDomicileDoc = (index) => {
+    let temp = [...domicileFile];
+    temp.splice(index, 1);
+    setDomicile(temp || []);
+  };
+
+  const removeDisabilityDoc = (index) => {
+    let temp = [...DisabilityFile];
+    temp.splice(index, 1);
+    setDisabilityFile(temp || []);
+  };
+
   const handleChangedoYouHaveCasteCertificateDropDown = (param) => (event) => {
-    if (formData.doYouHaveCasteCertificate === "Yes") {
-      setStateOfCasteCertificate(false);
-    } else {
-      setStateOfCasteCertificate(true);
-    }
+    // if (formData.doYouHaveCasteCertificate === "Yes") {
+    //   setStateOfCasteCertificate(false);
+    // } else {
+    //   setStateOfCasteCertificate(true);
+    // }
+    // const newValue = event.target.value;
+
     const newValue = event.target.value;
+    setStateOfCasteCertificate(newValue === "Yes");
     // setStateOfCasteCertificate(newValue === "Yes");
     setFormData({ ...formData, [param]: newValue });
   };
@@ -194,17 +459,23 @@ function FormOne() {
       formDataMain.append(key, data[key]);
     }
 
-    videoFile.map((item, index) => {
-      // test.push(item);
-      console.log("item-caste", item);
-      formDataMain.append(`video`, item[1]);
-    });
+    // videoFile.map((item, index) => {
+    //   // test.push(item);
+    //   console.log("item-caste", item);
+    //   formDataMain.append(`video`, item[1]);
+    // });
 
-    incomeFile.map((item, index) => {
-      // test.push(item);
-      console.log("item-income", item);
-      formDataMain.append(`incomeDocumentFile`, item[1]);
-    });
+    // incomeFile.map((item, index) => {
+    //   // test.push(item);
+    //   console.log("item-income", item);
+    //   formDataMain.append(`incomeDocumentFile`, item[1]);
+    // });
+
+    // domicileFile.map((item, index) => {
+    //   // test.push(item);
+    //   console.log("item-domicileFile", item);
+    //   formDataMain.append(`domicileDocumentFile`, item[1]);
+    // });
     // console.log("formData::::::", formDataMain);
 
     submitFormDataApi(formDataMain)
@@ -650,6 +921,7 @@ function FormOne() {
                           </Tag>
                         );
                       })}
+                    <Button onClick={() => uploadCasteDocument()}>Save</Button>
                   </div>
                 </FormControl>
 
@@ -828,6 +1100,7 @@ function FormOne() {
                           </Tag>
                         );
                       })}
+                    <Button onClick={() => uploadIncomeDocument()}>Save</Button>
                   </div>
                 </FormControl>
 
@@ -928,7 +1201,7 @@ function FormOne() {
                   />
                 </FormControl>
 
-                <FormControl id="domicileDoc">
+                {/* <FormControl id="domicileDoc">
                   <FormLabel>Domicile Doc</FormLabel>
                   <Input
                     type="text"
@@ -937,6 +1210,99 @@ function FormOne() {
                     onChange={handleChange("domicileDoc")}
                     required={stateOfDomicileCertificate}
                   />
+                </FormControl> */}
+
+                <FormControl id="domicileDoc">
+                  <FormLabel> Domicile Doc</FormLabel>
+                  <label htmlFor="formIdMainDomicileDocs">
+                    <Box
+                      padding={1}
+                      display={"flex"}
+                      justifyItems={"center"}
+                      borderRadius={6}
+                      alignItems={"center"}
+                      marginBottom={4}
+                      justifyContent={"center"}
+                    >
+                      <Input
+                        type="file"
+                        accept="*"
+                        onChange={handleDomicileUpload}
+                        placeholder="0 file selected"
+                        name="domicileDoc"
+                        id="formIdMainDomicileDocs"
+                        marginLeft={2}
+                        hidden
+                        // isDisabled={buttonLoading}
+                      />
+
+                      <Box
+                        border="2px dashed #ccc"
+                        textAlign="center"
+                        padding="10"
+                        borderRadius="md"
+                        marginBottom="4"
+                        cursor="pointer"
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleDomicileUpload(e);
+                        }}
+                        onDragOver={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                      >
+                        <InboxOutlined
+                          style={{ fontSize: "36px", color: "#ccc" }}
+                        />
+                        <p style={{ fontSize: "17px" }}>
+                          {domicileFile.length == 0 ? (
+                            <p style={{ color: "blue" }}>
+                              Click here to select your Domicile docs file{" "}
+                              {formData && formData.domicileDoc}
+                            </p>
+                          ) : (
+                            <p style={{ color: "green" }}>
+                              Click on Upload button to upload selected file
+                            </p>
+                          )}
+                        </p>
+                      </Box>
+                    </Box>
+                  </label>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      padding: 5,
+                    }}
+                  >
+                    {domicileFile &&
+                      domicileFile?.map((item, index) => {
+                        return (
+                          <Tag
+                            size={"sm"}
+                            key={index}
+                            borderRadius="full"
+                            variant="solid"
+                            colorScheme="green"
+                            mr={2}
+                            mt={2}
+                          >
+                            <TagLabel>{item[1]?.name}</TagLabel>
+                            {!buttonLoading && (
+                              <TagCloseButton
+                                onClick={() => removeDomicileDoc(index)}
+                              />
+                            )}
+                          </Tag>
+                        );
+                      })}
+                    <Button onClick={() => uploadDomicileDocument()}>
+                      Save
+                    </Button>
+                  </div>
                 </FormControl>
 
                 <FormControl id="domicileIssuedDate">
@@ -1109,7 +1475,7 @@ function FormOne() {
                   />
                 </FormControl>
 
-                <FormControl id="disabilityDoc">
+                {/* <FormControl id="disabilityDoc">
                   <FormLabel>Disability Document</FormLabel>
                   <Input
                     type="text"
@@ -1118,6 +1484,99 @@ function FormOne() {
                     onChange={handleChange("disabilityDoc")}
                     required={stateOfDisabilityCertificate}
                   />
+                </FormControl> */}
+
+                <FormControl id="disabilityDoc">
+                  <FormLabel>Disability Document</FormLabel>
+                  <label htmlFor="formIdMainDisabilityDocs">
+                    <Box
+                      padding={1}
+                      display={"flex"}
+                      justifyItems={"center"}
+                      borderRadius={6}
+                      alignItems={"center"}
+                      marginBottom={4}
+                      justifyContent={"center"}
+                    >
+                      <Input
+                        type="file"
+                        accept="*"
+                        onChange={handleDisabilityUpload}
+                        placeholder="0 file selected"
+                        name="DisabilityDoc"
+                        id="formIdMainDisabilityDocs"
+                        marginLeft={2}
+                        hidden
+                        // isDisabled={buttonLoading}
+                      />
+
+                      <Box
+                        border="2px dashed #ccc"
+                        textAlign="center"
+                        padding="10"
+                        borderRadius="md"
+                        marginBottom="4"
+                        cursor="pointer"
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleDisabilityUpload(e);
+                        }}
+                        onDragOver={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                      >
+                        <InboxOutlined
+                          style={{ fontSize: "36px", color: "#ccc" }}
+                        />
+                        <p style={{ fontSize: "17px" }}>
+                          {DisabilityFile.length == 0 ? (
+                            <p style={{ color: "blue" }}>
+                              Click here to select your Domicile docs file{" "}
+                              {formData && formData.domicileDoc}
+                            </p>
+                          ) : (
+                            <p style={{ color: "green" }}>
+                              Click on Upload button to upload selected file
+                            </p>
+                          )}
+                        </p>
+                      </Box>
+                    </Box>
+                  </label>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      padding: 5,
+                    }}
+                  >
+                    {DisabilityFile &&
+                      DisabilityFile?.map((item, index) => {
+                        return (
+                          <Tag
+                            size={"sm"}
+                            key={index}
+                            borderRadius="full"
+                            variant="solid"
+                            colorScheme="green"
+                            mr={2}
+                            mt={2}
+                          >
+                            <TagLabel>{item[1]?.name}</TagLabel>
+                            {!buttonLoading && (
+                              <TagCloseButton
+                                onClick={() => removeDisabilityDoc(index)}
+                              />
+                            )}
+                          </Tag>
+                        );
+                      })}
+                    <Button onClick={() => uploadDisabilityDDocument()}>
+                      Save
+                    </Button>
+                  </div>
                 </FormControl>
               </>
             )}

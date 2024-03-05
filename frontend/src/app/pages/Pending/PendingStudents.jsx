@@ -8,10 +8,6 @@ import {
   Button,
   Flex,
   Heading,
-  Menu,
-  MenuButton,
-  MenuItem,
-  MenuList,
   Spacer,
 } from "@chakra-ui/react";
 import { Table as AntTable } from "antd";
@@ -27,9 +23,9 @@ import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
 import { HiCheckCircle } from "react-icons/hi";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import StudentDetailsModel from "./StudentComponents/StudentDetailsModel";
+// import StudentDetailsModel from "./StudentComponents/StudentDetailsModel";
 
-function StudentDashboard() {
+function PendingStudents() {
   const [getStudent, setStudent] = useState([]);
   // const [getPendingStudentEmail, setPendingStudentEmail] = useState([]);
   const toast = useToast();
@@ -187,34 +183,6 @@ function StudentDashboard() {
       //   },
       sortDirections: ["ascend", "descend"],
     },
-
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => {
-        return (
-          <>
-            <Menu>
-              <MenuButton
-                as={Button}
-                variant={"ghost"}
-                // rightIcon={<ChevronDownIcon />}
-              >
-                <BsThreeDotsVertical />
-              </MenuButton>
-              <MenuList minWidth="50px">
-                <MenuItem py={"-0.3"}>
-                  <StudentDetailsModel
-                    id={record.id}
-                    // getAllColleges={getAllColleges}
-                  />
-                </MenuItem>
-              </MenuList>
-            </Menu>
-          </>
-        );
-      },
-    },
   ];
 
   useEffect(() => {
@@ -253,7 +221,7 @@ function StudentDashboard() {
         </Flex>
         <Box display={"flex"} justifyContent={"space-between"}>
           {/* <h1>Send</h1> */}
-          {/* <Button
+          <Button
             variant={"solid"}
             bg="primary.main"
             color={"text.light"}
@@ -263,7 +231,7 @@ function StudentDashboard() {
             Trigger Form
           </Button>
 
-          <Button
+          {/* <Button
             variant={"solid"}
             bg="red.500"
             color={"text.light"}
@@ -288,4 +256,4 @@ function StudentDashboard() {
   );
 }
 
-export default StudentDashboard;
+export default PendingStudents;

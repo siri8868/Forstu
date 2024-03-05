@@ -36,6 +36,7 @@ const {
   downloadCSVFileforCasteWiseApplication,
   downloadCSVFileforPendingReason,
   test,
+  sendCasteDocumentToS3,
 } = require("../controllers/mahadbtController");
 
 const {
@@ -62,9 +63,21 @@ router.post("/getYearsFromCourse", isSignedIn, getCourseYearsFromFrontend);
 
 router.post("/courseandyearwisedata", isSignedIn, totalCourseAndYear);
 
-router.post("/downloadcsvforapplicationstatus", isSignedIn, downloadCSVFileforApplicationStatus);
-router.post("/downloadcsvforcastewiseapplicationstatus", isSignedIn, downloadCSVFileforCasteWiseApplication);
-router.post("/downloadcsvforpendingreason", isSignedIn, downloadCSVFileforPendingReason);
+router.post(
+  "/downloadcsvforapplicationstatus",
+  isSignedIn,
+  downloadCSVFileforApplicationStatus
+);
+router.post(
+  "/downloadcsvforcastewiseapplicationstatus",
+  isSignedIn,
+  downloadCSVFileforCasteWiseApplication
+);
+router.post(
+  "/downloadcsvforpendingreason",
+  isSignedIn,
+  downloadCSVFileforPendingReason
+);
 
 router.post(
   "/applicationcountbycoursenameandyear",
@@ -83,6 +96,8 @@ router.delete("/flushdataofdb", flushdata);
 
 // for microsite routes for students
 router.put("/submitFormData", sendDatatoDB);
+
+router.put("/submitCasteDocument", sendCasteDocumentToS3);
 
 router.post("/getPersonalInfo", personalInfo);
 router.post("/getAddressInfo", addressInfo);
