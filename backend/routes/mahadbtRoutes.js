@@ -35,6 +35,8 @@ const {
   downloadCSVFileforApplicationStatus,
   downloadCSVFileforCasteWiseApplication,
   downloadCSVFileforPendingReason,
+  downloadCSVFileOfUserList,
+  downloadCSVFileOfUCollegeList,
   test,
   sendCasteDocumentToS3,
 } = require("../controllers/mahadbtController");
@@ -62,6 +64,12 @@ router.get("/getcourseslist", isSignedIn, getCourseList);
 router.post("/getYearsFromCourse", isSignedIn, getCourseYearsFromFrontend);
 
 router.post("/courseandyearwisedata", isSignedIn, totalCourseAndYear);
+
+router.post("/downloadcsvforapplicationstatus", isSignedIn, downloadCSVFileforApplicationStatus);
+router.post("/downloadcsvforcastewiseapplicationstatus", isSignedIn, downloadCSVFileforCasteWiseApplication);
+router.post("/downloadcsvforpendingreason", isSignedIn, downloadCSVFileforPendingReason);
+router.post("/downloadcsvforuserlist", isSignedIn, downloadCSVFileOfUserList);
+router.post("/downloadcsvforcollegelist", isSignedIn, downloadCSVFileOfUCollegeList);
 
 router.post(
   "/downloadcsvforapplicationstatus",
