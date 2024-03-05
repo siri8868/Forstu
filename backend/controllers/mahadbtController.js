@@ -1,6 +1,6 @@
 // const { Op } = require("sequelize");
 const { Sequelize, Op } = require("sequelize");
-const { createObjectCsvWriter } = require('csv-writer');
+const { createObjectCsvWriter } = require("csv-writer");
 const ROLES = require("../helpers/roles");
 const speakeasy = require("speakeasy");
 
@@ -973,110 +973,78 @@ exports.getIncompleteFieldsController = async (req, res) => {
 // }
 // };
 
-// exports.sendDatatoDB = async (req, res) => {
-//   // console.log("success");
-//   // res.send("Data send to db");
-//   // console.log("req profile", req.profile.ref_code);
-//   // const { id } = req.body.id;
-//   // console.log("req body", req.body);
-//   // console.log("req body ID:::::", req.body.id);
-
-//   // return res.send("success");
-
-//   // const savedData = {
-//   //   candidateName: "nishantttt",
-//   //   whatsappNumber: 9999999999,
-//   //   gender: "Female",
-//   //   parentMobileNumber: 888888888888,
-//   //   maritalStatus: "Unmarried",
-//   //   religion: "Hindu",
-//   //   casteCategory: "SBC",
-//   //   subCaste: "PADMASHALI",
-//   //   doYouHaveCasteCertificate: "Yes",
-//   //   casteCertificateNumber: 9999090099099,
-//   // };
-
-//   Mahadbtprofiles.update(req.body, {
-//     // Specify the condition for the update
-//     where: {
-//       id: req.body.id,
-//     },
-//   })
-//     .then((result) => {
-//       console.log("result", result);
-//       // The result is an array where the first element is the number of updated rows
-//       // console.log(`${result[0]} row(s) updated`);
-//       // res.status(200).json({ message: ` row(s) updated` });
-//       return res.status(200).json({
-//         success: true,
-//         message: `${result[0]} row(s) updated`,
-//       });
-//     })
-//     .catch((error) => {
-//       console.error("Error updating records:", error);
-//       res.status(500).json({ error: "Internal Server Error" });
-//     });
-// };
-
 exports.sendDatatoDB = async (req, res) => {
-  try {
-    // let files = req.files.video;
-    // let files = [...req.files.video, ...req.files.incomeDocumentFile];
-    const dataOfMain = req.body;
-    // console.log("Caste Certificateee", req.files.video);
-    // console.log("incomeDocumentFile:::", req.files.incomeDocumentFile);
+  // console.log("success");
+  // res.send("Data send to db");
+  // console.log("req profile", req.profile.ref_code);
+  // const { id } = req.body.id;
+  // console.log("req body", req.body);
+  // console.log("req body ID:::::", req.body.id);
 
-    // console.log("dataOfMain", req.body);
+  // return res.send("success");
 
-    let files = [];
-    if (req.files.video) {
-      if (Array.isArray(req.files.video)) {
-        files.push(...req.files.video);
-      } else {
-        files.push(req.files.video);
-      }
-    }
+  // const savedData = {
+  //   candidateName: "nishantttt",
+  //   whatsappNumber: 9999999999,
+  //   gender: "Female",
+  //   parentMobileNumber: 888888888888,
+  //   maritalStatus: "Unmarried",
+  //   religion: "Hindu",
+  //   casteCategory: "SBC",
+  //   subCaste: "PADMASHALI",
+  //   doYouHaveCasteCertificate: "Yes",
+  //   casteCertificateNumber: 9999090099099,
+  // };
 
-    if (req.files.incomeDocumentFile) {
-      if (Array.isArray(req.files.incomeDocumentFile)) {
-        files.push(...req.files.incomeDocumentFile);
-      } else {
-        files.push(req.files.incomeDocumentFile);
-      }
-    }
-
-    // if (!Array.isArray(files)) {
-    //   files = [files];
-    // }
-
-    console.log("Caste Certificateee", files);
-    // return;
-
-    // Upload files to S3
-    const s3UploadPromises = files.map((file) => {
-      const uploadParams = {
-        Bucket: "mahadbtdocs",
-        Key: `${file.name}`,
-        Body: file.data,
-      };
-      // return s3.upload(uploadParams).promise();
-      s3.send(new PutObjectCommand(uploadParams));
-      // Construct the URL of the uploaded object manually
-      const objectUrl = `https://${uploadParams.Bucket}.s3.${AWS.config.region}.amazonaws.com/${uploadParams.Key}`;
-
-      return objectUrl; // Return the URL of the uploaded object
+  Mahadbtprofiles.update(req.body, {
+    // Specify the condition for the update
+    where: {
+      id: req.body.id,
+    },
+  })
+    .then((result) => {
+      console.log("result", result);
+      // The result is an array where the first element is the number of updated rows
+      // console.log(`${result[0]} row(s) updated`);
+      // res.status(200).json({ message: ` row(s) updated` });
+      return res.status(200).json({
+        success: true,
+        message: `${result[0]} row(s) updated`,
+      });
+    })
+    .catch((error) => {
+      console.error("Error updating records:", error);
+      res.status(500).json({ error: "Internal Server Error" });
     });
+};
 
-    const uploadedObjectUrls = await Promise.all(s3UploadPromises);
+exports.sendCasteDocumentToS3 = async (req, res) => {
+  // console.log("req profile", req.files);
+  // return res.send("success");
+  // const dataOfMain = req.body;
+  // console.log("req body id", req.body);
+  // return;
+  try {
+    const file = req.files.video;
+    const uploadParams = {
+      Bucket: "mahadbtdocs",
+      Key: `${file.name}`,
+      Body: file.data,
+    };
+    const data = s3.send(new PutObjectCommand(uploadParams));
+
+    // Construct the URL of the uploaded object manually
+    const objectUrl = `https://${uploadParams.Bucket}.s3.${AWS.config.region}.amazonaws.com/${uploadParams.Key}`;
 
     const updatedDataOfMain = {
-      ...dataOfMain,
-      casteDoc: uploadedObjectUrls[0],
-      incomeDoc: uploadedObjectUrls[1],
+      casteDoc: objectUrl,
     };
-    console.log("S3 Upload updatedDataOfMain>>>>>>:", updatedDataOfMain);
-    console.log("S3 Upload Responses:", uploadedObjectUrls);
-
+    console.log("updatedDataOfMain", updatedDataOfMain);
+    // return res.status(200).json({
+    //   success: true,
+    //   message: "File uploaded to S3",
+    //   data: objectUrl,
+    // });
     // Update database entry
     await Mahadbtprofiles.update(updatedDataOfMain, {
       where: {
@@ -1086,13 +1054,152 @@ exports.sendDatatoDB = async (req, res) => {
 
     res.status(200).json({
       success: true,
-      message: `${uploadedObjectUrls.length} file(s) uploaded to S3 and database entry updated successfully.`,
+      message: `${objectUrl} file(s) uploaded to S3 and database entry updated successfully.`,
     });
   } catch (error) {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
+  //   res.status(200).json({
+  //     success: true,
+  //     message: "File uploaded to S3",
+  //     data: objectUrl,
+  //   });
+  // } catch (error) {
+  //   console.error("Error:", error);
+  //   res.status(500).json({ error: "Internal Server Error" });
+  // }
+  // const uploadedObjectUrls = await Promise.all(s3UploadPromises);
 };
+
+// exports.sendDatatoDB = async (req, res) => {
+//   try {
+//     // let files = req.files.video;
+//     // let files = [...req.files.video, ...req.files.incomeDocumentFile];
+//     const dataOfMain = req.body;
+//     // console.log("Caste Certificateee", req.files.video);
+//     // console.log("incomeDocumentFile:::", req.files.incomeDocumentFile);
+
+//     // console.log("dataOfMain", req.body);
+
+//     let files = [];
+//     if (req?.files?.video) {
+//       if (Array.isArray(req?.files?.video)) {
+//         files.push(...req?.files?.video);
+//       } else {
+//         files.push(req?.files?.video);
+//       }
+//     }
+
+//     if (req?.files?.incomeDocumentFile) {
+//       if (Array.isArray(req?.files?.incomeDocumentFile)) {
+//         files.push(...req?.files?.incomeDocumentFile);
+//       } else {
+//         files.push(req?.files?.incomeDocumentFile);
+//       }
+//     }
+
+//     if (req?.files?.domicileDocumentFile) {
+//       if (Array.isArray(req?.files?.domicileDocumentFile)) {
+//         files.push(...req?.files?.domicileDocumentFile);
+//       } else {
+//         files.push(req?.files?.domicileDocumentFile);
+//       }
+//     }
+
+//     // Upload files to S3
+//     const s3UploadPromises = files.map((file) => {
+//       console.log("file", file);
+//       const uploadParams = {
+//         Bucket: "mahadbtdocs",
+//         Key: `${file.name}`,
+//         Body: file.data,
+//       };
+//       // return s3.upload(uploadParams).promise();
+//       const data = s3.send(new PutObjectCommand(uploadParams));
+
+//       // Construct the URL of the uploaded object manually
+//       const objectUrl = `https://${uploadParams.Bucket}.s3.${AWS.config.region}.amazonaws.com/${uploadParams.Key}`;
+
+//       return objectUrl; // Return the URL of the uploaded object
+//     });
+
+//     const uploadedObjectUrls = await Promise.all(s3UploadPromises);
+
+//     let casteDocUrl, incomeDocUrl, domicileDocUrl;
+
+//     uploadedObjectUrls.forEach((url) => {
+//       const lowercaseUrl = url.toLowerCase();
+//       if (lowercaseUrl.includes("caste.")) {
+//         casteDocUrl = url;
+//       } else if (lowercaseUrl.includes("income.")) {
+//         incomeDocUrl = url;
+//       } else if (lowercaseUrl.includes("domicile.")) {
+//         domicileDocUrl = url;
+//       } else {
+//         // Handle other types of documents if needed
+//         console.log("Other type of document:", url);
+//         // return res.status(422).json({
+//         //   // error: "Invalid file type",
+//         //   success: false,
+//         //   message: "Invalid file name",
+//         // });
+//       }
+//     });
+
+//     const updatedDataOfMain = {
+//       ...dataOfMain,
+//       casteDoc: casteDocUrl || dataOfMain.casteDoc,
+//       incomeDoc: incomeDocUrl || dataOfMain.incomeDoc,
+//       domicileDoc: domicileDocUrl || dataOfMain.domicileDoc,
+//     };
+
+//     // const updatedDataOfMain = {
+//     //   ...dataOfMain,
+//     //   casteDoc: uploadedObjectUrls[0]
+//     //     ? uploadedObjectUrls[0]
+//     //     : uploadedObjectUrls[0],
+//     //   incomeDoc: uploadedObjectUrls[1]
+//     //     ? uploadedObjectUrls[1]
+//     //     : uploadedObjectUrls[0],
+//     //   domicileDoc: uploadedObjectUrls[2]
+//     //     ? uploadedObjectUrls[2]
+//     //     : uploadedObjectUrls[0],
+//     // };
+
+//     // const updatedDataOfMain = {
+//     //   ...dataOfMain,
+//     //   casteDoc: uploadedObjectUrls[0],
+//     //   incomeDoc: uploadedObjectUrls[1],
+//     //   domicileDoc: uploadedObjectUrls[2],
+//     // };
+//     // const updatedDataOfMain = {
+//     //   ...dataOfMain,
+//     //   casteDoc: null,
+//     //   incomeDoc: null,
+//     //   domicileDoc: null,
+//     // };
+//     console.log("S3 Upload updatedDataOfMain>>>>>>:", updatedDataOfMain);
+//     console.log("S3 Upload Responses:", uploadedObjectUrls);
+
+//     // return;
+
+//     // Update database entry
+//     await Mahadbtprofiles.update(updatedDataOfMain, {
+//       where: {
+//         id: req.body.id,
+//       },
+//     });
+
+//     res.status(200).json({
+//       success: true,
+//       message: `${uploadedObjectUrls.length} file(s) uploaded to S3 and database entry updated successfully.`,
+//     });
+//   } catch (error) {
+//     console.error("Error:", error);
+//     res.status(500).json({ error: "Internal Server Error" });
+//   }
+// };
 
 exports.personalInfo = (req, res) => {
   // res.send("Hello from personal info");
@@ -1819,46 +1926,54 @@ exports.getSingleMahadbtProfileByRefCode = (req, res) => {
 
 // Download CSV FIle
 
-
 exports.downloadCSVFileforApplicationStatus = async (req, res) => {
   console.log("req profile", req.profile.ref_code);
 
   try {
     const data = await Mahadbtprofiles.findAll({
-      attributes: ['id', 'Candidate_name', 'whatsapp_number', 'qualification_level', 'coursename', 'current_year', 'course_stream', 'application_status', 'ref_code'],
+      attributes: [
+        "id",
+        "Candidate_name",
+        "whatsapp_number",
+        "qualification_level",
+        "coursename",
+        "current_year",
+        "course_stream",
+        "application_status",
+        "ref_code",
+      ],
       where: {
         [Op.or]: [
-          { application_status: 'Submitted' },
-          { application_status: 'Pending' }
+          { application_status: "Submitted" },
+          { application_status: "Pending" },
         ],
-        ref_code: req.profile.ref_code
+        ref_code: req.profile.ref_code,
       },
-      order: [
-        ['application_status', 'ASC']
-      ]
+      order: [["application_status", "ASC"]],
     });
 
     const csvWriter = createObjectCsvWriter({
-      path: 'application_status_data.csv',  // You can customize the file name
+      path: "application_status_data.csv", // You can customize the file name
       header: [
-        { id: 'id', title: 'ID' },
-        { id: 'Candidate_name', title: 'Candidate Name' },
-        { id: 'whatsapp_number', title: 'WhatsApp Number' },
-        { id: 'qualification_level', title: 'Qualification Level' },
-        { id: 'coursename', title: 'Course Name' },
-        { id: 'current_year', title: 'Current Year' },
-        { id: 'course_stream', title: 'Course Stream' },
-        { id: 'application_status', title: 'Application Status' },
-        { id: 'ref_code', title: 'Reference Code' },
-      ]
+        { id: "id", title: "ID" },
+        { id: "Candidate_name", title: "Candidate Name" },
+        { id: "whatsapp_number", title: "WhatsApp Number" },
+        { id: "qualification_level", title: "Qualification Level" },
+        { id: "coursename", title: "Course Name" },
+        { id: "current_year", title: "Current Year" },
+        { id: "course_stream", title: "Course Stream" },
+        { id: "application_status", title: "Application Status" },
+        { id: "ref_code", title: "Reference Code" },
+      ],
     });
 
-    const records = data.map(row => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+    const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
 
-    csvWriter.writeRecords(records)
+    csvWriter
+      .writeRecords(records)
       .then(() => {
-        console.log('CSV file written successfully');
-        res.download('application_status_data.csv');
+        console.log("CSV file written successfully");
+        res.download("application_status_data.csv");
       })
       .catch((error) => {
         res.status(500).json({
@@ -1881,39 +1996,48 @@ exports.downloadCSVFileforCasteWiseApplication = async (req, res) => {
 
   try {
     const data = await Mahadbtprofiles.findAll({
-      attributes: ['id', 'Candidate_name', 'whatsapp_number', 'CasteCategory', 'qualification_level', 'coursename', 'current_year', 'course_stream', 'application_status', 'ref_code'],
+      attributes: [
+        "id",
+        "Candidate_name",
+        "whatsapp_number",
+        "CasteCategory",
+        "qualification_level",
+        "coursename",
+        "current_year",
+        "course_stream",
+        "application_status",
+        "ref_code",
+      ],
       where: {
-        application_status: 'Pending',
-        ref_code: req.profile.ref_code
+        application_status: "Pending",
+        ref_code: req.profile.ref_code,
       },
-      order: [
-        ['CasteCategory', 'ASC']
-      ]
+      order: [["CasteCategory", "ASC"]],
     });
 
     const csvWriter = createObjectCsvWriter({
-      path: 'caste_wise_applications.csv',  // You can customize the file name
+      path: "caste_wise_applications.csv", // You can customize the file name
       header: [
-        { id: 'id', title: 'ID' },
-        { id: 'Candidate_name', title: 'Candidate Name' },
-        { id: 'whatsapp_number', title: 'WhatsApp Number' },
-        { id: 'CasteCategory', title: 'Caste Category' },
-        { id: 'qualification_level', title: 'Qualification Level' },
-        { id: 'coursename', title: 'Course Name' },
-        { id: 'current_year', title: 'Current Year' },
-        { id: 'course_stream', title: 'Course Stream' },
-        { id: 'application_status', title: 'Application Status' },
-        { id: 'ref_code', title: 'Reference Code' },
-      ]
+        { id: "id", title: "ID" },
+        { id: "Candidate_name", title: "Candidate Name" },
+        { id: "whatsapp_number", title: "WhatsApp Number" },
+        { id: "CasteCategory", title: "Caste Category" },
+        { id: "qualification_level", title: "Qualification Level" },
+        { id: "coursename", title: "Course Name" },
+        { id: "current_year", title: "Current Year" },
+        { id: "course_stream", title: "Course Stream" },
+        { id: "application_status", title: "Application Status" },
+        { id: "ref_code", title: "Reference Code" },
+      ],
     });
 
-    const records = data.map(row => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+    const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
 
-    csvWriter.writeRecords(records)
+    csvWriter
+      .writeRecords(records)
       .then(() => {
-        console.log('CSV file written successfully');
-        res.download('caste_wise_applications.csv');
-
+        console.log("CSV file written successfully");
+        res.download("caste_wise_applications.csv");
       })
       .catch((error) => {
         res.status(500).json({
@@ -1936,41 +2060,51 @@ exports.downloadCSVFileforPendingReason = async (req, res) => {
 
   try {
     const data = await Mahadbtprofiles.findAll({
-      attributes: ['id', 'Candidate_name', 'whatsapp_number', 'CasteCategory', 'application_status', 'qualification_level', 'coursename', 'current_year', 'course_stream', 'application_failed_reason', 'ref_code'],
+      attributes: [
+        "id",
+        "Candidate_name",
+        "whatsapp_number",
+        "CasteCategory",
+        "application_status",
+        "qualification_level",
+        "coursename",
+        "current_year",
+        "course_stream",
+        "application_failed_reason",
+        "ref_code",
+      ],
       where: {
-        application_status: 'Pending',
-        ref_code: req.profile.ref_code
+        application_status: "Pending",
+        ref_code: req.profile.ref_code,
       },
-      order: [
-        ['application_failed_reason', 'ASC']
-      ]
+      order: [["application_failed_reason", "ASC"]],
     });
 
     const csvWriter = createObjectCsvWriter({
-      path: 'pending_reason.csv',  // You can customize the file name
+      path: "pending_reason.csv", // You can customize the file name
       header: [
-        { id: 'id', title: 'ID' },
-        { id: 'Candidate_name', title: 'Candidate Name' },
-        { id: 'whatsapp_number', title: 'WhatsApp Number' },
-        { id: 'CasteCategory', title: 'Caste Category' },
-        { id: 'application_status', title: 'Application Status' },
-        { id: 'qualification_level', title: 'Qualification Level' },
-        { id: 'coursename', title: 'Course Name' },
-        { id: 'current_year', title: 'Current Year' },
-        { id: 'course_stream', title: 'Course Stream' },
-        { id: 'application_failed_reason', title: 'Applicaton Failed Reason' },
-
+        { id: "id", title: "ID" },
+        { id: "Candidate_name", title: "Candidate Name" },
+        { id: "whatsapp_number", title: "WhatsApp Number" },
+        { id: "CasteCategory", title: "Caste Category" },
+        { id: "application_status", title: "Application Status" },
+        { id: "qualification_level", title: "Qualification Level" },
+        { id: "coursename", title: "Course Name" },
+        { id: "current_year", title: "Current Year" },
+        { id: "course_stream", title: "Course Stream" },
+        { id: "application_failed_reason", title: "Applicaton Failed Reason" },
 
         // Add other columns based on your attributes
-      ]
+      ],
     });
 
-    const records = data.map(row => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+    const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
 
-    csvWriter.writeRecords(records)
+    csvWriter
+      .writeRecords(records)
       .then(() => {
-        console.log('CSV file written successfully');
-        res.download('pending_reason.csv');
+        console.log("CSV file written successfully");
+        res.download("pending_reason.csv");
       })
       .catch((error) => {
         res.status(500).json({
@@ -2101,3 +2235,4 @@ exports.downloadCSVFileOfUCollegeList = async (req, res) => {
     });
   }
 };
+
