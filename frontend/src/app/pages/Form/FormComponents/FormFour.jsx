@@ -7,6 +7,9 @@ import {
   FormLabel,
   Input,
   Select,
+  Tag,
+  TagCloseButton,
+  TagLabel,
   VStack,
   useToast,
 } from "@chakra-ui/react";
@@ -19,8 +22,13 @@ import {
   getQualificationLevelListApi,
   getYearOfStudylListApi,
 } from "../../../api/FormApi/FormDropdownApi";
+import { InboxOutlined } from "@ant-design/icons";
 
 function FormFour() {
+  const [admissionDocFile, setAdmissionDocFile] = useState([]);
+  const [feesDocFile, setFeesDocFile] = useState([]);
+  const [buttonLoading, setButtonLoading] = useState(false);
+
   const [stateOfAdmissionType, setStateOfAdmissionType] = useState(false);
 
   const [formData, setFormData] = useState({});
@@ -35,6 +43,134 @@ function FormFour() {
     "Through Management Quota",
     "Through CLAT",
   ];
+
+  const handleAdmissionUpload = (event) => {
+    // console.log("event from", event);
+    setAdmissionDocFile(Object.entries(event.target.files));
+  };
+
+  const handleFeesUpload = (event) => {
+    // console.log("event from caste", event);
+    setFeesDocFile(Object.entries(event.target.files));
+  };
+
+  const uploadAdmissionDocument = () => {
+    console.log("uploadAdmissionDocument");
+
+    const formDataMain = new FormData();
+
+    const data = { id: formData.id };
+
+    for (const key in data) {
+      formDataMain.append(key, data[key]);
+    }
+
+    admissionDocFile.map((item, index) => {
+      // test.push(item);
+      console.log("item-addmissiondocumet", item);
+      formDataMain.append(`admissiondocument`, item[1]);
+    });
+
+    // submitFormDataForCasteUploadDocumentApi(formDataMain)
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     if (res.success) {
+    //       // onClose();
+    //       // getAllColleges();
+    //       toast({
+    //         title: "Caste Document uploaded.",
+    //         description: res.message,
+    //         status: "success",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //       // setDisplayCasteLink(res.url);
+    //       // setFormData({ ...formData, casteDoc: res.url });
+    //     } else {
+    //       // onClose();
+    //       toast({
+    //         title: "Operation failed!",
+    //         description: res.message,
+    //         status: "error",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     toast({
+    //       title: "Error",
+    //       description: "Operation Failed!",
+    //       status: "error",
+    //       duration: 9000,
+    //       isClosable: true,
+    //       position: "top-right",
+    //     });
+
+    //     console.error(error);
+    //   });
+  };
+
+  const uploadFeesAdmissionBonafideDocument = () => {
+    console.log("uploadFeesAdmissionBonafideDocument");
+
+    const formDataMain = new FormData();
+
+    const data = { id: formData.id };
+
+    for (const key in data) {
+      formDataMain.append(key, data[key]);
+    }
+
+    feesDocFile.map((item, index) => {
+      // test.push(item);
+      console.log("item-feesAdmissionBonafideDocument", item);
+      formDataMain.append(`feesAdmissionbonafidedocument`, item[1]);
+    });
+
+    // submitFormDataForCasteUploadDocumentApi(formDataMain)
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     if (res.success) {
+    //       // onClose();
+    //       // getAllColleges();
+    //       toast({
+    //         title: "Caste Document uploaded.",
+    //         description: res.message,
+    //         status: "success",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //       // setDisplayCasteLink(res.url);
+    //       // setFormData({ ...formData, casteDoc: res.url });
+    //     } else {
+    //       // onClose();
+    //       toast({
+    //         title: "Operation failed!",
+    //         description: res.message,
+    //         status: "error",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     toast({
+    //       title: "Error",
+    //       description: "Operation Failed!",
+    //       status: "error",
+    //       duration: 9000,
+    //       isClosable: true,
+    //       position: "top-right",
+    //     });
+
+    //     console.error(error);
+    //   });
+  };
 
   const handleChange = (param) => (event) => {
     setFormData({ ...formData, [param]: event.target.value });
@@ -148,6 +284,18 @@ function FormFour() {
       .catch((error) => {
         console.error(error);
       });
+  };
+
+  const removeAdmissionDoc = (index) => {
+    let temp = [...admissionDocFile];
+    temp.splice(index, 1);
+    setAdmissionDocFile(temp || []);
+  };
+
+  const removeFeesDoc = (index) => {
+    let temp = [...feesDocFile];
+    temp.splice(index, 1);
+    setFeesDocFile(temp || []);
   };
 
   useEffect(() => {
@@ -329,7 +477,7 @@ function FormFour() {
                   />
                 </FormControl>
 
-                <FormControl id="admissionLetterDoc">
+                {/* <FormControl id="admissionLetterDoc">
                   <FormLabel>Admission Letter Doc</FormLabel>
                   <Input
                     type="text"
@@ -337,6 +485,99 @@ function FormFour() {
                     value={formData.admissionLetterDoc}
                     onChange={handleChange("admissionLetterDoc")}
                   />
+                </FormControl> */}
+                <FormControl id="admissionLetterDoc">
+                  <FormLabel>Admission Letter Doc</FormLabel>
+                  <label htmlFor="formIdAdmission">
+                    <Box
+                      padding={1}
+                      display={"flex"}
+                      justifyItems={"center"}
+                      borderRadius={6}
+                      alignItems={"center"}
+                      marginBottom={4}
+                      justifyContent={"center"}
+                    >
+                      <Input
+                        type="file"
+                        accept="*"
+                        onChange={handleAdmissionUpload}
+                        placeholder="0 file selected"
+                        // required
+                        name="admissiondocument"
+                        id="formIdAdmission"
+                        marginLeft={2}
+                        hidden
+                        // isDisabled={buttonLoading}
+                      />
+
+                      <Box
+                        border="2px dashed #ccc"
+                        textAlign="center"
+                        padding="10"
+                        borderRadius="md"
+                        marginBottom="4"
+                        cursor="pointer"
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleAdmissionUpload(e);
+                        }}
+                        onDragOver={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                      >
+                        <InboxOutlined
+                          style={{ fontSize: "36px", color: "#ccc" }}
+                        />
+                        <p style={{ fontSize: "17px" }}>
+                          {admissionDocFile.length == 0 ? (
+                            <p style={{ color: "blue" }}>
+                              Click here to select your zip file{" "}
+                              {formData && formData?.casteDoc}
+                            </p>
+                          ) : (
+                            <p style={{ color: "green" }}>
+                              Click on Upload button to upload selected file
+                            </p>
+                          )}
+                        </p>
+                      </Box>
+                    </Box>
+                  </label>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      padding: 5,
+                    }}
+                  >
+                    {admissionDocFile &&
+                      admissionDocFile.map((item, index) => {
+                        return (
+                          <Tag
+                            size={"sm"}
+                            key={index}
+                            borderRadius="full"
+                            variant="solid"
+                            colorScheme="green"
+                            mr={2}
+                            mt={2}
+                          >
+                            <TagLabel>{item[1]?.name}</TagLabel>
+                            {!buttonLoading && (
+                              <TagCloseButton
+                                onClick={() => removeAdmissionDoc(index)}
+                              />
+                            )}
+                          </Tag>
+                        );
+                      })}
+                    <Button onClick={() => uploadAdmissionDocument()}>
+                      Save
+                    </Button>
+                  </div>
                 </FormControl>
               </>
             )}
@@ -395,7 +636,7 @@ function FormFour() {
               />
             </FormControl>
 
-            <FormControl id="feeReceiptDoc">
+            {/* <FormControl id="feeReceiptDoc">
               <FormLabel>
                 Upload Fees/Admission Receipt/bonafide certificate
               </FormLabel>
@@ -405,6 +646,100 @@ function FormFour() {
                 value={formData.feeReceiptDoc}
                 onChange={handleChange("feeReceiptDoc")}
               />
+            </FormControl> */}
+            <FormControl id="feeReceiptDoc">
+              <FormLabel>
+                Upload Fees/Admission Receipt/bonafide certificate
+              </FormLabel>
+              <label htmlFor="formIdFeesAdmissionBonafide">
+                <Box
+                  padding={1}
+                  display={"flex"}
+                  justifyItems={"center"}
+                  borderRadius={6}
+                  alignItems={"center"}
+                  marginBottom={4}
+                  justifyContent={"center"}
+                >
+                  <Input
+                    type="file"
+                    accept="*"
+                    onChange={handleFeesUpload}
+                    placeholder="0 file selected"
+                    // required
+                    name="feesdocument"
+                    id="formIdFeesAdmissionBonafide"
+                    marginLeft={2}
+                    hidden
+                    // isDisabled={buttonLoading}
+                  />
+
+                  <Box
+                    border="2px dashed #ccc"
+                    textAlign="center"
+                    padding="10"
+                    borderRadius="md"
+                    marginBottom="4"
+                    cursor="pointer"
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handleFeesUpload(e);
+                    }}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
+                    <InboxOutlined
+                      style={{ fontSize: "36px", color: "#ccc" }}
+                    />
+                    <p style={{ fontSize: "17px" }}>
+                      {feesDocFile.length == 0 ? (
+                        <p style={{ color: "blue" }}>
+                          Click here to select your zip file{" "}
+                        </p>
+                      ) : (
+                        <p style={{ color: "green" }}>
+                          Click on Upload button to upload selected file
+                        </p>
+                      )}
+                    </p>
+                  </Box>
+                </Box>
+              </label>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: 5,
+                }}
+              >
+                {feesDocFile &&
+                  feesDocFile.map((item, index) => {
+                    return (
+                      <Tag
+                        size={"sm"}
+                        key={index}
+                        borderRadius="full"
+                        variant="solid"
+                        colorScheme="green"
+                        mr={2}
+                        mt={2}
+                      >
+                        <TagLabel>{item[1]?.name}</TagLabel>
+                        {!buttonLoading && (
+                          <TagCloseButton
+                            onClick={() => removeFeesDoc(index)}
+                          />
+                        )}
+                      </Tag>
+                    );
+                  })}
+                <Button onClick={() => uploadFeesAdmissionBonafideDocument()}>
+                  Save
+                </Button>
+              </div>
             </FormControl>
 
             <FormControl id="admissionCategory">

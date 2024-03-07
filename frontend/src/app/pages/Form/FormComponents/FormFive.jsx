@@ -6,6 +6,9 @@ import {
   FormLabel,
   Input,
   Select,
+  Tag,
+  TagCloseButton,
+  TagLabel,
   VStack,
   useToast,
 } from "@chakra-ui/react";
@@ -19,9 +22,13 @@ import {
   getSSCAdmissionYearApi,
   getSSCExamMonthApi,
 } from "../../../api/FormApi/FormDropdownApi";
+import { InboxOutlined } from "@ant-design/icons";
 
 function FormFive() {
   const [formData, setFormData] = useState({});
+  const [file10DocFile, setfile10DocFile] = useState([]);
+  const [file12DocFile, setfile12DocFile] = useState([]);
+  const [buttonLoading, setButtonLoading] = useState(false);
   const [sscAdmissionYear, setSSCAdmissionYear] = useState([]);
   const [hscAdmissionYear, setHSCAdmissionYear] = useState([]);
   const [sscExamMonth, setSSCExamMonth] = useState([]);
@@ -36,6 +43,146 @@ function FormFive() {
     const newValue = event.target.value;
     setStateOfHaveGap(newValue === "Yes");
     setFormData({ ...formData, [param]: newValue });
+  };
+
+  const upload10thDocument = () => {
+    console.log("upload10thDocument");
+
+    const formDataMain = new FormData();
+
+    const data = { id: formData.id };
+
+    for (const key in data) {
+      formDataMain.append(key, data[key]);
+    }
+
+    file10DocFile.map((item, index) => {
+      // test.push(item);
+      console.log("item-file10thDocument", item);
+      formDataMain.append(`file10thDocument`, item[1]);
+    });
+
+    // submitFormDataForCasteUploadDocumentApi(formDataMain)
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     if (res.success) {
+    //       // onClose();
+    //       // getAllColleges();
+    //       toast({
+    //         title: "Caste Document uploaded.",
+    //         description: res.message,
+    //         status: "success",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //       // setDisplayCasteLink(res.url);
+    //       // setFormData({ ...formData, casteDoc: res.url });
+    //     } else {
+    //       // onClose();
+    //       toast({
+    //         title: "Operation failed!",
+    //         description: res.message,
+    //         status: "error",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     toast({
+    //       title: "Error",
+    //       description: "Operation Failed!",
+    //       status: "error",
+    //       duration: 9000,
+    //       isClosable: true,
+    //       position: "top-right",
+    //     });
+
+    //     console.error(error);
+    //   });
+  };
+
+  const upload12thDocument = () => {
+    console.log("upload12thDocument");
+
+    const formDataMain = new FormData();
+
+    const data = { id: formData.id };
+
+    for (const key in data) {
+      formDataMain.append(key, data[key]);
+    }
+
+    file10DocFile.map((item, index) => {
+      // test.push(item);
+      console.log("item-file12thDocument", item);
+      formDataMain.append(`file12thdocument`, item[1]);
+    });
+
+    // submitFormDataForCasteUploadDocumentApi(formDataMain)
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     if (res.success) {
+    //       // onClose();
+    //       // getAllColleges();
+    //       toast({
+    //         title: "Caste Document uploaded.",
+    //         description: res.message,
+    //         status: "success",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //       // setDisplayCasteLink(res.url);
+    //       // setFormData({ ...formData, casteDoc: res.url });
+    //     } else {
+    //       // onClose();
+    //       toast({
+    //         title: "Operation failed!",
+    //         description: res.message,
+    //         status: "error",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     toast({
+    //       title: "Error",
+    //       description: "Operation Failed!",
+    //       status: "error",
+    //       duration: 9000,
+    //       isClosable: true,
+    //       position: "top-right",
+    //     });
+
+    //     console.error(error);
+    //   });
+  };
+
+  const remove10thDoc = (index) => {
+    let temp = [...file10DocFile];
+    temp.splice(index, 1);
+    setfile10DocFile(temp || []);
+  };
+
+  const remove12thDoc = (index) => {
+    let temp = [...file12DocFile];
+    temp.splice(index, 1);
+    setfile12DocFile(temp || []);
+  };
+
+  const handle10thDocUpload = (event) => {
+    // console.log("event from caste", event);
+    setfile10DocFile(Object.entries(event.target.files));
+  };
+
+  const handle12thDocUpload = (event) => {
+    // console.log("event from caste", event);
+    setfile12DocFile(Object.entries(event.target.files));
   };
 
   const handleChange = (param) => (event) => {
@@ -283,6 +430,96 @@ function FormFive() {
                 onChange={handleChange("class10AdmissionYear")}
               />
             </FormControl> */}
+            <FormControl id="class10Doc">
+              <FormLabel>Class 10th Doc</FormLabel>
+              <label htmlFor="formId10thDoc">
+                <Box
+                  padding={1}
+                  display={"flex"}
+                  justifyItems={"center"}
+                  borderRadius={6}
+                  alignItems={"center"}
+                  marginBottom={4}
+                  justifyContent={"center"}
+                >
+                  <Input
+                    type="file"
+                    accept="*"
+                    onChange={handle10thDocUpload}
+                    placeholder="0 file selected"
+                    // required
+                    name="10thDocument"
+                    id="formId10thDoc"
+                    marginLeft={2}
+                    hidden
+                    // isDisabled={buttonLoading}
+                  />
+
+                  <Box
+                    border="2px dashed #ccc"
+                    textAlign="center"
+                    padding="10"
+                    borderRadius="md"
+                    marginBottom="4"
+                    cursor="pointer"
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handle10thDocUpload(e);
+                    }}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
+                    <InboxOutlined
+                      style={{ fontSize: "36px", color: "#ccc" }}
+                    />
+                    <p style={{ fontSize: "17px" }}>
+                      {file10DocFile.length == 0 ? (
+                        <p style={{ color: "blue" }}>
+                          Click here to select your zip file{" "}
+                        </p>
+                      ) : (
+                        <p style={{ color: "green" }}>
+                          Click on Upload button to upload selected file
+                        </p>
+                      )}
+                    </p>
+                  </Box>
+                </Box>
+              </label>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: 5,
+                }}
+              >
+                {file10DocFile &&
+                  file10DocFile.map((item, index) => {
+                    return (
+                      <Tag
+                        size={"sm"}
+                        key={index}
+                        borderRadius="full"
+                        variant="solid"
+                        colorScheme="green"
+                        mr={2}
+                        mt={2}
+                      >
+                        <TagLabel>{item[1]?.name}</TagLabel>
+                        {!buttonLoading && (
+                          <TagCloseButton
+                            onClick={() => remove10thDoc(index)}
+                          />
+                        )}
+                      </Tag>
+                    );
+                  })}
+                <Button onClick={() => upload10thDocument()}>Save</Button>
+              </div>
+            </FormControl>
             <FormControl id="class10AdmissionYear">
               <FormLabel>Class 10th Admission Year</FormLabel>
               <Select
@@ -338,7 +575,7 @@ function FormFive() {
               />
             </FormControl>
 
-            <FormControl id="class10Doc">
+            {/* <FormControl id="class10Doc">
               <FormLabel>Class 10th Doc</FormLabel>
               <Input
                 type="text"
@@ -346,7 +583,7 @@ function FormFive() {
                 value={formData.class10Doc}
                 onChange={handleChange("class10Doc")}
               />
-            </FormControl>
+            </FormControl> */}
 
             <FormControl id="class10SeatNumber">
               <FormLabel>Class 10th Seat Number</FormLabel>
@@ -566,7 +803,7 @@ function FormFive() {
               />
             </FormControl>
 
-            <FormControl id="class12Doc">
+            {/* <FormControl id="class12Doc">
               <FormLabel>Class 12th Docs</FormLabel>
               <Input
                 type="text"
@@ -574,6 +811,96 @@ function FormFive() {
                 value={formData.class12Doc}
                 onChange={handleChange("class12Doc")}
               />
+            </FormControl> */}
+            <FormControl id="class12Doc">
+              <FormLabel>Class 12th Docs</FormLabel>
+              <label htmlFor="formId12thDoc">
+                <Box
+                  padding={1}
+                  display={"flex"}
+                  justifyItems={"center"}
+                  borderRadius={6}
+                  alignItems={"center"}
+                  marginBottom={4}
+                  justifyContent={"center"}
+                >
+                  <Input
+                    type="file"
+                    accept="*"
+                    onChange={handle12thDocUpload}
+                    placeholder="0 file selected"
+                    // required
+                    name="12thDocument"
+                    id="formId12thDoc"
+                    marginLeft={2}
+                    hidden
+                    // isDisabled={buttonLoading}
+                  />
+
+                  <Box
+                    border="2px dashed #ccc"
+                    textAlign="center"
+                    padding="10"
+                    borderRadius="md"
+                    marginBottom="4"
+                    cursor="pointer"
+                    onDrop={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      handle12thDocUpload(e);
+                    }}
+                    onDragOver={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                    }}
+                  >
+                    <InboxOutlined
+                      style={{ fontSize: "36px", color: "#ccc" }}
+                    />
+                    <p style={{ fontSize: "17px" }}>
+                      {file12DocFile.length == 0 ? (
+                        <p style={{ color: "blue" }}>
+                          Click here to select your zip file{" "}
+                        </p>
+                      ) : (
+                        <p style={{ color: "green" }}>
+                          Click on Upload button to upload selected file
+                        </p>
+                      )}
+                    </p>
+                  </Box>
+                </Box>
+              </label>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  padding: 5,
+                }}
+              >
+                {file12DocFile &&
+                  file12DocFile.map((item, index) => {
+                    return (
+                      <Tag
+                        size={"sm"}
+                        key={index}
+                        borderRadius="full"
+                        variant="solid"
+                        colorScheme="green"
+                        mr={2}
+                        mt={2}
+                      >
+                        <TagLabel>{item[1]?.name}</TagLabel>
+                        {!buttonLoading && (
+                          <TagCloseButton
+                            onClick={() => remove12thDoc(index)}
+                          />
+                        )}
+                      </Tag>
+                    );
+                  })}
+                <Button onClick={() => upload12thDocument()}>Save</Button>
+              </div>
             </FormControl>
 
             {/* <FormControl id="doYouHaveGap">

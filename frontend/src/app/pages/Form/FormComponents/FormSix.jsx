@@ -6,6 +6,9 @@ import {
   FormLabel,
   Input,
   Select,
+  Tag,
+  TagCloseButton,
+  TagLabel,
   VStack,
   useToast,
 } from "@chakra-ui/react";
@@ -15,9 +18,13 @@ import {
 } from "../../../api/FormApi/FormApi";
 import { getOTPSecret } from "../../../helpers/AuthHelpers";
 import { getHostelTypeApi } from "../../../api/FormApi/FormDropdownApi";
+import { InboxOutlined } from "@ant-design/icons";
 
 function FormSix() {
   const [formData, setFormData] = useState({});
+  const [buttonLoading, setButtonLoading] = useState(false);
+
+  const [hostelDocFile, setHostelDocFile] = useState([]);
   const [hostelTypeList, setHostelTypeList] = useState([]);
   const [
     stateOfAreYouHostelleOrrDayScholar,
@@ -29,6 +36,76 @@ function FormSix() {
 
   const handleChange = (param) => (event) => {
     setFormData({ ...formData, [param]: event.target.value });
+  };
+
+  const handleHostelDocUpload = (event) => {
+    // console.log("event from caste", event);
+    setHostelDocFile(Object.entries(event.target.files));
+  };
+
+  const removeHostelDoc = (index) => {
+    let temp = [...hostelDocFile];
+    temp.splice(index, 1);
+    setHostelDocFile(temp || []);
+  };
+
+  const uploadHosteDocument = () => {
+    console.log("uploadHosteDocument");
+
+    const formDataMain = new FormData();
+
+    const data = { id: formData.id };
+
+    for (const key in data) {
+      formDataMain.append(key, data[key]);
+    }
+
+    file10DocFile.map((item, index) => {
+      // test.push(item);
+      console.log("item-hostelDocument", item);
+      formDataMain.append(`hosteldocument`, item[1]);
+    });
+
+    // submitFormDataForCasteUploadDocumentApi(formDataMain)
+    //   .then((res) => {
+    //     console.log("res", res);
+    //     if (res.success) {
+    //       // onClose();
+    //       // getAllColleges();
+    //       toast({
+    //         title: "Caste Document uploaded.",
+    //         description: res.message,
+    //         status: "success",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //       // setDisplayCasteLink(res.url);
+    //       // setFormData({ ...formData, casteDoc: res.url });
+    //     } else {
+    //       // onClose();
+    //       toast({
+    //         title: "Operation failed!",
+    //         description: res.message,
+    //         status: "error",
+    //         duration: 9000,
+    //         isClosable: true,
+    //         position: "top-right",
+    //       });
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     toast({
+    //       title: "Error",
+    //       description: "Operation Failed!",
+    //       status: "error",
+    //       duration: 9000,
+    //       isClosable: true,
+    //       position: "top-right",
+    //     });
+
+    //     console.error(error);
+    //   });
   };
 
   const handleChangeAreYouHostellerDayScholarDropDown = (param) => (event) => {
@@ -261,7 +338,7 @@ function FormSix() {
                   />
                 </FormControl>
 
-                <FormControl id="hostelDoc">
+                {/* <FormControl id="hostelDoc">
                   <FormLabel>Hostel Docs</FormLabel>
                   <Input
                     type="text"
@@ -269,6 +346,96 @@ function FormSix() {
                     value={formData.hostelDoc}
                     onChange={handleChange("hostelDoc")}
                   />
+                </FormControl> */}
+                <FormControl id="hostelDoc">
+                  <FormLabel>Hostel Docs</FormLabel>
+                  <label htmlFor="formIdHostelDoc">
+                    <Box
+                      padding={1}
+                      display={"flex"}
+                      justifyItems={"center"}
+                      borderRadius={6}
+                      alignItems={"center"}
+                      marginBottom={4}
+                      justifyContent={"center"}
+                    >
+                      <Input
+                        type="file"
+                        accept="*"
+                        onChange={handleHostelDocUpload}
+                        placeholder="0 file selected"
+                        // required
+                        name="HostelDoc"
+                        id="formIdHostelDoc"
+                        marginLeft={2}
+                        hidden
+                        // isDisabled={buttonLoading}
+                      />
+
+                      <Box
+                        border="2px dashed #ccc"
+                        textAlign="center"
+                        padding="10"
+                        borderRadius="md"
+                        marginBottom="4"
+                        cursor="pointer"
+                        onDrop={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          handleHostelDocUpload(e);
+                        }}
+                        onDragOver={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                        }}
+                      >
+                        <InboxOutlined
+                          style={{ fontSize: "36px", color: "#ccc" }}
+                        />
+                        <p style={{ fontSize: "17px" }}>
+                          {hostelDocFile.length == 0 ? (
+                            <p style={{ color: "blue" }}>
+                              Click here to select your zip file{" "}
+                            </p>
+                          ) : (
+                            <p style={{ color: "green" }}>
+                              Click on Upload button to upload selected file
+                            </p>
+                          )}
+                        </p>
+                      </Box>
+                    </Box>
+                  </label>
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      padding: 5,
+                    }}
+                  >
+                    {hostelDocFile &&
+                      hostelDocFile.map((item, index) => {
+                        return (
+                          <Tag
+                            size={"sm"}
+                            key={index}
+                            borderRadius="full"
+                            variant="solid"
+                            colorScheme="green"
+                            mr={2}
+                            mt={2}
+                          >
+                            <TagLabel>{item[1]?.name}</TagLabel>
+                            {!buttonLoading && (
+                              <TagCloseButton
+                                onClick={() => removeHostelDoc(index)}
+                              />
+                            )}
+                          </Tag>
+                        );
+                      })}
+                    <Button onClick={() => uploadHosteDocument()}>Save</Button>
+                  </div>
                 </FormControl>
               </>
             )}
