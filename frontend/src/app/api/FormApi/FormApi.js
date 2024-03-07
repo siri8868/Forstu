@@ -231,7 +231,7 @@ export async function submitFormDataForDomacileUploadDocumentApi(data) {
 export async function submitFormDataForDisabilityUploadDocumentApi(data) {
   const { accessToken } = isAuthenticated();
 
-  const response = await fetch(`${ENDPOINT}/submitdisabiltiydocument`, {
+  const response = await fetch(`${ENDPOINT}/submitdisabilitydocument`, {
     method: "PUT",
     headers: {
       // "Content-Type": "application/json",

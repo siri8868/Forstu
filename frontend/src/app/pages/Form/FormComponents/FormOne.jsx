@@ -21,6 +21,9 @@ import {
   getPersonalInfoApi,
   submitFormDataApi,
   submitFormDataForCasteUploadDocumentApi,
+  submitFormDataForDisabilityUploadDocumentApi,
+  submitFormDataForDomacileUploadDocumentApi,
+  submitFormDataForIncomeUploadDocumentApi,
 } from "../../../api/FormApi/FormApi";
 import { getOTPSecret } from "../../../helpers/AuthHelpers";
 import {
@@ -161,46 +164,46 @@ function FormOne() {
       formDataMain.append(`incomedocument`, item[1]);
     });
     console.log("formDataMain", formDataMain);
-    // submitFormDataForCasteUploadDocumentApi(formDataMain)
-    //   .then((res) => {
-    //     console.log("res", res);
-    //     if (res.success) {
-    //       // onClose();
-    //       // getAllColleges();
-    //       toast({
-    //         title: "Income Document uploaded.",
-    //         description: res.message,
-    //         status: "success",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //       // setDisplayCasteLink(res.url);
-    //       // setFormData({ ...formData, casteDoc: res.url });
-    //     } else {
-    //       // onClose();
-    //       toast({
-    //         title: "Operation failed!",
-    //         description: res.message,
-    //         status: "error",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast({
-    //       title: "Error",
-    //       description: "Operation Failed!",
-    //       status: "error",
-    //       duration: 9000,
-    //       isClosable: true,
-    //       position: "top-right",
-    //     });
+    submitFormDataForIncomeUploadDocumentApi(formDataMain)
+      .then((res) => {
+        console.log("res", res);
+        if (res.success) {
+          // onClose();
+          // getAllColleges();
+          toast({
+            title: "Income Document uploaded.",
+            description: res.message,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+          // setDisplayCasteLink(res.url);
+          // setFormData({ ...formData, casteDoc: res.url });
+        } else {
+          // onClose();
+          toast({
+            title: "Operation failed!",
+            description: res.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: "Operation Failed!",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
 
-    //     console.error(error);
-    //   });
+        console.error(error);
+      });
   };
 
   const uploadDomicileDocument = () => {
@@ -220,46 +223,46 @@ function FormOne() {
       formDataMain.append(`domiciledocument`, item[1]);
     });
     console.log("formDataMain", formDataMain);
-    // submitFormDataForCasteUploadDocumentApi(formDataMain)
-    //   .then((res) => {
-    //     console.log("res", res);
-    //     if (res.success) {
-    //       // onClose();
-    //       // getAllColleges();
-    //       toast({
-    //         title: "Income Document uploaded.",
-    //         description: res.message,
-    //         status: "success",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //       // setDisplayCasteLink(res.url);
-    //       // setFormData({ ...formData, casteDoc: res.url });
-    //     } else {
-    //       // onClose();
-    //       toast({
-    //         title: "Operation failed!",
-    //         description: res.message,
-    //         status: "error",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast({
-    //       title: "Error",
-    //       description: "Operation Failed!",
-    //       status: "error",
-    //       duration: 9000,
-    //       isClosable: true,
-    //       position: "top-right",
-    //     });
+    submitFormDataForDomacileUploadDocumentApi(formDataMain)
+      .then((res) => {
+        console.log("res", res);
+        if (res.success) {
+          // onClose();
+          // getAllColleges();
+          toast({
+            title: "Domicile Document uploaded.",
+            description: res.message,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+          // setDisplayCasteLink(res.url);
+          // setFormData({ ...formData, casteDoc: res.url });
+        } else {
+          // onClose();
+          toast({
+            title: "Operation failed!",
+            description: res.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: "Operation Failed!",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
 
-    //     console.error(error);
-    //   });
+        console.error(error);
+      });
   };
 
   const uploadDisabilityDDocument = () => {
@@ -275,50 +278,50 @@ function FormOne() {
 
     incomeFile.map((item, index) => {
       // test.push(item);
-      console.log("item-domicile", item);
-      formDataMain.append(`domiciledocument`, item[1]);
+      console.log("item-disability", item);
+      formDataMain.append(`disabilitydocument`, item[1]);
     });
     console.log("formDataMain", formDataMain);
-    // submitFormDataForCasteUploadDocumentApi(formDataMain)
-    //   .then((res) => {
-    //     console.log("res", res);
-    //     if (res.success) {
-    //       // onClose();
-    //       // getAllColleges();
-    //       toast({
-    //         title: "Income Document uploaded.",
-    //         description: res.message,
-    //         status: "success",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //       // setDisplayCasteLink(res.url);
-    //       // setFormData({ ...formData, casteDoc: res.url });
-    //     } else {
-    //       // onClose();
-    //       toast({
-    //         title: "Operation failed!",
-    //         description: res.message,
-    //         status: "error",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast({
-    //       title: "Error",
-    //       description: "Operation Failed!",
-    //       status: "error",
-    //       duration: 9000,
-    //       isClosable: true,
-    //       position: "top-right",
-    //     });
+    submitFormDataForDisabilityUploadDocumentApi(formDataMain)
+      .then((res) => {
+        console.log("res", res);
+        if (res.success) {
+          // onClose();
+          // getAllColleges();
+          toast({
+            title: "Disability Document uploaded.",
+            description: res.message,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+          // setDisplayCasteLink(res.url);
+          // setFormData({ ...formData, casteDoc: res.url });
+        } else {
+          // onClose();
+          toast({
+            title: "Operation failed!",
+            description: res.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: "Operation Failed!",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
 
-    //     console.error(error);
-    //   });
+        console.error(error);
+      });
   };
 
   // const handleChangeDate = (param) => (date) => {
