@@ -37,11 +37,19 @@ const {
   downloadCSVFileforPendingReason,
   downloadCSVFileOfUserList,
   downloadCSVFileOfUCollegeList,
+  downloadCSVFileforDailySubmittedApplication,
   test,
   sendCasteDocumentToS3,
   sendIncomeDocumentToS3,
   sendDomacileDocumentToS3,
   sendDisabilityDocumentToS3,
+  sendGuardianDocumentToS3,
+  sendAdmissionLetterDocumentToS3,
+  sendBonafideOrFeesOrAdmissionReceiptDocumentToS3,
+  send10thMarksheetDocumentToS3,
+  send12thMarksheetDocumentToS3,
+  sendGapDocumentToS3,
+  sendHostelDocumentToS3
 } = require("../controllers/mahadbtController");
 
 const {
@@ -73,6 +81,7 @@ router.post("/downloadcsvforcastewiseapplicationstatus", isSignedIn, downloadCSV
 router.post("/downloadcsvforpendingreason", isSignedIn, downloadCSVFileforPendingReason);
 router.post("/downloadcsvforuserlist", isSignedIn, downloadCSVFileOfUserList);
 router.post("/downloadcsvforcollegelist", isSignedIn, downloadCSVFileOfUCollegeList);
+router.post("/downloadcsvforapplicationsubmittedasperdate", isSignedIn, downloadCSVFileforDailySubmittedApplication);
 
 router.post(
   "/downloadcsvforapplicationstatus",
@@ -112,7 +121,14 @@ router.put("/submitFormData", sendDatatoDB);
 router.put("/submitcastedocument", sendCasteDocumentToS3);
 router.put("/submitincomedocument", sendIncomeDocumentToS3);
 router.put("/submitdomaciledocument", sendDomacileDocumentToS3);
-router.put("/submitdisabiltiydocument", sendDisabilityDocumentToS3);
+router.put("/submitdisabilitydocument", sendDisabilityDocumentToS3);
+router.put("/submitguardiandocument", sendGuardianDocumentToS3);
+router.put("/submitadmissionletterdocument", sendAdmissionLetterDocumentToS3);
+router.put("/submitbonafideorfeesoradmissionreeceiptdocument", sendBonafideOrFeesOrAdmissionReceiptDocumentToS3);
+router.put("/submit10thmarksheetdocument", send10thMarksheetDocumentToS3);
+router.put("/submit12thmarksheetdocument", send12thMarksheetDocumentToS3);
+router.put("/submitgapdocument", sendGapDocumentToS3);
+router.put("/submithosteldocument", sendHostelDocumentToS3);
 // router.put("/submi", sendIncomeDocumentToS3);
 
 router.post("/getPersonalInfo", personalInfo);
