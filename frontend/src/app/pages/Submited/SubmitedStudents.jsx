@@ -15,6 +15,7 @@ import {
   executeScholarShipApplicationApi,
   getEmailsofpendingstudentsApi,
   getStudentsViewApi,
+  getSubmittedStudentsViewApi,
   sendEmailToStudentMicrositeApi,
   studentprofileviewApi,
 } from "../../api/Student/StudentApis";
@@ -33,9 +34,9 @@ function SubmitedStudents() {
   const onChange = (pagination, filters, sorter, extra) => {};
 
   const getAllStudents = () => {
-    getStudentsViewApi()
+    getSubmittedStudentsViewApi()
       .then((res) => {
-        // console.log("res", res);
+        console.log("res", res);
         setStudent(res.data);
       })
       .catch((err) => {

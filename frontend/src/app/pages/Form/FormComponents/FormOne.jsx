@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/react";
 import { SingleDatepicker } from "chakra-dayzed-datepicker";
-import { parseISO } from "date-fns";
+import { parseISO, set } from "date-fns";
 import { InboxOutlined } from "@ant-design/icons";
 
 import {
@@ -119,6 +119,7 @@ function FormOne() {
             isClosable: true,
             position: "top-right",
           });
+          setVideoFile([]);
           // setDisplayCasteLink(res.url);
           // setFormData({ ...formData, casteDoc: res.url });
         } else {
@@ -178,6 +179,7 @@ function FormOne() {
             isClosable: true,
             position: "top-right",
           });
+          setIncomeFile([]);
           // setDisplayCasteLink(res.url);
           // setFormData({ ...formData, casteDoc: res.url });
         } else {
@@ -217,7 +219,7 @@ function FormOne() {
       formDataMain.append(key, data[key]);
     }
 
-    incomeFile.map((item, index) => {
+    domicileFile.map((item, index) => {
       // test.push(item);
       console.log("item-domicile", item);
       formDataMain.append(`domiciledocument`, item[1]);
@@ -276,7 +278,7 @@ function FormOne() {
       formDataMain.append(key, data[key]);
     }
 
-    incomeFile.map((item, index) => {
+    DisabilityFile.map((item, index) => {
       // test.push(item);
       console.log("item-disability", item);
       formDataMain.append(`disabilitydocument`, item[1]);
@@ -296,6 +298,7 @@ function FormOne() {
             isClosable: true,
             position: "top-right",
           });
+          // setDisabilityFile([]);
           // setDisplayCasteLink(res.url);
           // setFormData({ ...formData, casteDoc: res.url });
         } else {

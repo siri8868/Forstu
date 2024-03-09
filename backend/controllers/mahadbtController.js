@@ -8,7 +8,9 @@ const {
   S3Client,
   PutObjectCommand,
   GetObjectCommand,
+  ListObjectsV2Command,
   DeleteObjectCommand,
+  DeleteObjectsCommand,
 } = require("@aws-sdk/client-s3");
 // const User = require("../models/usersModel");
 const collegeprofile = require("../models/collegeModel");
@@ -1019,7 +1021,18 @@ exports.sendDatatoDB = async (req, res) => {
 };
 
 exports.sendCasteDocumentToS3 = async (req, res) => {
-  // console.log("req profile", req.files);
+  // console.log("req blblblbl", req.body.id);
+  // console.log("req profile", req);
+  // Check if req.emailData exists and has the 'base32' property before accessing it
+  // if (req?.emailData && req?.emailData?.base32) {
+  //   // Access req.emailData.base32 safely
+  //   console.log("Base32 value:", req.emailData.base32);
+  // } else {
+  //   console.log(
+  //     "req.emailData is undefined or does not have 'base32' property."
+  //   );
+  // }
+
   // return res.send("success");
   // const dataOfMain = req.body;
   // console.log("req body id", req.body);
@@ -1028,9 +1041,41 @@ exports.sendCasteDocumentToS3 = async (req, res) => {
     const file = req.files.video;
     const uploadParams = {
       Bucket: "mahadbtdocs",
-      Key: `${file.name}`,
+      Key: `${req.body.id}/castedocument/${file.name}`,
       Body: file.data,
     };
+
+    const listParams = {
+      Bucket: "mahadbtdocs",
+      Prefix: `${req.body.id}/castedocument/`,
+    };
+
+    // List all objects in the folder
+    const listResponse = await s3.send(new ListObjectsV2Command(listParams));
+
+    // Extract keys of objects in the folder
+    const keys = listResponse?.Contents?.map((object) => ({ Key: object.Key }));
+
+    if (keys?.length > 0) {
+      // Create a command to delete the objects
+      const deleteParams = {
+        Bucket: "mahadbtdocs",
+        Delete: {
+          Objects: keys,
+          Quiet: false, // Set to true to suppress successful delete responses
+        },
+      };
+      // Send the delete command to S3
+      const deleteResponse = await s3.send(
+        new DeleteObjectsCommand(deleteParams)
+      );
+      console.log(
+        "Objects in the folder deleted successfully:",
+        deleteResponse.Deleted
+      );
+    }
+
+    // return res.send("success");
     const data = s3.send(new PutObjectCommand(uploadParams));
 
     // Construct the URL of the uploaded object manually
@@ -1060,16 +1105,6 @@ exports.sendCasteDocumentToS3 = async (req, res) => {
     console.error("Error:", error);
     res.status(500).json({ error: "Internal Server Error" });
   }
-  //   res.status(200).json({
-  //     success: true,
-  //     message: "File uploaded to S3",
-  //     data: objectUrl,
-  //   });
-  // } catch (error) {
-  //   console.error("Error:", error);
-  //   res.status(500).json({ error: "Internal Server Error" });
-  // }
-  // const uploadedObjectUrls = await Promise.all(s3UploadPromises);
 };
 
 exports.sendIncomeDocumentToS3 = async (req, res) => {
@@ -1079,12 +1114,43 @@ exports.sendIncomeDocumentToS3 = async (req, res) => {
   // console.log("req body id", req.body);
   // return;
   try {
-    const file = req.files.video;
+    const file = req.files.incomedocument;
     const uploadParams = {
       Bucket: "mahadbtdocs",
-      Key: `${file.name}`,
+      Key: `${req.body.id}/incomedocument/${file.name}`,
       Body: file.data,
     };
+
+    const listParams = {
+      Bucket: "mahadbtdocs",
+      Prefix: `${req.body.id}/incomedocument/`,
+    };
+
+    // List all objects in the folder
+    const listResponse = await s3.send(new ListObjectsV2Command(listParams));
+
+    // Extract keys of objects in the folder
+    const keys = listResponse?.Contents?.map((object) => ({ Key: object.Key }));
+
+    if (keys?.length > 0) {
+      // Create a command to delete the objects
+      const deleteParams = {
+        Bucket: "mahadbtdocs",
+        Delete: {
+          Objects: keys,
+          Quiet: false, // Set to true to suppress successful delete responses
+        },
+      };
+      // Send the delete command to S3
+      const deleteResponse = await s3.send(
+        new DeleteObjectsCommand(deleteParams)
+      );
+      console.log(
+        "Objects in the folder deleted successfully:",
+        deleteResponse.Deleted
+      );
+    }
+
     const data = s3.send(new PutObjectCommand(uploadParams));
 
     // Construct the URL of the uploaded object manually
@@ -1127,18 +1193,49 @@ exports.sendIncomeDocumentToS3 = async (req, res) => {
 };
 
 exports.sendDomacileDocumentToS3 = async (req, res) => {
-  // console.log("req profile", req.files);
+  console.log("req profile", req.files.domiciledocument);
   // return res.send("success");
   // const dataOfMain = req.body;
   // console.log("req body id", req.body);
   // return;
   try {
-    const file = req.files.video;
+    const file = req.files.domiciledocument;
     const uploadParams = {
       Bucket: "mahadbtdocs",
-      Key: `${file.name}`,
+      Key: `${req.body.id}/domiciledocument/${file.name}`,
       Body: file.data,
     };
+
+    const listParams = {
+      Bucket: "mahadbtdocs",
+      Prefix: `${req.body.id}/domiciledocument/`,
+    };
+
+    // List all objects in the folder
+    const listResponse = await s3.send(new ListObjectsV2Command(listParams));
+
+    // Extract keys of objects in the folder
+    const keys = listResponse?.Contents?.map((object) => ({ Key: object.Key }));
+
+    if (keys?.length > 0) {
+      // Create a command to delete the objects
+      const deleteParams = {
+        Bucket: "mahadbtdocs",
+        Delete: {
+          Objects: keys,
+          Quiet: false, // Set to true to suppress successful delete responses
+        },
+      };
+      // Send the delete command to S3
+      const deleteResponse = await s3.send(
+        new DeleteObjectsCommand(deleteParams)
+      );
+      console.log(
+        "Objects in the folder deleted successfully:",
+        deleteResponse.Deleted
+      );
+    }
+
     const data = s3.send(new PutObjectCommand(uploadParams));
 
     // Construct the URL of the uploaded object manually
@@ -1187,12 +1284,43 @@ exports.sendDisabilityDocumentToS3 = async (req, res) => {
   // console.log("req body id", req.body);
   // return;
   try {
-    const file = req.files.video;
+    const file = req.files.disabilitydocument;
     const uploadParams = {
       Bucket: "mahadbtdocs",
-      Key: `${file.name}`,
+      Key: `${req.body.id}/disabilitydocument/${file.name}`,
       Body: file.data,
     };
+
+    const listParams = {
+      Bucket: "mahadbtdocs",
+      Prefix: `${req.body.id}/disabilitydocument/`,
+    };
+
+    // List all objects in the folder
+    const listResponse = await s3.send(new ListObjectsV2Command(listParams));
+
+    // Extract keys of objects in the folder
+    const keys = listResponse?.Contents?.map((object) => ({ Key: object.Key }));
+
+    if (keys?.length > 0) {
+      // Create a command to delete the objects
+      const deleteParams = {
+        Bucket: "mahadbtdocs",
+        Delete: {
+          Objects: keys,
+          Quiet: false, // Set to true to suppress successful delete responses
+        },
+      };
+      // Send the delete command to S3
+      const deleteResponse = await s3.send(
+        new DeleteObjectsCommand(deleteParams)
+      );
+      console.log(
+        "Objects in the folder deleted successfully:",
+        deleteResponse.Deleted
+      );
+    }
+
     const data = s3.send(new PutObjectCommand(uploadParams));
 
     // Construct the URL of the uploaded object manually
@@ -1295,12 +1423,43 @@ exports.sendAdmissionLetterDocumentToS3 = async (req, res) => {
   // console.log("req body id", req.body);
   // return;
   try {
-    const file = req.files.video;
+    const file = req.files.admissiondocument;
     const uploadParams = {
       Bucket: "mahadbtdocs",
-      Key: `${file.name}`,
+      Key: `${req.body.id}/admissiondocument/${file.name}`,
       Body: file.data,
     };
+
+    const listParams = {
+      Bucket: "mahadbtdocs",
+      Prefix: `${req.body.id}/admissiondocument/`,
+    };
+
+    // List all objects in the folder
+    const listResponse = await s3.send(new ListObjectsV2Command(listParams));
+
+    // Extract keys of objects in the folder
+    const keys = listResponse?.Contents?.map((object) => ({ Key: object.Key }));
+
+    if (keys?.length > 0) {
+      // Create a command to delete the objects
+      const deleteParams = {
+        Bucket: "mahadbtdocs",
+        Delete: {
+          Objects: keys,
+          Quiet: false, // Set to true to suppress successful delete responses
+        },
+      };
+      // Send the delete command to S3
+      const deleteResponse = await s3.send(
+        new DeleteObjectsCommand(deleteParams)
+      );
+      console.log(
+        "Objects in the folder deleted successfully:",
+        deleteResponse.Deleted
+      );
+    }
+
     const data = s3.send(new PutObjectCommand(uploadParams));
 
     // Construct the URL of the uploaded object manually
@@ -1403,12 +1562,42 @@ exports.send10thMarksheetDocumentToS3 = async (req, res) => {
   // console.log("req body id", req.body);
   // return;
   try {
-    const file = req.files.video;
+    const file = req.files.file10thDocument;
     const uploadParams = {
       Bucket: "mahadbtdocs",
-      Key: `${file.name}`,
+      Key: `${req.body.id}/10thdocument/${file.name}`,
       Body: file.data,
     };
+
+    const listParams = {
+      Bucket: "mahadbtdocs",
+      Prefix: `${req.body.id}/10thdocument/`,
+    };
+
+    // List all objects in the folder
+    const listResponse = await s3.send(new ListObjectsV2Command(listParams));
+
+    // Extract keys of objects in the folder
+    const keys = listResponse?.Contents?.map((object) => ({ Key: object.Key }));
+
+    if (keys?.length > 0) {
+      // Create a command to delete the objects
+      const deleteParams = {
+        Bucket: "mahadbtdocs",
+        Delete: {
+          Objects: keys,
+          Quiet: false, // Set to true to suppress successful delete responses
+        },
+      };
+      // Send the delete command to S3
+      const deleteResponse = await s3.send(
+        new DeleteObjectsCommand(deleteParams)
+      );
+      console.log(
+        "Objects in the folder deleted successfully:",
+        deleteResponse.Deleted
+      );
+    }
     const data = s3.send(new PutObjectCommand(uploadParams));
 
     // Construct the URL of the uploaded object manually
@@ -1457,12 +1646,43 @@ exports.send12thMarksheetDocumentToS3 = async (req, res) => {
   // console.log("req body id", req.body);
   // return;
   try {
-    const file = req.files.video;
+    const file = req.files.file12thdocument;
+
     const uploadParams = {
       Bucket: "mahadbtdocs",
-      Key: `${file.name}`,
+      Key: `${req.body.id}/12thdocument/${file.name}`,
       Body: file.data,
     };
+
+    const listParams = {
+      Bucket: "mahadbtdocs",
+      Prefix: `${req.body.id}/12thdocument/`,
+    };
+
+    // List all objects in the folder
+    const listResponse = await s3.send(new ListObjectsV2Command(listParams));
+
+    // Extract keys of objects in the folder
+    const keys = listResponse?.Contents?.map((object) => ({ Key: object.Key }));
+
+    if (keys?.length > 0) {
+      // Create a command to delete the objects
+      const deleteParams = {
+        Bucket: "mahadbtdocs",
+        Delete: {
+          Objects: keys,
+          Quiet: false, // Set to true to suppress successful delete responses
+        },
+      };
+      // Send the delete command to S3
+      const deleteResponse = await s3.send(
+        new DeleteObjectsCommand(deleteParams)
+      );
+      console.log(
+        "Objects in the folder deleted successfully:",
+        deleteResponse.Deleted
+      );
+    }
     const data = s3.send(new PutObjectCommand(uploadParams));
 
     // Construct the URL of the uploaded object manually
@@ -1565,12 +1785,43 @@ exports.sendHostelDocumentToS3 = async (req, res) => {
   // console.log("req body id", req.body);
   // return;
   try {
-    const file = req.files.video;
+    const file = req.files.hosteldocument;
     const uploadParams = {
       Bucket: "mahadbtdocs",
-      Key: `${file.name}`,
+      Key: `${req.body.id}/hosteldocument/${file.name}`,
       Body: file.data,
     };
+
+    const listParams = {
+      Bucket: "mahadbtdocs",
+      Prefix: `${req.body.id}/hosteldocument/`,
+    };
+
+    // List all objects in the folder
+    const listResponse = await s3.send(new ListObjectsV2Command(listParams));
+
+    // Extract keys of objects in the folder
+    const keys = listResponse?.Contents?.map((object) => ({ Key: object.Key }));
+
+    if (keys?.length > 0) {
+      // Create a command to delete the objects
+      const deleteParams = {
+        Bucket: "mahadbtdocs",
+        Delete: {
+          Objects: keys,
+          Quiet: false, // Set to true to suppress successful delete responses
+        },
+      };
+      // Send the delete command to S3
+      const deleteResponse = await s3.send(
+        new DeleteObjectsCommand(deleteParams)
+      );
+      console.log(
+        "Objects in the folder deleted successfully:",
+        deleteResponse.Deleted
+      );
+    }
+
     const data = s3.send(new PutObjectCommand(uploadParams));
 
     // Construct the URL of the uploaded object manually
@@ -2376,6 +2627,76 @@ exports.getStudentsView = async (req, res) => {
     });
 };
 
+// For viewing details after excel uploaded
+exports.getPendingStudentsView = async (req, res) => {
+  // res.send("hiii from email");
+  console.log("req profile", req.profile.ref_code);
+  // console.log("hellvgrtvr");
+  // res.send("dddddddd");
+  Mahadbtprofiles.findAll({
+    attributes: [
+      "id",
+      "candidate_name",
+      "coursename",
+      "current_year",
+      "application_status",
+    ],
+    where: {
+      ref_code: req.profile.ref_code,
+      application_status: "Pending",
+    },
+  })
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve Mahadbt Profiles",
+        error: error,
+      });
+    });
+};
+exports.getSubmittedStudentsView = async (req, res) => {
+  // res.send("hiii from email");
+  console.log("req profile", req.profile.ref_code);
+  // console.log("hellvgrtvr");
+  // res.send("dddddddd");
+  Mahadbtprofiles.findAll({
+    attributes: [
+      "id",
+      "candidate_name",
+      "coursename",
+      "current_year",
+      "application_status",
+    ],
+    where: {
+      ref_code: req.profile.ref_code,
+      application_status: "Submitted",
+    },
+  })
+    .then((data) => {
+      data = JSON.stringify(data);
+      data = JSON.parse(data);
+      res.json({
+        success: true,
+        data,
+      });
+    })
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "Failed to retrieve Mahadbt Profiles",
+        error: error,
+      });
+    });
+};
+
 exports.flushdata = async (req, res) => {
   // res.send("heiiiiiiii flush data");
   // console.log("req profile", req.profile.ref_code);
@@ -2677,7 +2998,7 @@ exports.downloadCSVFileforDailySubmittedApplication = async (req, res) => {
         "coursename",
         "current_year",
         "course_stream",
-        "application_submission_date"
+        "application_submission_date",
       ],
       where: {
         application_status: "Submitted",
@@ -2698,7 +3019,10 @@ exports.downloadCSVFileforDailySubmittedApplication = async (req, res) => {
         { id: "coursename", title: "Course Name" },
         { id: "current_year", title: "Current Year" },
         { id: "course_stream", title: "Course Stream" },
-        { id: "application_submission_date", title: "Applicaton Submission Date" },
+        {
+          id: "application_submission_date",
+          title: "Applicaton Submission Date",
+        },
 
         // Add other columns based on your attributes
       ],
@@ -2728,8 +3052,11 @@ exports.downloadCSVFileforDailySubmittedApplication = async (req, res) => {
   }
 };
 
-// 
-exports.downloadCSVFileforYearandCoursewiseSubmiitedApplicationList = async (req, res) => {
+//
+exports.downloadCSVFileforYearandCoursewiseSubmiitedApplicationList = async (
+  req,
+  res
+) => {
   console.log("req profile", req.profile.ref_code);
   const selectedCourse = req.body.courseName; // Replace with the actual user input
   console.log("selectedCourse", selectedCourse);
@@ -2798,49 +3125,44 @@ exports.downloadCSVFileforYearandCoursewiseSubmiitedApplicationList = async (req
   }
 };
 
-
-
-
 exports.downloadCSVFileOfUserList = async (req, res) => {
   console.log("req profile", req.profile.ref_code);
 
   try {
     const data = await User.findAll({
-      attributes: ['id', 'username', 'email', 'mobile', 'role', 'ref_code'],
+      attributes: ["id", "username", "email", "mobile", "role", "ref_code"],
       // where: {
       //   application_status: 'Pending',
       //   ref_code: req.profile.ref_code
       // },
-      order: [
-        ['id', 'ASC']
-      ]
+      order: [["id", "ASC"]],
     });
 
     const csvWriter = createObjectCsvWriter({
-      path: 'User-list.csv',  // You can customize the file name
+      path: "User-list.csv", // You can customize the file name
       header: [
-        { id: 'id', title: 'ID' },
-        { id: 'username', title: 'User Name' },
-        { id: 'email', title: 'Email' },
-        { id: 'mobile', title: 'Mobile Number' },
-        { id: 'role', title: 'ROle' },
-        { id: 'ref_code', title: 'REF CODE' },
+        { id: "id", title: "ID" },
+        { id: "username", title: "User Name" },
+        { id: "email", title: "Email" },
+        { id: "mobile", title: "Mobile Number" },
+        { id: "role", title: "ROle" },
+        { id: "ref_code", title: "REF CODE" },
         // { id: 'coursename', title: 'Course Name' },
         // { id: 'current_year', title: 'Current Year' },
         // { id: 'course_stream', title: 'Course Stream' },
         // { id: 'application_failed_reason', title: 'Applicaton Failed Reason' },
 
-
         // Add other columns based on your attributes
-      ]
+      ],
     });
 
-    const records = data.map(row => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+    const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
 
-    csvWriter.writeRecords(records)
+    csvWriter
+      .writeRecords(records)
       .then(() => {
-        console.log('CSV file written successfully');
-        res.download('User-list.csv');
+        console.log("CSV file written successfully");
+        res.download("User-list.csv");
       })
       .catch((error) => {
         res.status(500).json({
@@ -2863,41 +3185,46 @@ exports.downloadCSVFileOfUCollegeList = async (req, res) => {
 
   try {
     const data = await collegeprofile.findAll({
-      attributes: ['id', 'institute_choice_code', 'institute_name', 'institute_state', 'institute_district', 'institute_taluka'],
+      attributes: [
+        "id",
+        "institute_choice_code",
+        "institute_name",
+        "institute_state",
+        "institute_district",
+        "institute_taluka",
+      ],
       // where: {
       //   application_status: 'Pending',
       //   ref_code: req.profile.ref_code
       // },
-      order: [
-        ['id', 'ASC']
-      ]
+      order: [["id", "ASC"]],
     });
 
     const csvWriter = createObjectCsvWriter({
-      path: 'College-List.csv',  // You can customize the file name
+      path: "College-List.csv", // You can customize the file name
       header: [
-        { id: 'id', title: 'ID' },
-        { id: 'institute_choice_code', title: 'Institute Choice Code' },
-        { id: 'institute_name', title: 'Institute Name' },
-        { id: 'institute_state', title: 'Institute State' },
-        { id: 'institute_district', title: 'Institute  District' },
-        { id: 'institute_taluka', title: 'Institute  Taluka' },
+        { id: "id", title: "ID" },
+        { id: "institute_choice_code", title: "Institute Choice Code" },
+        { id: "institute_name", title: "Institute Name" },
+        { id: "institute_state", title: "Institute State" },
+        { id: "institute_district", title: "Institute  District" },
+        { id: "institute_taluka", title: "Institute  Taluka" },
         // { id: 'coursename', title: 'Course Name' },
         // { id: 'current_year', title: 'Current Year' },
         // { id: 'course_stream', title: 'Course Stream' },
         // { id: 'application_failed_reason', title: 'Applicaton Failed Reason' },
 
-
         // Add other columns based on your attributes
-      ]
+      ],
     });
 
-    const records = data.map(row => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+    const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
 
-    csvWriter.writeRecords(records)
+    csvWriter
+      .writeRecords(records)
       .then(() => {
-        console.log('CSV file written successfully');
-        res.download('COllege-list.csv');
+        console.log("CSV file written successfully");
+        res.download("COllege-list.csv");
       })
       .catch((error) => {
         res.status(500).json({
@@ -2914,4 +3241,3 @@ exports.downloadCSVFileOfUCollegeList = async (req, res) => {
     });
   }
 };
-

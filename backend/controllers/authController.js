@@ -256,6 +256,7 @@ const verifyTOTPToken = (secret, token) => {
 
 exports.verifyToken = (req, res, next) => {
   console.log("reqDFDSFDSF", req.body);
+  req.idData = req.body.email;
 
   const { secret, otp, email } = req.body;
   const isTokenValid = verifyTOTPToken(secret, otp);
@@ -268,10 +269,10 @@ exports.verifyToken = (req, res, next) => {
         console.log("dataaaaDJFDSK", data);
         // user.password = undefined;
         // main = {
-        //   email: data.email,
+        //   emailID: email,
         // };
         // console.log("main", main);
-        // req.email = main;
+        // req.idData = main;
         next();
       })
       .catch((error) => {
