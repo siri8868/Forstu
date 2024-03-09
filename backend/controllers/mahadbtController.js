@@ -2464,7 +2464,7 @@ exports.getSingleMahadbtProfileByRefCode = (req, res) => {
     });
 };
 
-// Download CSV FIle
+// Download CSV FIle ACCORDING TO APPLICATION STATUS
 
 exports.downloadCSVFileforApplicationStatus = async (req, res) => {
   console.log("req profile", req.profile.ref_code);
@@ -2531,6 +2531,9 @@ exports.downloadCSVFileforApplicationStatus = async (req, res) => {
   }
 };
 
+
+
+// DWONLOAD CSV LIST FOR CASTE WISE SUBMIITED APPLICAITON
 exports.downloadCSVFileforCasteWiseApplication = async (req, res) => {
   console.log("req profile", req.profile.ref_code);
 
@@ -2595,6 +2598,7 @@ exports.downloadCSVFileforCasteWiseApplication = async (req, res) => {
   }
 };
 
+// DOWNLOAD CSV LIST FOR OVERALL PENDING REASONS STUDENT LIST
 exports.downloadCSVFileforPendingReason = async (req, res) => {
   console.log("req profile", req.profile.ref_code);
 
@@ -2662,6 +2666,7 @@ exports.downloadCSVFileforPendingReason = async (req, res) => {
   }
 };
 
+// DOWNLOAD THE CSV LIST FOR DAILY SUBMITTED APPLICATION
 exports.downloadCSVFileforDailySubmittedApplication = async (req, res) => {
   console.log("req profile", req.profile.ref_code);
 
@@ -2728,13 +2733,19 @@ exports.downloadCSVFileforDailySubmittedApplication = async (req, res) => {
   }
 };
 
-// 
-exports.downloadCSVFileforYearandCoursewiseSubmiitedApplicationList = async (req, res) => {
+// DOWNLOAD CSV FILE FOR COURSE & YEAR WISE LIST PENDING STUDENT LIST
+exports.downloadCSVFileforYearandCoursewisePendingApplicationList = async (req, res) => {
   console.log("req profile", req.profile.ref_code);
   const selectedCourse = req.body.courseName; // Replace with the actual user input
   console.log("selectedCourse", selectedCourse);
   const selectedYear = req.body.courseYear;
   const whereClause = {};
+  if (selectedCourse) {
+    whereClause.coursename = selectedCourse;
+  }
+  if (selectedYear) {
+    whereClause.current_year = selectedYear;
+  }
   try {
     const data = await Mahadbtprofiles.findAll({
       attributes: [
@@ -2747,18 +2758,19 @@ exports.downloadCSVFileforYearandCoursewiseSubmiitedApplicationList = async (req
         "coursename",
         "current_year",
         "course_stream",
+        "application_failed_reason"
         // "application_submission_date"
       ],
       where: {
         ref_code: req.profile.ref_code,
         ...whereClause,
-        applicationStatus: ["submitted"],
+        applicationStatus: ["pending"],
       },
       // order: [["application_submission_date", "ASC"]],
     });
 
     const csvWriter = createObjectCsvWriter({
-      path: "Datewiselist.csv", // You can customize the file name
+      path: "Course-year-wise-data-list.csv", // You can customize the file name
       header: [
         { id: "id", title: "ID" },
         { id: "Candidate_name", title: "Candidate Name" },
@@ -2769,6 +2781,9 @@ exports.downloadCSVFileforYearandCoursewiseSubmiitedApplicationList = async (req
         { id: "coursename", title: "Course Name" },
         { id: "current_year", title: "Current Year" },
         { id: "course_stream", title: "Course Stream" },
+        { id: "application_failed_reason", title: "Application Submit Failed Reason" },
+
+
 
         // Add other columns based on your attributes
       ],
@@ -2780,7 +2795,7 @@ exports.downloadCSVFileforYearandCoursewiseSubmiitedApplicationList = async (req
       .writeRecords(records)
       .then(() => {
         console.log("CSV file written successfully");
-        res.download("Datewiselist.csv");
+        res.download("Course-year-wise-data-list.csv");
       })
       .catch((error) => {
         res.status(500).json({
@@ -2798,66 +2813,11 @@ exports.downloadCSVFileforYearandCoursewiseSubmiitedApplicationList = async (req
   }
 };
 
+// DOWNLOAD CSV FILE FOR COURSE & YEAR WISE LIST APPLICATION FAILED STATUS STUDENT LIST
 
 
 
-exports.downloadCSVFileOfUserList = async (req, res) => {
-  console.log("req profile", req.profile.ref_code);
-
-  try {
-    const data = await User.findAll({
-      attributes: ['id', 'username', 'email', 'mobile', 'role', 'ref_code'],
-      // where: {
-      //   application_status: 'Pending',
-      //   ref_code: req.profile.ref_code
-      // },
-      order: [
-        ['id', 'ASC']
-      ]
-    });
-
-    const csvWriter = createObjectCsvWriter({
-      path: 'User-list.csv',  // You can customize the file name
-      header: [
-        { id: 'id', title: 'ID' },
-        { id: 'username', title: 'User Name' },
-        { id: 'email', title: 'Email' },
-        { id: 'mobile', title: 'Mobile Number' },
-        { id: 'role', title: 'ROle' },
-        { id: 'ref_code', title: 'REF CODE' },
-        // { id: 'coursename', title: 'Course Name' },
-        // { id: 'current_year', title: 'Current Year' },
-        // { id: 'course_stream', title: 'Course Stream' },
-        // { id: 'application_failed_reason', title: 'Applicaton Failed Reason' },
-
-
-        // Add other columns based on your attributes
-      ]
-    });
-
-    const records = data.map(row => row.get({ plain: true })); // Convert Sequelize instances to plain objects
-
-    csvWriter.writeRecords(records)
-      .then(() => {
-        console.log('CSV file written successfully');
-        res.download('User-list.csv');
-      })
-      .catch((error) => {
-        res.status(500).json({
-          success: false,
-          message: "Failed to write CSV file",
-          error: error,
-        });
-      });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to retrieve Mahadbt Profiles",
-      error: error,
-    });
-  }
-};
-
+// DOWNLOAD CSV FILE FOR ONBOARDED COLLEGE LIST
 exports.downloadCSVFileOfUCollegeList = async (req, res) => {
   console.log("req profile", req.profile.ref_code);
 
@@ -2915,3 +2875,62 @@ exports.downloadCSVFileOfUCollegeList = async (req, res) => {
   }
 };
 
+
+
+// DOWNLOAD CSV FOR USER LIST
+exports.downloadCSVFileOfUserList = async (req, res) => {
+  console.log("req profile", req.profile.ref_code);
+
+  try {
+    const data = await User.findAll({
+      attributes: ['id', 'username', 'email', 'mobile', 'role', 'ref_code'],
+      // where: {
+      //   application_status: 'Pending',
+      //   ref_code: req.profile.ref_code
+      // },
+      order: [
+        ['id', 'ASC']
+      ]
+    });
+
+    const csvWriter = createObjectCsvWriter({
+      path: 'User-list.csv',  // You can customize the file name
+      header: [
+        { id: 'id', title: 'ID' },
+        { id: 'username', title: 'User Name' },
+        { id: 'email', title: 'Email' },
+        { id: 'mobile', title: 'Mobile Number' },
+        { id: 'role', title: 'ROle' },
+        { id: 'ref_code', title: 'REF CODE' },
+        // { id: 'coursename', title: 'Course Name' },
+        // { id: 'current_year', title: 'Current Year' },
+        // { id: 'course_stream', title: 'Course Stream' },
+        // { id: 'application_failed_reason', title: 'Applicaton Failed Reason' },
+
+
+        // Add other columns based on your attributes
+      ]
+    });
+
+    const records = data.map(row => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+
+    csvWriter.writeRecords(records)
+      .then(() => {
+        console.log('CSV file written successfully');
+        res.download('User-list.csv');
+      })
+      .catch((error) => {
+        res.status(500).json({
+          success: false,
+          message: "Failed to write CSV file",
+          error: error,
+        });
+      });
+  } catch (error) {
+    res.status(500).json({
+      success: false,
+      message: "Failed to retrieve Mahadbt Profiles",
+      error: error,
+    });
+  }
+};
