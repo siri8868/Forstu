@@ -2785,7 +2785,7 @@ exports.getSingleMahadbtProfileByRefCode = (req, res) => {
     });
 };
 
-// Download CSV FIle
+// Download CSV FIle ACCORDING TO APPLICATION STATUS
 
 exports.downloadCSVFileforApplicationStatus = async (req, res) => {
   console.log("req profile", req.profile.ref_code);
@@ -2852,6 +2852,9 @@ exports.downloadCSVFileforApplicationStatus = async (req, res) => {
   }
 };
 
+
+
+// DWONLOAD CSV LIST FOR CASTE WISE SUBMIITED APPLICAITON
 exports.downloadCSVFileforCasteWiseApplication = async (req, res) => {
   console.log("req profile", req.profile.ref_code);
 
@@ -2916,6 +2919,7 @@ exports.downloadCSVFileforCasteWiseApplication = async (req, res) => {
   }
 };
 
+// DOWNLOAD CSV LIST FOR OVERALL PENDING REASONS STUDENT LIST
 exports.downloadCSVFileforPendingReason = async (req, res) => {
   console.log("req profile", req.profile.ref_code);
 
@@ -2983,6 +2987,7 @@ exports.downloadCSVFileforPendingReason = async (req, res) => {
   }
 };
 
+// DOWNLOAD THE CSV LIST FOR DAILY SUBMITTED APPLICATION
 exports.downloadCSVFileforDailySubmittedApplication = async (req, res) => {
   console.log("req profile", req.profile.ref_code);
 
@@ -3052,7 +3057,11 @@ exports.downloadCSVFileforDailySubmittedApplication = async (req, res) => {
   }
 };
 
-//
+
+// DOWNLOAD CSV FILE FOR COURSE & YEAR WISE LIST PENDING STUDENT LIST
+exports.downloadCSVFileforYearandCoursewisePendingApplicationList = async (req, res) => {
+
+
 exports.downloadCSVFileforYearandCoursewiseSubmiitedApplicationList = async (
   req,
   res
@@ -3062,6 +3071,12 @@ exports.downloadCSVFileforYearandCoursewiseSubmiitedApplicationList = async (
   console.log("selectedCourse", selectedCourse);
   const selectedYear = req.body.courseYear;
   const whereClause = {};
+  if (selectedCourse) {
+    whereClause.coursename = selectedCourse;
+  }
+  if (selectedYear) {
+    whereClause.current_year = selectedYear;
+  }
   try {
     const data = await Mahadbtprofiles.findAll({
       attributes: [
@@ -3074,18 +3089,19 @@ exports.downloadCSVFileforYearandCoursewiseSubmiitedApplicationList = async (
         "coursename",
         "current_year",
         "course_stream",
+        "application_failed_reason"
         // "application_submission_date"
       ],
       where: {
         ref_code: req.profile.ref_code,
         ...whereClause,
-        applicationStatus: ["submitted"],
+        applicationStatus: ["pending"],
       },
       // order: [["application_submission_date", "ASC"]],
     });
 
     const csvWriter = createObjectCsvWriter({
-      path: "Datewiselist.csv", // You can customize the file name
+      path: "Course-year-wise-data-list.csv", // You can customize the file name
       header: [
         { id: "id", title: "ID" },
         { id: "Candidate_name", title: "Candidate Name" },
@@ -3096,6 +3112,9 @@ exports.downloadCSVFileforYearandCoursewiseSubmiitedApplicationList = async (
         { id: "coursename", title: "Course Name" },
         { id: "current_year", title: "Current Year" },
         { id: "course_stream", title: "Course Stream" },
+        { id: "application_failed_reason", title: "Application Submit Failed Reason" },
+
+
 
         // Add other columns based on your attributes
       ],
@@ -3107,7 +3126,7 @@ exports.downloadCSVFileforYearandCoursewiseSubmiitedApplicationList = async (
       .writeRecords(records)
       .then(() => {
         console.log("CSV file written successfully");
-        res.download("Datewiselist.csv");
+        res.download("Course-year-wise-data-list.csv");
       })
       .catch((error) => {
         res.status(500).json({
@@ -3125,12 +3144,25 @@ exports.downloadCSVFileforYearandCoursewiseSubmiitedApplicationList = async (
   }
 };
 
+// DOWNLOAD CSV FILE FOR COURSE & YEAR WISE LIST APPLICATION FAILED STATUS STUDENT LIST
+
+
+
+// DOWNLOAD CSV FILE FOR ONBOARDED COLLEGE LIST
+exports.downloadCSVFileOfUCollegeList = async (req, res) => {
+  console.log("req profile", req.profile.ref_code);
+
+  try {
+    const data = await collegeprofile.findAll({
+      attributes: ['id', 'institute_choice_code', 'institute_name', 'institute_state', 'institute_district', 'institute_taluka'],
+
 exports.downloadCSVFileOfUserList = async (req, res) => {
   console.log("req profile", req.profile.ref_code);
 
   try {
     const data = await User.findAll({
       attributes: ["id", "username", "email", "mobile", "role", "ref_code"],
+
       // where: {
       //   application_status: 'Pending',
       //   ref_code: req.profile.ref_code
@@ -3139,6 +3171,16 @@ exports.downloadCSVFileOfUserList = async (req, res) => {
     });
 
     const csvWriter = createObjectCsvWriter({
+
+      path: 'College-List.csv',  // You can customize the file name
+      header: [
+        { id: 'id', title: 'ID' },
+        { id: 'institute_choice_code', title: 'Institute Choice Code' },
+        { id: 'institute_name', title: 'Institute Name' },
+        { id: 'institute_state', title: 'Institute State' },
+        { id: 'institute_district', title: 'Institute  District' },
+        { id: 'institute_taluka', title: 'Institute  Taluka' },
+
       path: "User-list.csv", // You can customize the file name
       header: [
         { id: "id", title: "ID" },
@@ -3147,6 +3189,7 @@ exports.downloadCSVFileOfUserList = async (req, res) => {
         { id: "mobile", title: "Mobile Number" },
         { id: "role", title: "ROle" },
         { id: "ref_code", title: "REF CODE" },
+
         // { id: 'coursename', title: 'Course Name' },
         // { id: 'current_year', title: 'Current Year' },
         // { id: 'course_stream', title: 'Course Stream' },
@@ -3161,8 +3204,13 @@ exports.downloadCSVFileOfUserList = async (req, res) => {
     csvWriter
       .writeRecords(records)
       .then(() => {
+
+        console.log('CSV file written successfully');
+        res.download('COllege-list.csv');
+
         console.log("CSV file written successfully");
         res.download("User-list.csv");
+
       })
       .catch((error) => {
         res.status(500).json({
@@ -3180,10 +3228,17 @@ exports.downloadCSVFileOfUserList = async (req, res) => {
   }
 };
 
-exports.downloadCSVFileOfUCollegeList = async (req, res) => {
+
+
+// DOWNLOAD CSV FOR USER LIST
+exports.downloadCSVFileOfUserList = async (req, res) => {
   console.log("req profile", req.profile.ref_code);
 
   try {
+
+    const data = await User.findAll({
+      attributes: ['id', 'username', 'email', 'mobile', 'role', 'ref_code'],
+
     const data = await collegeprofile.findAll({
       attributes: [
         "id",
@@ -3193,6 +3248,7 @@ exports.downloadCSVFileOfUCollegeList = async (req, res) => {
         "institute_district",
         "institute_taluka",
       ],
+
       // where: {
       //   application_status: 'Pending',
       //   ref_code: req.profile.ref_code
@@ -3201,6 +3257,16 @@ exports.downloadCSVFileOfUCollegeList = async (req, res) => {
     });
 
     const csvWriter = createObjectCsvWriter({
+
+      path: 'User-list.csv',  // You can customize the file name
+      header: [
+        { id: 'id', title: 'ID' },
+        { id: 'username', title: 'User Name' },
+        { id: 'email', title: 'Email' },
+        { id: 'mobile', title: 'Mobile Number' },
+        { id: 'role', title: 'ROle' },
+        { id: 'ref_code', title: 'REF CODE' },
+
       path: "College-List.csv", // You can customize the file name
       header: [
         { id: "id", title: "ID" },
@@ -3209,6 +3275,7 @@ exports.downloadCSVFileOfUCollegeList = async (req, res) => {
         { id: "institute_state", title: "Institute State" },
         { id: "institute_district", title: "Institute  District" },
         { id: "institute_taluka", title: "Institute  Taluka" },
+
         // { id: 'coursename', title: 'Course Name' },
         // { id: 'current_year', title: 'Current Year' },
         // { id: 'course_stream', title: 'Course Stream' },
@@ -3223,8 +3290,13 @@ exports.downloadCSVFileOfUCollegeList = async (req, res) => {
     csvWriter
       .writeRecords(records)
       .then(() => {
+
+        console.log('CSV file written successfully');
+        res.download('User-list.csv');
+
         console.log("CSV file written successfully");
         res.download("COllege-list.csv");
+
       })
       .catch((error) => {
         res.status(500).json({

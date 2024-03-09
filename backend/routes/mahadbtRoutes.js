@@ -38,6 +38,7 @@ const {
   downloadCSVFileOfUserList,
   downloadCSVFileOfUCollegeList,
   downloadCSVFileforDailySubmittedApplication,
+  downloadCSVFileforYearandCoursewisePendingApplicationList,
   test,
   sendCasteDocumentToS3,
   sendIncomeDocumentToS3,
@@ -94,6 +95,11 @@ router.post(
   downloadCSVFileforPendingReason
 );
 router.post("/downloadcsvforuserlist", isSignedIn, downloadCSVFileOfUserList);
+
+router.post("/downloadcsvforcollegelist", isSignedIn, downloadCSVFileOfUCollegeList);
+router.post("/downloadcsvforapplicationsubmittedasperdate", isSignedIn, downloadCSVFileforDailySubmittedApplication);
+router.post("/downloadcsvforyearandcoursewisependingapplication", isSignedIn, downloadCSVFileforYearandCoursewisePendingApplicationList);
+
 router.post(
   "/downloadcsvforcollegelist",
   isSignedIn,
@@ -104,6 +110,7 @@ router.post(
   isSignedIn,
   downloadCSVFileforDailySubmittedApplication
 );
+
 
 router.post(
   "/downloadcsvforapplicationstatus",
