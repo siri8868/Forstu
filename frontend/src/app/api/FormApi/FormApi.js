@@ -176,7 +176,7 @@ export async function submitFormDataForCasteUploadDocumentApi(data) {
     headers: {
       // "Content-Type": "application/json",
       // Accept: "application/json",
-      //   Authorization: accessToken,
+      Authorization: accessToken,
     },
     body: data,
   });
@@ -196,7 +196,7 @@ export async function submitFormDataForIncomeUploadDocumentApi(data) {
     headers: {
       // "Content-Type": "application/json",
       // Accept: "application/json",
-      //   Authorization: accessToken,
+      Authorization: accessToken,
     },
     body: data,
   });
@@ -232,6 +232,86 @@ export async function submitFormDataForDisabilityUploadDocumentApi(data) {
   const { accessToken } = isAuthenticated();
 
   const response = await fetch(`${ENDPOINT}/submitdisabilitydocument`, {
+    method: "PUT",
+    headers: {
+      // "Content-Type": "application/json",
+      // Accept: "application/json",
+      //   Authorization: accessToken,
+    },
+    body: data,
+  });
+
+  //   if (response.status == 401) {
+  //     redirectOnTokenExpire();
+  //   }
+
+  return response.json();
+}
+
+export async function submitFormDataForAdmissionUploadDocumentApi(data) {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/submitadmissionletterdocument`, {
+    method: "PUT",
+    headers: {
+      // "Content-Type": "application/json",
+      // Accept: "application/json",
+      //   Authorization: accessToken,
+    },
+    body: data,
+  });
+
+  //   if (response.status == 401) {
+  //     redirectOnTokenExpire();
+  //   }
+
+  return response.json();
+}
+
+export async function submit10thDocumentApi(data) {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/submit10thmarksheetdocument`, {
+    method: "PUT",
+    headers: {
+      // "Content-Type": "application/json",
+      // Accept: "application/json",
+      //   Authorization: accessToken,
+    },
+    body: data,
+  });
+
+  //   if (response.status == 401) {
+  //     redirectOnTokenExpire();
+  //   }
+
+  return response.json();
+}
+
+export async function submit12thDocumentApi(data) {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/submit12thmarksheetdocument`, {
+    method: "PUT",
+    headers: {
+      // "Content-Type": "application/json",
+      // Accept: "application/json",
+      //   Authorization: accessToken,
+    },
+    body: data,
+  });
+
+  //   if (response.status == 401) {
+  //     redirectOnTokenExpire();
+  //   }
+
+  return response.json();
+}
+
+export async function submitHostelDocumentApi(data) {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/submithosteldocument`, {
     method: "PUT",
     headers: {
       // "Content-Type": "application/json",

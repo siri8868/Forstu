@@ -14,6 +14,7 @@ import { Table as AntTable } from "antd";
 import {
   executeScholarShipApplicationApi,
   getEmailsofpendingstudentsApi,
+  getPendingStudentsViewApi,
   getStudentsViewApi,
   sendEmailToStudentMicrositeApi,
   studentprofileviewApi,
@@ -33,9 +34,9 @@ function PendingStudents() {
   const onChange = (pagination, filters, sorter, extra) => {};
 
   const getAllStudents = () => {
-    getStudentsViewApi()
+    getPendingStudentsViewApi()
       .then((res) => {
-        // console.log("res", res);
+        console.log("res", res);
         setStudent(res.data);
       })
       .catch((err) => {

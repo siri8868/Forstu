@@ -15,6 +15,7 @@ import {
 import {
   getHostelDetailsInfoApi,
   submitFormDataApi,
+  submitHostelDocumentApi,
 } from "../../../api/FormApi/FormApi";
 import { getOTPSecret } from "../../../helpers/AuthHelpers";
 import { getHostelTypeApi } from "../../../api/FormApi/FormDropdownApi";
@@ -60,52 +61,53 @@ function FormSix() {
       formDataMain.append(key, data[key]);
     }
 
-    file10DocFile.map((item, index) => {
+    hostelDocFile.map((item, index) => {
       // test.push(item);
       console.log("item-hostelDocument", item);
       formDataMain.append(`hosteldocument`, item[1]);
     });
 
-    // submitFormDataForCasteUploadDocumentApi(formDataMain)
-    //   .then((res) => {
-    //     console.log("res", res);
-    //     if (res.success) {
-    //       // onClose();
-    //       // getAllColleges();
-    //       toast({
-    //         title: "Caste Document uploaded.",
-    //         description: res.message,
-    //         status: "success",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //       // setDisplayCasteLink(res.url);
-    //       // setFormData({ ...formData, casteDoc: res.url });
-    //     } else {
-    //       // onClose();
-    //       toast({
-    //         title: "Operation failed!",
-    //         description: res.message,
-    //         status: "error",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast({
-    //       title: "Error",
-    //       description: "Operation Failed!",
-    //       status: "error",
-    //       duration: 9000,
-    //       isClosable: true,
-    //       position: "top-right",
-    //     });
+    submitHostelDocumentApi(formDataMain)
+      .then((res) => {
+        console.log("res", res);
+        if (res.success) {
+          // onClose();
+          // getAllColleges();
+          toast({
+            title: "Hostel Document uploaded.",
+            description: res.message,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+          setHostelDocFile([]);
+          // setDisplayCasteLink(res.url);
+          // setFormData({ ...formData, casteDoc: res.url });
+        } else {
+          // onClose();
+          toast({
+            title: "Operation failed!",
+            description: res.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: "Operation Failed!",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
 
-    //     console.error(error);
-    //   });
+        console.error(error);
+      });
   };
 
   const handleChangeAreYouHostellerDayScholarDropDown = (param) => (event) => {

@@ -21,6 +21,44 @@ export async function getStudentsViewApi() {
   return response.json();
 }
 
+export async function getPendingStudentsViewApi() {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/getpendingstudentsview`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: accessToken,
+    },
+  });
+
+  if (response.status == 401) {
+    redirectOnTokenExpire();
+  }
+
+  return response.json();
+}
+
+export async function getSubmittedStudentsViewApi() {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/getsubmittedstudentsview`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: accessToken,
+    },
+  });
+
+  if (response.status == 401) {
+    redirectOnTokenExpire();
+  }
+
+  return response.json();
+}
+
 export async function getEmailsofpendingstudentsApi() {
   const { accessToken } = isAuthenticated();
 

@@ -14,6 +14,8 @@ import {
 } from "@chakra-ui/react";
 import {
   getQualificationInfoApi,
+  submit10thDocumentApi,
+  submit12thDocumentApi,
   submitFormDataApi,
 } from "../../../api/FormApi/FormApi";
 import { getOTPSecret } from "../../../helpers/AuthHelpers";
@@ -23,6 +25,7 @@ import {
   getSSCExamMonthApi,
 } from "../../../api/FormApi/FormDropdownApi";
 import { InboxOutlined } from "@ant-design/icons";
+import { set } from "date-fns";
 
 function FormFive() {
   const [formData, setFormData] = useState({});
@@ -62,46 +65,47 @@ function FormFive() {
       formDataMain.append(`file10thDocument`, item[1]);
     });
 
-    // submitFormDataForCasteUploadDocumentApi(formDataMain)
-    //   .then((res) => {
-    //     console.log("res", res);
-    //     if (res.success) {
-    //       // onClose();
-    //       // getAllColleges();
-    //       toast({
-    //         title: "Caste Document uploaded.",
-    //         description: res.message,
-    //         status: "success",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //       // setDisplayCasteLink(res.url);
-    //       // setFormData({ ...formData, casteDoc: res.url });
-    //     } else {
-    //       // onClose();
-    //       toast({
-    //         title: "Operation failed!",
-    //         description: res.message,
-    //         status: "error",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast({
-    //       title: "Error",
-    //       description: "Operation Failed!",
-    //       status: "error",
-    //       duration: 9000,
-    //       isClosable: true,
-    //       position: "top-right",
-    //     });
+    submit10thDocumentApi(formDataMain)
+      .then((res) => {
+        console.log("res", res);
+        if (res.success) {
+          // onClose();
+          // getAllColleges();
+          toast({
+            title: "10th Document uploaded.",
+            description: res.message,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+          setfile10DocFile([]);
+          // setDisplayCasteLink(res.url);
+          // setFormData({ ...formData, casteDoc: res.url });
+        } else {
+          // onClose();
+          toast({
+            title: "Operation failed!",
+            description: res.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: "Operation Failed!",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
 
-    //     console.error(error);
-    //   });
+        console.error(error);
+      });
   };
 
   const upload12thDocument = () => {
@@ -115,52 +119,53 @@ function FormFive() {
       formDataMain.append(key, data[key]);
     }
 
-    file10DocFile.map((item, index) => {
+    file12DocFile.map((item, index) => {
       // test.push(item);
       console.log("item-file12thDocument", item);
       formDataMain.append(`file12thdocument`, item[1]);
     });
 
-    // submitFormDataForCasteUploadDocumentApi(formDataMain)
-    //   .then((res) => {
-    //     console.log("res", res);
-    //     if (res.success) {
-    //       // onClose();
-    //       // getAllColleges();
-    //       toast({
-    //         title: "Caste Document uploaded.",
-    //         description: res.message,
-    //         status: "success",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //       // setDisplayCasteLink(res.url);
-    //       // setFormData({ ...formData, casteDoc: res.url });
-    //     } else {
-    //       // onClose();
-    //       toast({
-    //         title: "Operation failed!",
-    //         description: res.message,
-    //         status: "error",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast({
-    //       title: "Error",
-    //       description: "Operation Failed!",
-    //       status: "error",
-    //       duration: 9000,
-    //       isClosable: true,
-    //       position: "top-right",
-    //     });
+    submit12thDocumentApi(formDataMain)
+      .then((res) => {
+        console.log("res", res);
+        if (res.success) {
+          // onClose();
+          // getAllColleges();
+          toast({
+            title: "12th Document uploaded.",
+            description: res.message,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+          setfile12DocFile([]);
+          // setDisplayCasteLink(res.url);
+          // setFormData({ ...formData, casteDoc: res.url });
+        } else {
+          // onClose();
+          toast({
+            title: "Operation failed!",
+            description: res.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: "Operation Failed!",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
 
-    //     console.error(error);
-    //   });
+        console.error(error);
+      });
   };
 
   const remove10thDoc = (index) => {
