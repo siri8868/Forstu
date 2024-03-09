@@ -36,7 +36,7 @@ const {
   downloadCSVFileforCasteWiseApplication,
   downloadCSVFileforPendingReason,
   downloadCSVFileOfUserList,
-  downloadCSVFileOfUCollegeList,
+  downloadCSVFileOfCollegeList,
   downloadCSVFileforDailySubmittedApplication,
   downloadCSVFileforYearandCoursewisePendingApplicationList,
   test,
@@ -79,38 +79,60 @@ router.post("/getYearsFromCourse", isSignedIn, getCourseYearsFromFrontend);
 
 router.post("/courseandyearwisedata", isSignedIn, totalCourseAndYear);
 
+// done 1
 router.post(
   "/downloadcsvforapplicationstatus",
   isSignedIn,
   downloadCSVFileforApplicationStatus
 );
+
+// done 2
 router.post(
   "/downloadcsvforcastewiseapplicationstatus",
   isSignedIn,
   downloadCSVFileforCasteWiseApplication
 );
+
+// done 3
 router.post(
   "/downloadcsvforpendingreason",
   isSignedIn,
   downloadCSVFileforPendingReason
 );
+// done 4
 router.post("/downloadcsvforuserlist", isSignedIn, downloadCSVFileOfUserList);
 
-router.post("/downloadcsvforcollegelist", isSignedIn, downloadCSVFileOfUCollegeList);
-router.post("/downloadcsvforapplicationsubmittedasperdate", isSignedIn, downloadCSVFileforDailySubmittedApplication);
-router.post("/downloadcsvforyearandcoursewisependingapplication", isSignedIn, downloadCSVFileforYearandCoursewisePendingApplicationList);
-
+// done 5
 router.post(
   "/downloadcsvforcollegelist",
   isSignedIn,
-  downloadCSVFileOfUCollegeList
+  downloadCSVFileOfCollegeList
 );
+
+// done 6
 router.post(
   "/downloadcsvforapplicationsubmittedasperdate",
   isSignedIn,
   downloadCSVFileforDailySubmittedApplication
 );
 
+// done 7
+router.post(
+  "/downloadcsvforyearandcoursewisependingapplication",
+  isSignedIn,
+  downloadCSVFileforYearandCoursewisePendingApplicationList
+);
+
+// router.post(
+//   "/downloadcsvforcollegelist",
+//   isSignedIn,
+//   downloadCSVFileOfCollegeList
+// );
+router.post(
+  "/downloadcsvforapplicationsubmittedasperdate",
+  isSignedIn,
+  downloadCSVFileforDailySubmittedApplication
+);
 
 router.post(
   "/downloadcsvforapplicationstatus",
