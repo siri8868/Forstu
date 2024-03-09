@@ -16,6 +16,7 @@ import {
 import {
   getcurrentcourseInfoApi,
   submitFormDataApi,
+  submitFormDataForAdmissionUploadDocumentApi,
 } from "../../../api/FormApi/FormApi";
 import { getOTPSecret } from "../../../helpers/AuthHelpers";
 import {
@@ -71,46 +72,47 @@ function FormFour() {
       formDataMain.append(`admissiondocument`, item[1]);
     });
 
-    // submitFormDataForCasteUploadDocumentApi(formDataMain)
-    //   .then((res) => {
-    //     console.log("res", res);
-    //     if (res.success) {
-    //       // onClose();
-    //       // getAllColleges();
-    //       toast({
-    //         title: "Caste Document uploaded.",
-    //         description: res.message,
-    //         status: "success",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //       // setDisplayCasteLink(res.url);
-    //       // setFormData({ ...formData, casteDoc: res.url });
-    //     } else {
-    //       // onClose();
-    //       toast({
-    //         title: "Operation failed!",
-    //         description: res.message,
-    //         status: "error",
-    //         duration: 9000,
-    //         isClosable: true,
-    //         position: "top-right",
-    //       });
-    //     }
-    //   })
-    //   .catch((error) => {
-    //     toast({
-    //       title: "Error",
-    //       description: "Operation Failed!",
-    //       status: "error",
-    //       duration: 9000,
-    //       isClosable: true,
-    //       position: "top-right",
-    //     });
+    submitFormDataForAdmissionUploadDocumentApi(formDataMain)
+      .then((res) => {
+        console.log("res", res);
+        if (res.success) {
+          // onClose();
+          // getAllColleges();
+          toast({
+            title: "Admission Document uploaded.",
+            description: res.message,
+            status: "success",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+          setAdmissionDocFile([]);
+          // setDisplayCasteLink(res.url);
+          // setFormData({ ...formData, casteDoc: res.url });
+        } else {
+          // onClose();
+          toast({
+            title: "Operation failed!",
+            description: res.message,
+            status: "error",
+            duration: 9000,
+            isClosable: true,
+            position: "top-right",
+          });
+        }
+      })
+      .catch((error) => {
+        toast({
+          title: "Error",
+          description: "Operation Failed!",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+          position: "top-right",
+        });
 
-    //     console.error(error);
-    //   });
+        console.error(error);
+      });
   };
 
   const uploadFeesAdmissionBonafideDocument = () => {

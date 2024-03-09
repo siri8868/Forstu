@@ -50,7 +50,9 @@ const {
   send10thMarksheetDocumentToS3,
   send12thMarksheetDocumentToS3,
   sendGapDocumentToS3,
-  sendHostelDocumentToS3
+  sendHostelDocumentToS3,
+  getPendingStudentsView,
+  getSubmittedStudentsView,
 } = require("../controllers/mahadbtController");
 
 const {
@@ -77,13 +79,38 @@ router.post("/getYearsFromCourse", isSignedIn, getCourseYearsFromFrontend);
 
 router.post("/courseandyearwisedata", isSignedIn, totalCourseAndYear);
 
-router.post("/downloadcsvforapplicationstatus", isSignedIn, downloadCSVFileforApplicationStatus);
-router.post("/downloadcsvforcastewiseapplicationstatus", isSignedIn, downloadCSVFileforCasteWiseApplication);
-router.post("/downloadcsvforpendingreason", isSignedIn, downloadCSVFileforPendingReason);
+router.post(
+  "/downloadcsvforapplicationstatus",
+  isSignedIn,
+  downloadCSVFileforApplicationStatus
+);
+router.post(
+  "/downloadcsvforcastewiseapplicationstatus",
+  isSignedIn,
+  downloadCSVFileforCasteWiseApplication
+);
+router.post(
+  "/downloadcsvforpendingreason",
+  isSignedIn,
+  downloadCSVFileforPendingReason
+);
 router.post("/downloadcsvforuserlist", isSignedIn, downloadCSVFileOfUserList);
+
 router.post("/downloadcsvforcollegelist", isSignedIn, downloadCSVFileOfUCollegeList);
 router.post("/downloadcsvforapplicationsubmittedasperdate", isSignedIn, downloadCSVFileforDailySubmittedApplication);
 router.post("/downloadcsvforyearandcoursewisependingapplication", isSignedIn, downloadCSVFileforYearandCoursewisePendingApplicationList);
+
+router.post(
+  "/downloadcsvforcollegelist",
+  isSignedIn,
+  downloadCSVFileOfUCollegeList
+);
+router.post(
+  "/downloadcsvforapplicationsubmittedasperdate",
+  isSignedIn,
+  downloadCSVFileforDailySubmittedApplication
+);
+
 
 router.post(
   "/downloadcsvforapplicationstatus",
@@ -114,19 +141,24 @@ router.post(
   getEmailsOfPendingStduents
 );
 router.get("/getStudentsView", isSignedIn, getStudentsView);
+router.get("/getpendingstudentsview", isSignedIn, getPendingStudentsView);
+router.get("/getsubmittedstudentsview", isSignedIn, getSubmittedStudentsView);
 router.delete("/flushdataofdb", flushdata);
 
 // for microsite routes for students
 router.put("/submitFormData", sendDatatoDB);
 
-// ROutes for uploading Documents 
+// ROutes for uploading Documents
 router.put("/submitcastedocument", sendCasteDocumentToS3);
 router.put("/submitincomedocument", sendIncomeDocumentToS3);
 router.put("/submitdomaciledocument", sendDomacileDocumentToS3);
 router.put("/submitdisabilitydocument", sendDisabilityDocumentToS3);
 router.put("/submitguardiandocument", sendGuardianDocumentToS3);
 router.put("/submitadmissionletterdocument", sendAdmissionLetterDocumentToS3);
-router.put("/submitbonafideorfeesoradmissionreeceiptdocument", sendBonafideOrFeesOrAdmissionReceiptDocumentToS3);
+router.put(
+  "/submitbonafideorfeesoradmissionreeceiptdocument",
+  sendBonafideOrFeesOrAdmissionReceiptDocumentToS3
+);
 router.put("/submit10thmarksheetdocument", send10thMarksheetDocumentToS3);
 router.put("/submit12thmarksheetdocument", send12thMarksheetDocumentToS3);
 router.put("/submitgapdocument", sendGapDocumentToS3);
