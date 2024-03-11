@@ -98,25 +98,6 @@ export async function getMonthlySubmitCountApi() {
   return response.json();
 }
 
-// export async function getMonthlySubmitCountApi() {
-//   const { accessToken } = isAuthenticated();
-
-//   const response = await fetch(`${ENDPOINT}/monthlycount`, {
-//     method: "GET",
-//     headers: {
-//       "Content-Type": "application/json",
-//       Accept: "application/json",
-//       Authorization: accessToken,
-//     },
-//   });
-
-//   if (response.status == 401) {
-//     redirectOnTokenExpire();
-//   }
-
-//   return response.json();
-// }
-
 export async function getYearlySubmitCountApi() {
   const { accessToken } = isAuthenticated();
 
@@ -141,6 +122,66 @@ export async function getDailySubmitCountApi() {
 
   const response = await fetch(`${ENDPOINT}/dailycount`, {
     method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: accessToken,
+    },
+  });
+
+  if (response.status == 401) {
+    redirectOnTokenExpire();
+  }
+
+  return response.json();
+}
+
+export async function downloadCsvForApplicationStatusFunctionApi() {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/downloadcsvforapplicationstatus`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: accessToken,
+    },
+  });
+
+  if (response.status == 401) {
+    redirectOnTokenExpire();
+  }
+
+  return response.json();
+}
+
+export async function downloadCsvForCastewiseApplicationStatusApi() {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(
+    `${ENDPOINT}/downloadcsvforcastewiseapplicationstatus`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: accessToken,
+      },
+    }
+  );
+
+  if (response.status == 401) {
+    redirectOnTokenExpire();
+  }
+
+  return response.json();
+}
+
+export async function downloadCSVFileforPendingReasonFunctionApi() {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/downloadcsvforpendingreason`, {
+    method: "POST",
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json",

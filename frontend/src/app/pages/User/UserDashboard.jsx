@@ -31,12 +31,15 @@ import {
 // import UserForm from "./UserForm";
 
 import { HiCheckCircle } from "react-icons/hi";
-import { ChevronRightIcon } from "@chakra-ui/icons";
+import { ChevronRightIcon, DownloadIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom/cjs/react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { isAuthenticated } from "../../helpers/AuthHelpers";
-import { getAllUserApi } from "../../api/User";
+import {
+  downloadCSVFileOfUserListFunctionApi,
+  getAllUserApi,
+} from "../../api/User";
 import { convertToIst } from "../../helpers/Time";
 import ConformEditUser from "./UserComponents/ConformEditUser";
 import AddUserForm from "./UserComponents/AddUserForm";
@@ -180,6 +183,46 @@ export default function UserDashboard() {
     }
   };
 
+  // downloadCSVFileOfUserListFunctionApi
+  const downloadCSVFileOfUserListFunctionFunction = () => {
+    console.log("djflkdsjfldsf");
+    // Call your API to fetch the CSV data
+    downloadCSVFileOfUserListFunctionApi()
+      .then((res) => {
+        if (res.success) {
+          console.log(res.data);
+          const csvData = res.data
+            .map((obj) => {
+              // Convert each object to a string with comma-separated values
+              return Object.values(obj).join(",");
+            })
+            .join("\n");
+
+          // Convert the CSV data string to a Blob
+          const blob = new Blob([csvData], { type: "text/csv" });
+
+          // Create a temporary anchor element to trigger the download
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.download = "csvforuserlist.csv";
+
+          // Simulate a click to trigger the download
+          document.body.appendChild(link);
+          link.click();
+
+          // Clean up
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(link.href);
+        } else {
+          console.error("Failed to download CSV:", res.error);
+          // Handle error if necessary
+        }
+      })
+      .catch((error) => {
+        console.error("Error downloading CSV:", error);
+        // Handle error if necessary
+      });
+  };
   useEffect(() => {
     getAllUsers();
   }, []);
@@ -207,6 +250,27 @@ export default function UserDashboard() {
               <Heading as="h4" size={"md"} my={2}>
                 User List
               </Heading>
+              {/* <Box
+                display={"flex"}
+                justifyContent={"space-between"}
+                alignItems={"center"}
+                pt={"20px"}
+                // mb={4}
+              > */}
+              {/* <Heading as="h4" size="sm" ml={2}>
+                User List
+              </Heading> */}
+
+              {/* 
+              </Box> */}
+              <Button
+                onClick={() => {
+                  downloadCSVFileOfUserListFunctionFunction();
+                }}
+              >
+                <DownloadIcon />
+              </Button>
+
               <Breadcrumb
                 spacing="8px"
                 separator={<ChevronRightIcon color="gray.500" />}

@@ -134,21 +134,22 @@ router.post(
   downloadCSVFileforDailySubmittedApplication
 );
 
-router.post(
-  "/downloadcsvforapplicationstatus",
-  isSignedIn,
-  downloadCSVFileforApplicationStatus
-);
-router.post(
-  "/downloadcsvforcastewiseapplicationstatus",
-  isSignedIn,
-  downloadCSVFileforCasteWiseApplication
-);
-router.post(
-  "/downloadcsvforpendingreason",
-  isSignedIn,
-  downloadCSVFileforPendingReason
-);
+// router.post(
+//   "/downloadcsvforapplicationstatus",
+//   isSignedIn,
+//   downloadCSVFileforApplicationStatus
+// );
+
+// router.post(
+//   "/downloadcsvforcastewiseapplicationstatus",
+//   isSignedIn,
+//   downloadCSVFileforCasteWiseApplication
+// );
+// router.post(
+//   "/downloadcsvforpendingreason",
+//   isSignedIn,
+//   downloadCSVFileforPendingReason
+// );
 
 router.post(
   "/applicationcountbycoursenameandyear",

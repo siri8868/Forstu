@@ -93,6 +93,7 @@ function ConformEditCollage({ collage, getAllColleges }) {
   };
 
   useEffect(() => {
+    // console.log("collage", collage);
     setCollageData(collage);
   }, []);
 

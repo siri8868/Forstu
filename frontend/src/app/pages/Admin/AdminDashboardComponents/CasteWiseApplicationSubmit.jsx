@@ -1,7 +1,13 @@
 import { Box, Heading } from "@chakra-ui/layout";
 import React, { useEffect, useState } from "react";
+import { Button } from "@chakra-ui/react";
+
 import ReactApexChart from "react-apexcharts";
-import { getTotalSubmitCountOfApplicationByCasteApi } from "../../../api/DashboardApi/DashboardApi";
+import {
+  downloadCsvForCastewiseApplicationStatusApi,
+  getTotalSubmitCountOfApplicationByCasteApi,
+} from "../../../api/DashboardApi/DashboardApi";
+import { DownloadIcon } from "@chakra-ui/icons";
 
 function CasteWiseApplicationSubmit() {
   // const [
@@ -34,6 +40,46 @@ function CasteWiseApplicationSubmit() {
       })
       .catch((error) => {
         console.error(error);
+      });
+  };
+
+  const downloadCsvForCastewiseApplicationStatusFunction = () => {
+    console.log("djflkdsjfldsf");
+    // Call your API to fetch the CSV data
+    downloadCsvForCastewiseApplicationStatusApi()
+      .then((res) => {
+        if (res.success) {
+          console.log(res.data);
+          const csvData = res.data
+            .map((obj) => {
+              // Convert each object to a string with comma-separated values
+              return Object.values(obj).join(",");
+            })
+            .join("\n");
+
+          // Convert the CSV data string to a Blob
+          const blob = new Blob([csvData], { type: "text/csv" });
+
+          // Create a temporary anchor element to trigger the download
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.download = "CastewiseApplicationStatus.csv";
+
+          // Simulate a click to trigger the download
+          document.body.appendChild(link);
+          link.click();
+
+          // Clean up
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(link.href);
+        } else {
+          console.error("Failed to download CSV:", res.error);
+          // Handle error if necessary
+        }
+      })
+      .catch((error) => {
+        console.error("Error downloading CSV:", error);
+        // Handle error if necessary
       });
   };
 
@@ -70,10 +116,24 @@ function CasteWiseApplicationSubmit() {
       flexDirection={"column"}
       justifyContent={"center"}
     >
-      {/* <h1>Caste Wise Application Submission</h1> */}
-      <Heading as="h4" size="sm" mb={3} ml={2}>
-        Caste Wise Application Submission
-      </Heading>
+      <Box
+        display={"flex"}
+        justifyContent={"space-between"}
+        alignItems={"center"}
+        mb={4}
+      >
+        <Heading as="h4" size="sm" ml={2}>
+          Caste Wise Application Submission
+        </Heading>
+
+        <Button
+          onClick={() => {
+            downloadCsvForCastewiseApplicationStatusFunction();
+          }}
+        >
+          <DownloadIcon />
+        </Button>
+      </Box>
       <div id="chart">
         <ReactApexChart
           options={optionsForPie.options}

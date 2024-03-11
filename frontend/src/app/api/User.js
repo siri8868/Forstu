@@ -80,3 +80,22 @@ export async function updateUserApi(user) {
 
   return response.json();
 }
+
+export async function downloadCSVFileOfUserListFunctionApi() {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/downloadcsvforuserlist`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: accessToken,
+    },
+  });
+
+  if (response.status == 401) {
+    redirectOnTokenExpire();
+  }
+
+  return response.json();
+}
