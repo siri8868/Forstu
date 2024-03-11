@@ -43,6 +43,7 @@ function YearAndCourseApplicationFailedStatus() {
       <Heading as="h4" size="sm" mb={3} ml={2} mt={4}>
         Application submition failed status
       </Heading>
+
       <div id="chart">
         <ReactApexChart
           //   options={optionsForPie}

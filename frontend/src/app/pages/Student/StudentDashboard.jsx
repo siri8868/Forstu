@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Base from "../../components/Base";
+
 import {
   Box,
   Breadcrumb,
@@ -20,12 +21,10 @@ import {
   getEmailsofpendingstudentsApi,
   getStudentsViewApi,
   sendEmailToStudentMicrositeApi,
-  studentprofileviewApi,
 } from "../../api/Student/StudentApis";
 import { NavLink } from "react-router-dom/cjs/react-router-dom.min";
 import { ChevronRightIcon } from "@chakra-ui/icons";
 import { useToast } from "@chakra-ui/react";
-import { HiCheckCircle } from "react-icons/hi";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import StudentDetailsModel from "./StudentComponents/StudentDetailsModel";
 
@@ -204,10 +203,7 @@ function StudentDashboard() {
               </MenuButton>
               <MenuList minWidth="50px">
                 <MenuItem py={"-0.3"}>
-                  <StudentDetailsModel
-                    id={record.id}
-                    // getAllColleges={getAllColleges}
-                  />
+                  <StudentDetailsModel id={record.id} />
                 </MenuItem>
               </MenuList>
             </Menu>

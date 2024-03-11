@@ -2788,7 +2788,8 @@ exports.getSingleMahadbtProfileByRefCode = (req, res) => {
 // Download CSV FIle ACCORDING TO APPLICATION STATUS
 
 exports.downloadCSVFileforApplicationStatus = async (req, res) => {
-  console.log("req profile", req.profile.ref_code);
+  // console.log("req profile", req.profile.ref_code);
+  // return;
 
   try {
     const data = await Mahadbtprofiles.findAll({
@@ -2808,41 +2809,46 @@ exports.downloadCSVFileforApplicationStatus = async (req, res) => {
           { application_status: "Submitted" },
           { application_status: "Pending" },
         ],
-        ref_code: req.profile.ref_code,
+        ref_code: "RCPIT",
       },
       order: [["application_status", "ASC"]],
     });
 
-    const csvWriter = createObjectCsvWriter({
-      path: "application_status_data.csv", // You can customize the file name
-      header: [
-        { id: "id", title: "ID" },
-        { id: "Candidate_name", title: "Candidate Name" },
-        { id: "whatsapp_number", title: "WhatsApp Number" },
-        { id: "qualification_level", title: "Qualification Level" },
-        { id: "coursename", title: "Course Name" },
-        { id: "current_year", title: "Current Year" },
-        { id: "course_stream", title: "Course Stream" },
-        { id: "application_status", title: "Application Status" },
-        { id: "ref_code", title: "Reference Code" },
-      ],
+    // const csvWriter = createObjectCsvWriter({
+    //   path: "application_status_data.csv", // You can customize the file name
+    //   header: [
+    //     { id: "id", title: "ID" },
+    //     { id: "Candidate_name", title: "Candidate Name" },
+    //     { id: "whatsapp_number", title: "WhatsApp Number" },
+    //     { id: "qualification_level", title: "Qualification Level" },
+    //     { id: "coursename", title: "Course Name" },
+    //     { id: "current_year", title: "Current Year" },
+    //     { id: "course_stream", title: "Course Stream" },
+    //     { id: "application_status", title: "Application Status" },
+    //     { id: "ref_code", title: "Reference Code" },
+    //   ],
+    // });
+
+    // const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+
+    // csvWriter
+    //   .writeRecords(records)
+    //   .then(() => {
+    //     console.log("CSV file written successfully");
+    //     res.download("application_status_data.csv");
+    //   })
+    //   .catch((error) => {
+    //     res.status(500).json({
+    //       success: false,
+    //       message: "Failed to write CSV file",
+    //       error: error,
+    //     });
+    //   });
+    res.json({
+      success: true,
+      message: "CSV file written successfully",
+      data: data,
     });
-
-    const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
-
-    csvWriter
-      .writeRecords(records)
-      .then(() => {
-        console.log("CSV file written successfully");
-        res.download("application_status_data.csv");
-      })
-      .catch((error) => {
-        res.status(500).json({
-          success: false,
-          message: "Failed to write CSV file",
-          error: error,
-        });
-      });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -2877,37 +2883,29 @@ exports.downloadCSVFileforCasteWiseApplication = async (req, res) => {
       order: [["CasteCategory", "ASC"]],
     });
 
-    const csvWriter = createObjectCsvWriter({
-      path: "caste_wise_applications.csv", // You can customize the file name
-      header: [
-        { id: "id", title: "ID" },
-        { id: "Candidate_name", title: "Candidate Name" },
-        { id: "whatsapp_number", title: "WhatsApp Number" },
-        { id: "CasteCategory", title: "Caste Category" },
-        { id: "qualification_level", title: "Qualification Level" },
-        { id: "coursename", title: "Course Name" },
-        { id: "current_year", title: "Current Year" },
-        { id: "course_stream", title: "Course Stream" },
-        { id: "application_status", title: "Application Status" },
-        { id: "ref_code", title: "Reference Code" },
-      ],
+    // const csvWriter = createObjectCsvWriter({
+    //   path: "caste_wise_applications.csv", // You can customize the file name
+    //   header: [
+    //     { id: "id", title: "ID" },
+    //     { id: "Candidate_name", title: "Candidate Name" },
+    //     { id: "whatsapp_number", title: "WhatsApp Number" },
+    //     { id: "CasteCategory", title: "Caste Category" },
+    //     { id: "qualification_level", title: "Qualification Level" },
+    //     { id: "coursename", title: "Course Name" },
+    //     { id: "current_year", title: "Current Year" },
+    //     { id: "course_stream", title: "Course Stream" },
+    //     { id: "application_status", title: "Application Status" },
+    //     { id: "ref_code", title: "Reference Code" },
+    //   ],
+    // });
+
+    // const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+
+    res.json({
+      success: true,
+      message: "CSV file written successfully",
+      data: data,
     });
-
-    const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
-
-    csvWriter
-      .writeRecords(records)
-      .then(() => {
-        console.log("CSV file written successfully");
-        res.download("caste_wise_applications.csv");
-      })
-      .catch((error) => {
-        res.status(500).json({
-          success: false,
-          message: "Failed to write CSV file",
-          error: error,
-        });
-      });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -2919,7 +2917,8 @@ exports.downloadCSVFileforCasteWiseApplication = async (req, res) => {
 
 // DOWNLOAD CSV LIST FOR OVERALL PENDING REASONS STUDENT LIST
 exports.downloadCSVFileforPendingReason = async (req, res) => {
-  console.log("req profile", req.profile.ref_code);
+  console.log("req profile");
+  // return;
 
   try {
     const data = await Mahadbtprofiles.findAll({
@@ -2943,39 +2942,38 @@ exports.downloadCSVFileforPendingReason = async (req, res) => {
       order: [["application_failed_reason", "ASC"]],
     });
 
-    const csvWriter = createObjectCsvWriter({
-      path: "pending_reason.csv", // You can customize the file name
-      header: [
-        { id: "id", title: "ID" },
-        { id: "Candidate_name", title: "Candidate Name" },
-        { id: "whatsapp_number", title: "WhatsApp Number" },
-        { id: "CasteCategory", title: "Caste Category" },
-        { id: "application_status", title: "Application Status" },
-        { id: "qualification_level", title: "Qualification Level" },
-        { id: "coursename", title: "Course Name" },
-        { id: "current_year", title: "Current Year" },
-        { id: "course_stream", title: "Course Stream" },
-        { id: "application_failed_reason", title: "Applicaton Failed Reason" },
+    // const csvWriter = createObjectCsvWriter({
+    //   path: "pending_reason.csv", // You can customize the file name
+    //   header: [
+    //     { id: "id", title: "ID" },
+    //     { id: "Candidate_name", title: "Candidate Name" },
+    //     { id: "whatsapp_number", title: "WhatsApp Number" },
+    //     { id: "CasteCategory", title: "Caste Category" },
+    //     { id: "application_status", title: "Application Status" },
+    //     { id: "qualification_level", title: "Qualification Level" },
+    //     { id: "coursename", title: "Course Name" },
+    //     { id: "current_year", title: "Current Year" },
+    //     { id: "course_stream", title: "Course Stream" },
+    //     { id: "application_failed_reason", title: "Applicaton Failed Reason" },
 
-        // Add other columns based on your attributes
-      ],
+    //     // Add other columns based on your attributes
+    //   ],
+    // });
+
+    // const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+
+    // csvWriter
+    //   .writeRecords(records)
+    //   .then(() => {
+    //     console.log("CSV file written successfully");
+    //     res.download("pending_reason.csv");
+    //   })
+    // console.log("data", data);
+    res.json({
+      success: true,
+      message: "CSV file written successfully",
+      data: data,
     });
-
-    const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
-
-    csvWriter
-      .writeRecords(records)
-      .then(() => {
-        console.log("CSV file written successfully");
-        res.download("pending_reason.csv");
-      })
-      .catch((error) => {
-        res.status(500).json({
-          success: false,
-          message: "Failed to write CSV file",
-          error: error,
-        });
-      });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -3287,36 +3285,28 @@ exports.downloadCSVFileOfUserList = async (req, res) => {
       // },
       order: [["id", "ASC"]],
     });
-    const csvWriter = createObjectCsvWriter({
-      path: "User-list.csv", // You can customize the file name
-      header: [
-        { id: "id", title: "ID" },
-        { id: "username", title: "User Name" },
-        { id: "email", title: "Email" },
-        { id: "mobile", title: "Mobile Number" },
-        { id: "role", title: "ROle" },
-        { id: "ref_code", title: "REF CODE" },
-        // { id: 'coursename', title: 'Course Name' },
-        // { id: 'current_year', title: 'Current Year' },
-        // { id: 'course_stream', title: 'Course Stream' },
-        // { id: 'application_failed_reason', title: 'Applicaton Failed Reason' },
-        // Add other columns based on your attributes
-      ],
+    // const csvWriter = createObjectCsvWriter({
+    //   path: "User-list.csv", // You can customize the file name
+    //   header: [
+    //     { id: "id", title: "ID" },
+    //     { id: "username", title: "User Name" },
+    //     { id: "email", title: "Email" },
+    //     { id: "mobile", title: "Mobile Number" },
+    //     { id: "role", title: "ROle" },
+    //     { id: "ref_code", title: "REF CODE" },
+    //     // { id: 'coursename', title: 'Course Name' },
+    //     // { id: 'current_year', title: 'Current Year' },
+    //     // { id: 'course_stream', title: 'Course Stream' },
+    //     // { id: 'application_failed_reason', title: 'Applicaton Failed Reason' },
+    //     // Add other columns based on your attributes
+    //   ],
+    // });
+    // const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+    res.json({
+      success: true,
+      message: "CSV file written successfully",
+      data: data,
     });
-    const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
-    csvWriter
-      .writeRecords(records)
-      .then(() => {
-        console.log("CSV file written successfully");
-        res.download("User-list.csv");
-      })
-      .catch((error) => {
-        res.status(500).json({
-          success: false,
-          message: "Failed to write CSV file",
-          error: error,
-        });
-      });
   } catch (error) {
     res.status(500).json({
       success: false,
