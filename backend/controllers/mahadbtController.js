@@ -3167,36 +3167,11 @@ exports.downloadCSVFileOfCollegeList = async (req, res) => {
       // },
       order: [["id", "ASC"]],
     });
-    const csvWriter = createObjectCsvWriter({
-      path: "College-List.csv", // You can customize the file name
-      header: [
-        { id: "id", title: "ID" },
-        { id: "institute_choice_code", title: "Institute Choice Code" },
-        { id: "institute_name", title: "Institute Name" },
-        { id: "institute_state", title: "Institute State" },
-        { id: "institute_district", title: "Institute  District" },
-        { id: "institute_taluka", title: "Institute  Taluka" },
-        // { id: 'coursename', title: 'Course Name' },
-        // { id: 'current_year', title: 'Current Year' },
-        // { id: 'course_stream', title: 'Course Stream' },
-        // { id: 'application_failed_reason', title: 'Applicaton Failed Reason' },
-        // Add other columns based on your attributes
-      ],
+    res.json({
+      success: true,
+      message: "CSV file written successfully",
+      data: data,
     });
-    const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
-    csvWriter
-      .writeRecords(records)
-      .then(() => {
-        console.log("CSV file written successfully");
-        res.download("COllege-list.csv");
-      })
-      .catch((error) => {
-        res.status(500).json({
-          success: false,
-          message: "Failed to write CSV file",
-          error: error,
-        });
-      });
   } catch (error) {
     res.status(500).json({
       success: false,
