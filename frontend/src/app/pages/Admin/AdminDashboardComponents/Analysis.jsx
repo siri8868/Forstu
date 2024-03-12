@@ -1,12 +1,14 @@
 import { Box, Heading } from "@chakra-ui/layout";
 import React, { useEffect, useState } from "react";
 import ReactApexChart from "react-apexcharts";
-import { FormControl, FormLabel, Select } from "@chakra-ui/react";
+import { Button, FormControl, FormLabel, Select } from "@chakra-ui/react";
 import {
+  downloadCSVFileforDailySubmittedApplicationFunctionApi,
   getDailySubmitCountApi,
   getMonthlySubmitCountApi,
   getYearlySubmitCountApi,
 } from "../../../api/DashboardApi/DashboardApi";
+import { DownloadIcon } from "@chakra-ui/icons";
 
 function Analysis() {
   const [filter, setFilter] = useState("Day");
@@ -28,6 +30,46 @@ function Analysis() {
       console.log("Year");
       getYearlySubmitCount();
     }
+  };
+
+  const downloadCSVFileforDailySubmittedApplicationFunction = () => {
+    console.log("djflkdsjfldsf");
+    // Call your API to fetch the CSV data
+    downloadCSVFileforDailySubmittedApplicationFunctionApi()
+      .then((res) => {
+        if (res.success) {
+          console.log(res.data);
+          const csvData = res.data
+            .map((obj) => {
+              // Convert each object to a string with comma-separated values
+              return Object.values(obj).join(",");
+            })
+            .join("\n");
+
+          // Convert the CSV data string to a Blob
+          const blob = new Blob([csvData], { type: "text/csv" });
+
+          // Create a temporary anchor element to trigger the download
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.download = "dailysubmittedApplication.csv";
+
+          // Simulate a click to trigger the download
+          document.body.appendChild(link);
+          link.click();
+
+          // Clean up
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(link.href);
+        } else {
+          console.error("Failed to download CSV:", res.error);
+          // Handle error if necessary
+        }
+      })
+      .catch((error) => {
+        console.error("Error downloading CSV:", error);
+        // Handle error if necessary
+      });
   };
 
   const optionsForPie = {
@@ -132,9 +174,27 @@ function Analysis() {
       <Box>
         <form onSubmit={""} style={{ display: "flex", padding: "10px" }}>
           <FormControl id="select">
-            <Heading as="h4" size="sm" mb={4} ml={2} mt={4}>
+            {/* <Heading as="h4" size="sm" mb={4} ml={2} mt={4}>
               Graphical Analysis Of Application Submission
-            </Heading>
+            </Heading> */}
+            <Box
+              display={"flex"}
+              justifyContent={"space-between"}
+              alignItems={"center"}
+              mb={4}
+            >
+              <Heading as="h4" size="sm" ml={2}>
+                Graphical Analysis Of Application Submission
+              </Heading>
+
+              <Button
+                onClick={() => {
+                  downloadCSVFileforDailySubmittedApplicationFunction();
+                }}
+              >
+                <DownloadIcon />
+              </Button>
+            </Box>
             <Select
               placeholder="Select Filters"
               onChange={handleChange("Month")}
