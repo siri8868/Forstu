@@ -30,12 +30,15 @@ import {
 import Base from "../../components/Base";
 
 import { HiCheckCircle } from "react-icons/hi";
-import { ChevronRightIcon } from "@chakra-ui/icons";
+import { ChevronRightIcon, DownloadIcon } from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom/cjs/react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { isAuthenticated } from "../../helpers/AuthHelpers";
-import { getAllCollegesApi } from "../../api/College";
+import {
+  downloadCSVFileOfCOllegeListFunctionApi,
+  getAllCollegesApi,
+} from "../../api/College";
 import ConformDeleteCollage from "./CollageComponents/ConformDeleteCollage";
 import ConformEditCollage from "./CollageComponents/ConformEditCollage";
 import AddCollageForm from "./CollageComponents/AddCollageForm";
@@ -180,6 +183,46 @@ function CollegeDashboard() {
     }
   };
 
+  const downloadCSVFileOfCollegeListFunctionFunction = () => {
+    console.log("djflkdsjfldsf");
+    // Call your API to fetch the CSV data
+    downloadCSVFileOfCOllegeListFunctionApi()
+      .then((res) => {
+        if (res.success) {
+          console.log(res.data);
+          const csvData = res.data
+            .map((obj) => {
+              // Convert each object to a string with comma-separated values
+              return Object.values(obj).join(",");
+            })
+            .join("\n");
+
+          // Convert the CSV data string to a Blob
+          const blob = new Blob([csvData], { type: "text/csv" });
+
+          // Create a temporary anchor element to trigger the download
+          const link = document.createElement("a");
+          link.href = window.URL.createObjectURL(blob);
+          link.download = "csvforcollegelist.csv";
+
+          // Simulate a click to trigger the download
+          document.body.appendChild(link);
+          link.click();
+
+          // Clean up
+          document.body.removeChild(link);
+          window.URL.revokeObjectURL(link.href);
+        } else {
+          console.error("Failed to download CSV:", res.error);
+          // Handle error if necessary
+        }
+      })
+      .catch((error) => {
+        console.error("Error downloading CSV:", error);
+        // Handle error if necessary
+      });
+  };
+
   useEffect(() => {
     getAllColleges();
   }, []);
@@ -205,6 +248,15 @@ function CollegeDashboard() {
               <Heading as="h4" size={"md"} my={2}>
                 College List
               </Heading>
+
+              <Button
+                onClick={() => {
+                  downloadCSVFileOfCollegeListFunctionFunction();
+                }}
+              >
+                <DownloadIcon />
+              </Button>
+
               <Breadcrumb
                 spacing="8px"
                 separator={<ChevronRightIcon color="gray.500" />}

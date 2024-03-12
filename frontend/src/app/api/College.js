@@ -80,3 +80,22 @@ export async function updateCollageApi(user) {
 
   return response.json();
 }
+
+export async function downloadCSVFileOfCOllegeListFunctionApi() {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(`${ENDPOINT}/downloadcsvforcollegelist`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: accessToken,
+    },
+  });
+
+  if (response.status == 401) {
+    redirectOnTokenExpire();
+  }
+
+  return response.json();
+}
