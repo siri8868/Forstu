@@ -196,7 +196,7 @@ function SubmitedStudents() {
         <Flex>
           <Box pb={2}>
             <Heading as="h4" size={"md"} my={2}>
-              Student List
+              Submited Student List
             </Heading>
             <Breadcrumb
               spacing="8px"

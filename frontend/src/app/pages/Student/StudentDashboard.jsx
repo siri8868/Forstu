@@ -205,6 +205,17 @@ function StudentDashboard() {
                 <MenuItem py={"-0.3"}>
                   <StudentDetailsModel id={record.id} />
                 </MenuItem>
+                <MenuItem>
+                  <NavLink
+                    // to={{"/dashboard/admin/student/view", state: { yourData: yourValue }}
+                    to={{
+                      pathname: "/dashboard/admin/student/view",
+                      state: { id: record.id }, // Pass your data here
+                    }}
+                  >
+                    View
+                  </NavLink>
+                </MenuItem>
               </MenuList>
             </Menu>
           </>
