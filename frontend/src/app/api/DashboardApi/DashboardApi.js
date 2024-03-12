@@ -195,3 +195,25 @@ export async function downloadCSVFileforPendingReasonFunctionApi() {
 
   return response.json();
 }
+
+export async function downloadCSVFileforDailySubmittedApplicationFunctionApi() {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(
+    `${ENDPOINT}/downloadcsvforapplicationsubmittedasperdate`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: accessToken,
+      },
+    }
+  );
+
+  if (response.status == 401) {
+    redirectOnTokenExpire();
+  }
+
+  return response.json();
+}

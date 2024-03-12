@@ -3008,42 +3008,47 @@ exports.downloadCSVFileforDailySubmittedApplication = async (req, res) => {
       order: [["application_submission_date", "ASC"]],
     });
 
-    const csvWriter = createObjectCsvWriter({
-      path: "Datewiselist.csv", // You can customize the file name
-      header: [
-        { id: "id", title: "ID" },
-        { id: "Candidate_name", title: "Candidate Name" },
-        { id: "whatsapp_number", title: "WhatsApp Number" },
-        { id: "CasteCategory", title: "Caste Category" },
-        { id: "application_status", title: "Application Status" },
-        { id: "qualification_level", title: "Qualification Level" },
-        { id: "coursename", title: "Course Name" },
-        { id: "current_year", title: "Current Year" },
-        { id: "course_stream", title: "Course Stream" },
-        {
-          id: "application_submission_date",
-          title: "Applicaton Submission Date",
-        },
+    // const csvWriter = createObjectCsvWriter({
+    //   path: "Datewiselist.csv", // You can customize the file name
+    //   header: [
+    //     { id: "id", title: "ID" },
+    //     { id: "Candidate_name", title: "Candidate Name" },
+    //     { id: "whatsapp_number", title: "WhatsApp Number" },
+    //     { id: "CasteCategory", title: "Caste Category" },
+    //     { id: "application_status", title: "Application Status" },
+    //     { id: "qualification_level", title: "Qualification Level" },
+    //     { id: "coursename", title: "Course Name" },
+    //     { id: "current_year", title: "Current Year" },
+    //     { id: "course_stream", title: "Course Stream" },
+    //     {
+    //       id: "application_submission_date",
+    //       title: "Applicaton Submission Date",
+    //     },
 
-        // Add other columns based on your attributes
-      ],
+    //     // Add other columns based on your attributes
+    //   ],
+    // });
+
+    // const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+
+    // csvWriter
+    //   .writeRecords(records)
+    //   .then(() => {
+    //     console.log("CSV file written successfully");
+    //     res.download("Datewiselist.csv");
+    //   })
+    //   .catch((error) => {
+    //     res.status(500).json({
+    //       success: false,
+    //       message: "Failed to write CSV file",
+    //       error: error,
+    //     });
+    //   });
+    res.json({
+      success: true,
+      message: "CSV file written successfully",
+      data: data,
     });
-
-    const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
-
-    csvWriter
-      .writeRecords(records)
-      .then(() => {
-        console.log("CSV file written successfully");
-        res.download("Datewiselist.csv");
-      })
-      .catch((error) => {
-        res.status(500).json({
-          success: false,
-          message: "Failed to write CSV file",
-          error: error,
-        });
-      });
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -3438,39 +3443,31 @@ exports.downloadCSVFileforYearandCoursewisePendingApplicationList = async (
       },
       // order: [["application_submission_date", "ASC"]],
     });
-    const csvWriter = createObjectCsvWriter({
-      path: "Course-year-wise-data-list.csv", // You can customize the file name
-      header: [
-        { id: "id", title: "ID" },
-        { id: "Candidate_name", title: "Candidate Name" },
-        { id: "whatsapp_number", title: "WhatsApp Number" },
-        { id: "CasteCategory", title: "Caste Category" },
-        { id: "application_status", title: "Application Status" },
-        { id: "qualification_level", title: "Qualification Level" },
-        { id: "coursename", title: "Course Name" },
-        { id: "current_year", title: "Current Year" },
-        { id: "course_stream", title: "Course Stream" },
-        {
-          id: "application_failed_reason",
-          title: "Application Submit Failed Reason",
-        },
-        // Add other columns based on your attributes
-      ],
+    // const csvWriter = createObjectCsvWriter({
+    //   path: "Course-year-wise-data-list.csv", // You can customize the file name
+    //   header: [
+    //     { id: "id", title: "ID" },
+    //     { id: "Candidate_name", title: "Candidate Name" },
+    //     { id: "whatsapp_number", title: "WhatsApp Number" },
+    //     { id: "CasteCategory", title: "Caste Category" },
+    //     { id: "application_status", title: "Application Status" },
+    //     { id: "qualification_level", title: "Qualification Level" },
+    //     { id: "coursename", title: "Course Name" },
+    //     { id: "current_year", title: "Current Year" },
+    //     { id: "course_stream", title: "Course Stream" },
+    //     {
+    //       id: "application_failed_reason",
+    //       title: "Application Submit Failed Reason",
+    //     },
+    //     // Add other columns based on your attributes
+    //   ],
+    // });
+    // const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
+    res.json({
+      success: true,
+      message: "CSV file written successfully",
+      data: data,
     });
-    const records = data.map((row) => row.get({ plain: true })); // Convert Sequelize instances to plain objects
-    csvWriter
-      .writeRecords(records)
-      .then(() => {
-        console.log("CSV file written successfully");
-        res.download("Course-year-wise-data-list.csv");
-      })
-      .catch((error) => {
-        res.status(500).json({
-          success: false,
-          message: "Failed to write CSV file",
-          error: error,
-        });
-      });
   } catch (error) {
     res.status(500).json({
       success: false,

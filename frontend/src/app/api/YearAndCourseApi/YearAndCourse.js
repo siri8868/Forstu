@@ -85,3 +85,25 @@ export async function courseAndYearWiseApplicationStatus(data) {
 
   return response.json();
 }
+
+export async function downloadCSVFileforYearandCoursewisePendingApplicationListFunctionApi() {
+  const { accessToken } = isAuthenticated();
+
+  const response = await fetch(
+    `${ENDPOINT}/downloadcsvforyearandcoursewisependingapplication`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+        Authorization: accessToken,
+      },
+    }
+  );
+
+  if (response.status == 401) {
+    redirectOnTokenExpire();
+  }
+
+  return response.json();
+}

@@ -128,11 +128,11 @@ router.post(
 //   isSignedIn,
 //   downloadCSVFileOfCollegeList
 // );
-router.post(
-  "/downloadcsvforapplicationsubmittedasperdate",
-  isSignedIn,
-  downloadCSVFileforDailySubmittedApplication
-);
+// router.post(
+//   "/downloadcsvforapplicationsubmittedasperdate",
+//   isSignedIn,
+//   downloadCSVFileforDailySubmittedApplication
+// );
 
 // router.post(
 //   "/downloadcsvforapplicationstatus",
