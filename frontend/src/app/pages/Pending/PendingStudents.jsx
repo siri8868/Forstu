@@ -196,7 +196,7 @@ function PendingStudents() {
         <Flex>
           <Box pb={2}>
             <Heading as="h4" size={"md"} my={2}>
-              Student List
+              Pending Student List
             </Heading>
             <Breadcrumb
               spacing="8px"

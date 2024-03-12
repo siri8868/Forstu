@@ -83,6 +83,13 @@ function App() {
         ></ProtectedRoute>
         <ProtectedRoute
           exact
+          path="/dashboard/admin/student/view"
+          component={Upload}
+          role={ROLES.ADMIN}
+        ></ProtectedRoute>
+
+        <ProtectedRoute
+          exact
           path="/dashboard/admin/student"
           component={StudentDashboard}
           role={ROLES.ADMIN}
