@@ -17,6 +17,7 @@ import MicroRoute from "./components/MicroRoute";
 import MainLogin from "./components/MainLogin";
 import SubmitedStudents from "./pages/Submited/SubmitedStudents";
 import PendingStudents from "./pages/Pending/PendingStudents";
+import ViewStudentsDetails from "./pages/Student/StudentComponents/ViewStudentsDetails";
 
 function App() {
   // const [loginState, setLoginState] = useState("");
@@ -84,7 +85,7 @@ function App() {
         <ProtectedRoute
           exact
           path="/dashboard/admin/student/view"
-          component={Upload}
+          component={ViewStudentsDetails}
           role={ROLES.ADMIN}
         ></ProtectedRoute>
 
