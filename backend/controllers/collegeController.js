@@ -4,6 +4,7 @@ const ROLES = require("../helpers/roles");
 const collegeprofile = require("../models/collegeModel");
 const streamData = require("../models/streamModel");
 const QualificationLevel = require("../models/qaulfification-levelModel");
+const MahadbtCollegeStream = require("../models/mahadbtCollegeStreamModel");
 
 const { validationResult } = require("express-validator");
 const { createHmac } = require("crypto");
@@ -491,6 +492,262 @@ exports.getStramlevel = (req, res) => {
 //         res.status(500).json({
 //           success: false,
 //           message: "Failed to retrieve users",
+//           error: error,
+//         });
+//       });
+//   } catch (error) {
+//     return res.status(500).json({
+//       success: false,
+//       message: "An error occurred while processing the request",
+//       error: error,
+//     });
+//   }
+// };
+
+
+exports.addQualification_Stream = async (req, res) => {
+  try {
+    const { college_id, qualification_name, stream_name } = req.body;
+
+    console.log(college_id, qualification_name, stream_name);
+
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: errors.array()[0].msg,
+      });
+    }
+
+    // Check if data already exists
+    const existingStream = await MahadbtCollegeStream.findOne({
+      where: {
+        college_id,
+        qualification_name,
+        stream_name
+      }
+    });
+
+    if (existingStream) {
+      return res.status(409).json({
+        success: false,
+        message: "Qualification & Stream already exists",
+      });
+    }
+
+    // If data doesn't exist, create a new stream
+    const createdStream = await MahadbtCollegeStream.create({
+      college_id,
+      qualification_name,
+      stream_name
+    });
+
+    return res.status(200).json({
+      message: "Added Qualification & Stream Successfully!",
+      success: true,
+      data: {
+        id: createdStream.id,
+        // name: createdStream.institute_name,
+      },
+    });
+  } catch (error) {
+    console.log("error is", error);
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+      message: "Something went wrong!",
+    });
+  }
+};
+
+exports.updateQualification_Stream = (req, res) => {
+  try {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+      return res.status(400).json({
+        success: false,
+        message: errors.array()[0].msg,
+      });
+    }
+
+    const { college_id, qualification_name, stream_name } = req.body;
+    // const body = req.body;
+    MahadbtCollegeStream
+      .update(req.body, {
+        where: {
+          id: req.body.college_id,
+          // institute_choice_code: req.body.institute_choice_code,
+          // institute_name: req.body.institute_name,
+          // institute_state: req.body.institute_state,
+          // institute_district: req.body.institute_district,
+          // institute_taluka: institute_taluka
+        },
+        // console.log("your body data", body);
+      })
+      .then((data) => {
+        if (data[0]) {
+          return res.status(200).json({
+            success: true,
+            message: "Qualification Info updated successfully",
+          });
+        } else {
+          return res.status(404).json({
+            success: false,
+            message: "Qualification Info not found",
+          });
+        }
+      })
+      .catch((errors) => {
+        return res.status(500).json({
+          success: false,
+          message: "Failed to update Qualification Info",
+          errors,
+        });
+      });
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "An error occurred while processing the request",
+      error: error,
+    });
+  }
+};
+
+// deleting the single  college qualification info by passing id in mahadbt_college_streams eg id = 3 
+exports.deleteQualification_Stream = async (req, res) => {
+  try {
+    const { id } = req.body; // Assuming ID is passed in the request body
+
+    // Find the stream by its ID
+    const stream = await MahadbtCollegeStream.findByPk(id);
+
+    // Check if the stream exists
+    if (!stream) {
+      return res.status(404).json({
+        success: false,
+        message: "Stream not found",
+      });
+    }
+
+    // Delete the stream
+    await stream.destroy();
+
+    return res.status(200).json({
+      success: true,
+      message: "Stream deleted successfully",
+    });
+  } catch (error) {
+    console.log("Error:", error);
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+      message: "Something went wrong while deleting the stream",
+    });
+  }
+};
+
+exports.getQualificationInfoByCollegeId = async (req, res) => {
+  try {
+    const { college_id } = req.body; // Assuming college ID is passed in the request body
+
+    // Fetch qualification streams by college ID
+    const qualificationStreams = await MahadbtCollegeStream.findAll({
+      attributes: [
+        "college_id",
+        "qualification_name",
+        "stream_name",
+      ],
+      where: {
+        college_id: college_id,
+      },
+    });
+
+    // Check if any qualification streams were found
+    if (qualificationStreams.length === 0) {
+      return res.status(404).json({
+        success: false,
+        message: "No qualification information found for the specified college ID",
+      });
+    }
+
+    // Qualification streams found, return them
+    return res.status(200).json({
+      success: true,
+      message: "Qualification information retrieved successfully",
+      data: qualificationStreams,
+    });
+  } catch (error) {
+    console.log("Error:", error);
+    return res.status(500).json({
+      success: false,
+      error: error.message,
+      message: "Something went wrong while fetching qualification information",
+    });
+  }
+};
+
+// exports.getAllQualification_Stream = (req, res) => {
+
+//   MahadbtCollegeStream.findAll({
+//     attributes: ["college_id", "qualification_name", "stream_name"],
+//     where: {
+//       id : req.body.college_id
+//     },
+//   })
+//     .then((data) => {
+//       console.log("your data req", data);
+//       data = JSON.stringify(data);
+//       data = JSON.parse(data);
+//       res.json({
+//         success: true,
+//         data,
+//       });
+//     })
+//     .catch((error) => {
+//       res.status(500).json({
+//         success: false,
+//         message: "Failed to retrieve College Qualification Info",
+//         error: error,
+//       });
+//     });
+// };
+
+//   try {
+//     const errors = validationResult(req);
+
+//     if (!errors.isEmpty()) {
+//       return res.status(400).json({
+//         success: false,
+//         message: errors.array()[0].msg,
+//       });
+//     }
+
+//     MahadbtCollegeStream.destroy({
+//       where: {
+//         id: {
+//           [Op.in]: req.body.Ids,
+//         },
+//       },
+//     })
+//       .then((data) => {
+//         if (data) {
+//           return res.status(200).json({
+//             success: true,
+//             message: "Qulification Info deleted successfully",
+//           });
+//         } else {
+//           return res.status(404).json({
+//             success: false,
+//             message: "Qulification Info not found",
+//           });
+//         }
+//       })
+//       .catch((error) => {
+//         return res.status(500).json({
+//           success: false,
+//           message: "Failed to delete Qulification Info",
 //           error: error,
 //         });
 //       });

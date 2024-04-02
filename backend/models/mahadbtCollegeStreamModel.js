@@ -1,23 +1,33 @@
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require("sequelize");
 const sequelize = require("../database/connection");
-const { Sequelize } = require("sequelize");
+const collegeprofile = require("./collegeModel");
 
-const MahadbtCollegeStream = sequelize.define('mahadbt_college_stream', {
-  stream_id: {
-    type: Sequelize.DataTypes.BIGINT,
-    allowNull: false,
+const MahadbtCollegeStream = sequelize.define("mahadbt_college_stream", {
+  id: {
+    type: DataTypes.BIGINT,
     primaryKey: true,
     autoIncrement: true,
+    allowNull: false,
+    unique: true, // Ensure uniqueness
   },
 
   college_id: {
-    type: Sequelize.DataTypes.BIGINT,
+    type: DataTypes.BIGINT,
     allowNull: true,
+    references: {
+      model: collegeprofile,
+      key: "id",
+    },
+  },
+
+  qualification_name: {
+    type: DataTypes.STRING,
+    allowNull: false,
   },
 
   stream_name: {
     type: DataTypes.STRING,
-    allowNull: true,
+    allowNull: false,
   },
 });
 
