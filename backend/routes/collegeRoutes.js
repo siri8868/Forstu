@@ -7,7 +7,11 @@ const {
   updateCollegeProfile,
   deleteCollegeProfile,
   getQualificationlevel,
-  getStramlevel
+  getStramlevel,
+  addQualification_Stream,
+  updateQualification_Stream,
+  deleteQualification_Stream,
+  getQualificationInfoByCollegeId
   // addUser,
   // deleteUser,
   // updateUser,
@@ -43,10 +47,16 @@ router.delete("/deletecollegeProfile", isSignedIn, isAdmin, deleteCollegeProfile
 
 router.get("/getqualificationlevel", getQualificationlevel);
 router.get("/getstreamlevel", getStramlevel);
+
+router.post("/addqualificationinfo",isSignedIn, addQualification_Stream);
+
+router.put("/updatequalificationinfo",isSignedIn, updateQualification_Stream);
+
+router.delete("/deletequalificationinfo", isSignedIn, deleteQualification_Stream);
+
+router.get("/getAllQualificationinfo", isSignedIn, isAdmin, getQualificationInfoByCollegeId);
+
 // router.delete("/deletecollegeProfile", isSignedIn, isAdmin, getUserValidationSchema, deleteCollegeProfile);
-
-
-
 
 
 
