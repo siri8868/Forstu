@@ -42,6 +42,7 @@ import {
 import ConformDeleteCollage from "./CollageComponents/ConformDeleteCollage";
 import ConformEditCollage from "./CollageComponents/ConformEditCollage";
 import AddCollageForm from "./CollageComponents/AddCollageForm";
+import AddStreamsModal from "./CollageComponents/AddStreamsModal";
 
 function CollegeDashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -157,6 +158,13 @@ function CollegeDashboard() {
                         id={record.id}
                         getAllColleges={getAllColleges}
                       />
+                    </MenuItem>
+                    <MenuItem py={"-0.3"}>
+                      {/* <ConformDeleteCollage
+                        id={record.id}
+                        getAllColleges={getAllColleges}
+                      /> */}
+                      <AddStreamsModal id={record.id} />
                     </MenuItem>
                   </>
                 </MenuList>
