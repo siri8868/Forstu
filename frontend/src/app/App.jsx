@@ -18,6 +18,7 @@ import MainLogin from "./components/MainLogin";
 import SubmitedStudents from "./pages/Submited/SubmitedStudents";
 import PendingStudents from "./pages/Pending/PendingStudents";
 import ViewStudentsDetails from "./pages/Student/StudentComponents/ViewStudentsDetails";
+import StreamDashboard from "./pages/Stream/StreamDashboard";
 
 function App() {
   // const [loginState, setLoginState] = useState("");
@@ -73,6 +74,13 @@ function App() {
           exact
           path="/dashboard/admin/colleges"
           component={CollageDashboard}
+          role={ROLES.ADMIN}
+        ></ProtectedRoute>
+
+        <ProtectedRoute
+          exact
+          path="/dashboard/admin/streams"
+          component={StreamDashboard}
           role={ROLES.ADMIN}
         ></ProtectedRoute>
 

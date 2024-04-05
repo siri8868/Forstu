@@ -30,43 +30,42 @@ import {
 import Base from "../../components/Base";
 
 import { HiCheckCircle } from "react-icons/hi";
-import { ChevronRightIcon, DownloadIcon } from "@chakra-ui/icons";
+import {
+  ChevronDownIcon,
+  ChevronRightIcon,
+  DownloadIcon,
+} from "@chakra-ui/icons";
 import { NavLink } from "react-router-dom/cjs/react-router-dom";
 import { IoMdAdd } from "react-icons/io";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { isAuthenticated } from "../../helpers/AuthHelpers";
-import {
-  downloadCSVFileOfCOllegeListFunctionApi,
-  getAllCollegesApi,
-} from "../../api/College";
-import ConformDeleteCollage from "./CollageComponents/ConformDeleteCollage";
-import ConformEditCollage from "./CollageComponents/ConformEditCollage";
-import AddCollageForm from "./CollageComponents/AddCollageForm";
-import AddStreamsModal from "./CollageComponents/AddStreamsModal";
 
-function CollegeDashboard() {
+import AddStreamForm from "./StreamComponents/AddStreamForm";
+import { getAllQualificationInfoApi } from "../../api/StreamApi/StreamApi";
+import ConformEditStream from "./StreamComponents/ConformEditStream";
+import ConformDeleteStream from "./StreamComponents/ConformDeleteStream";
+
+function StreamDashboard() {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [college, setCollegeList] = useState([]);
+  const [streams, setStreamList] = useState([]);
   const currentUser = isAuthenticated().user.username;
 
   const columns = [
     {
-      title: "ID",
-      dataIndex: "id",
+      title: "College ID",
+      dataIndex: "college_id",
       filterSearch: true,
-      // filters: userIdFilterList,
       onFilter: (value, record) => record.id.toString().indexOf(value) === 0,
       sorter: (a, b) => a.id - b.id,
       sortDirections: ["descend"],
     },
     {
-      title: "Institute Choice Code",
-      dataIndex: "institute_choice_code",
+      title: "Qualification Name",
+      dataIndex: "qualification_name",
       filterSearch: true,
-      // filters: userNameFilterList,
 
       onFilter: (value, record) =>
-        record.institute_choice_code.indexOf(value) === 0,
+        record.qualification_name.indexOf(value) === 0,
       sorter: (a, b) => {
         // Compare names as strings for alphabetical order
         return a.name.localeCompare(b.name);
@@ -75,52 +74,23 @@ function CollegeDashboard() {
     },
 
     {
-      title: "Institute Name",
-      dataIndex: "institute_name",
+      title: "Stream Name",
+      dataIndex: "stream_name",
       filterSearch: true,
-      // filters: userRoleFilterList,
 
-      onFilter: (value, record) => record.institute_name.indexOf(value) === 0,
+      onFilter: (value, record) => record.stream_name.indexOf(value) === 0,
       sorter: (a, b) => {
         // Compare usernames as strings for alphabetical order
-        return a.institute_name.localeCompare(b.role);
+        return a.stream_name.localeCompare(b.role);
       },
       sortDirections: ["ascend", "descend"],
     },
 
-    {
-      title: "Institute State",
-      dataIndex: "institute_state",
-      filterSearch: true,
-      // filters: userRoleFilterList,
-
-      onFilter: (value, record) => record.institute_state.indexOf(value) === 0,
-      sorter: (a, b) => {
-        // Compare usernames as strings for alphabetical order
-        return a.institute_state.localeCompare(b.role);
-      },
-      sortDirections: ["ascend", "descend"],
-    },
-    // {
-    //   title: "CREATED AT",
-    //   dataIndex: "createdAt",
-
-    //   render: (_, record) => {
-    //     return <Text>{convertToIst(record.createdAt)}</Text>;
-    //   },
-    // },
-    // {
-    //   title: "UPDATED AT",
-    //   dataIndex: "updatedAt",
-
-    //   render: (_, record) => {
-    //     return <Text>{convertToIst(record.updatedAt)}</Text>;
-    //   },
-    // },
     {
       title: "Action",
       // key: 'action',
       render: (_, record) => {
+        console.log("reeeddd", record);
         return (
           <>
             {currentUser == record.name ? (
@@ -129,8 +99,6 @@ function CollegeDashboard() {
                   color: "green",
                   alignSelf: "center",
                   display: "flex",
-                  // alignItems: "center",
-                  // justifyContent: "center",
                   marginLeft: 15,
                 }}
               >
@@ -148,23 +116,23 @@ function CollegeDashboard() {
                 <MenuList minWidth="50px">
                   <>
                     <MenuItem py={"-0.3"}>
-                      <ConformEditCollage
-                        collage={record}
-                        getAllColleges={getAllColleges}
+                      <ConformEditStream
+                        stream={record}
+                        getAllQualificationInfoFunction={
+                          getAllQualificationInfoFunction
+                        }
                       />
                     </MenuItem>
                     <MenuItem py={"-0.3"}>
-                      <ConformDeleteCollage
-                        id={record.id}
-                        getAllColleges={getAllColleges}
+                      <ConformDeleteStream
+                        id={record.college_id}
+                        getAllQualificationInfoFunction={
+                          getAllQualificationInfoFunction
+                        }
                       />
                     </MenuItem>
                     <MenuItem py={"-0.3"}>
-                      {/* <ConformDeleteCollage
-                        id={record.id}
-                        getAllColleges={getAllColleges}
-                      /> */}
-                      <AddStreamsModal id={record.id} />
+                      {/* <AddStreamsModal id={record.id} /> */}
                     </MenuItem>
                   </>
                 </MenuList>
@@ -178,64 +146,19 @@ function CollegeDashboard() {
 
   const onChange = (pagination, filters, sorter, extra) => {};
 
-  const getAllColleges = async () => {
-    const res = await getAllCollegesApi();
+  const getAllQualificationInfoFunction = async () => {
+    const res = await getAllQualificationInfoApi();
     if (res.success) {
-      setCollegeList(res.data);
+      //   console.log("reeeeee", res.data);
+      setStreamList(res.data);
     } else {
-      setCollegeList([]);
+      setStreamList([]);
     }
   };
 
-  const downloadCSVFileOfCollegeListFunctionFunction = () => {
-    console.log("djflkdsjfldsf");
-    // Call your API to fetch the CSV data
-    downloadCSVFileOfCOllegeListFunctionApi()
-      .then((res) => {
-        if (res.success) {
-          console.log(res.data);
-          const csvData = res.data
-            .map((obj) => {
-              // Convert each object to a string with comma-separated values
-              return Object.values(obj).join(",");
-            })
-            .join("\n");
-
-          // Convert the CSV data string to a Blob
-          const blob = new Blob([csvData], { type: "text/csv" });
-
-          // Create a temporary anchor element to trigger the download
-          const link = document.createElement("a");
-          link.href = window.URL.createObjectURL(blob);
-          link.download = "csvforcollegelist.csv";
-
-          // Simulate a click to trigger the download
-          document.body.appendChild(link);
-          link.click();
-
-          // Clean up
-          document.body.removeChild(link);
-          window.URL.revokeObjectURL(link.href);
-        } else {
-          console.error("Failed to download CSV:", res.error);
-          // Handle error if necessary
-        }
-      })
-      .catch((error) => {
-        console.error("Error downloading CSV:", error);
-        // Handle error if necessary
-      });
-  };
-
   useEffect(() => {
-    getAllColleges();
+    getAllQualificationInfoFunction();
   }, []);
-
-  const generateFilterList = (list, key) => {
-    let data = list.map((item) => item[key]);
-    data = [...new Set(data)];
-    return data.map((item) => ({ text: item, value: item }));
-  };
 
   return (
     <>
@@ -250,16 +173,16 @@ function CollegeDashboard() {
           <Flex>
             <Box>
               <Heading as="h4" size={"md"} my={2}>
-                College List
+                Streams List
               </Heading>
 
-              <Button
+              {/* <Button
                 onClick={() => {
                   downloadCSVFileOfCollegeListFunctionFunction();
                 }}
               >
                 <DownloadIcon />
-              </Button>
+              </Button> */}
 
               <Breadcrumb
                 spacing="8px"
@@ -273,7 +196,7 @@ function CollegeDashboard() {
                 </BreadcrumbItem>
 
                 <BreadcrumbItem>
-                  <NavLink to="/dashboard/admin/colleges">Colleges</NavLink>
+                  <NavLink to="/dashboard/admin/streams">Streams</NavLink>
                 </BreadcrumbItem>
 
                 <BreadcrumbItem isCurrentPage>
@@ -295,7 +218,7 @@ function CollegeDashboard() {
                     marginRight: "5px",
                   }}
                 />
-                New College
+                New Stream
               </Button>
 
               <Modal
@@ -305,12 +228,14 @@ function CollegeDashboard() {
               >
                 <ModalOverlay />
                 <ModalContent>
-                  <ModalHeader>Add User</ModalHeader>
+                  <ModalHeader>Add Stream</ModalHeader>
                   <ModalCloseButton />
                   <ModalBody>
-                    <AddCollageForm
+                    <AddStreamForm
                       onClose={onClose}
-                      getAllColleges={getAllColleges}
+                      getAllQualificationInfoFunction={
+                        getAllQualificationInfoFunction
+                      }
                     />
                   </ModalBody>
                   <ModalFooter></ModalFooter>
@@ -319,12 +244,12 @@ function CollegeDashboard() {
             </Box>
           </Flex>
         </Box>
-        {/* <TriStats userList={userList} statsData={statsData} /> */}
+        {/* <TriStatss userList={userList} statsData={statsData} /> */}
         <Box bg="white" my={3}>
           <AntTable
             rowKey={"id"}
             columns={columns}
-            dataSource={college}
+            dataSource={streams}
             onChange={onChange}
             bordered={true}
             loading={false}
@@ -335,4 +260,4 @@ function CollegeDashboard() {
   );
 }
 
-export default CollegeDashboard;
+export default StreamDashboard;

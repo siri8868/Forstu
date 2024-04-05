@@ -44,6 +44,8 @@ const AdminMenu = [
 
   { name: "Colleges", icon: MdGroup, path: "/dashboard/admin/colleges" },
 
+  { name: "Streams", icon: MdGroup, path: "/dashboard/admin/streams" },
+
   { name: "Upload", icon: MdCameraRoll, path: "/dashboard/admin/upload" },
   { name: "Students", icon: MdGroup, path: "/dashboard/admin/student" },
 

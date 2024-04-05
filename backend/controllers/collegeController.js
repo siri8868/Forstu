@@ -16,7 +16,7 @@ exports.getAllCollegeProfile = (req, res) => {
   collegeprofile
     .findAll({})
     .then((data) => {
-      console.log("your data req", data);
+      // console.log("your data req", data);
       data = JSON.stringify(data);
       data = JSON.parse(data);
       res.json({
@@ -272,13 +272,11 @@ exports.getQualificationlevel = (req, res) => {
   // res.send("Bhaiyajiiiiiii tesnion mat lo");
   console.log("your reqq data for course");
   QualificationLevel.findAll({
-    attributes: [
-      "qualification_name"
-    ]
+    attributes: ["qualification_name"],
   })
     .then((data) => {
       // console.log("your data req", data)
-      // return 
+      // return
       data = JSON.stringify(data);
       data = JSON.parse(data);
       // console.log(data);
@@ -294,21 +292,19 @@ exports.getQualificationlevel = (req, res) => {
         error: error,
       });
     });
-}
-
+};
 
 // get Stream Data for addding the college
 exports.getStramlevel = (req, res) => {
   // res.send("Bhaiyajiiiiiii tesnion mat lo");
   console.log("your reqq data for course");
-  streamData.findAll({
-    attributes: [
-      "stream_name"
-    ]
-  })
+  streamData
+    .findAll({
+      attributes: ["stream_name"],
+    })
     .then((data) => {
       // console.log("your data req", data)
-      // return 
+      // return
       data = JSON.stringify(data);
       data = JSON.parse(data);
       // console.log(data);
@@ -324,7 +320,7 @@ exports.getStramlevel = (req, res) => {
         error: error,
       });
     });
-}
+};
 
 // exports.deleteUsers = (req, res) => {
 //   try {
@@ -504,13 +500,11 @@ exports.getStramlevel = (req, res) => {
 //   }
 // };
 
-
 exports.addQualification_Stream = async (req, res) => {
   try {
-    const { college_id, qualification_name, stream_name } = req.body;
+    const { college_id, qualification_name, stream_name } = req.body.data;
 
     console.log(college_id, qualification_name, stream_name);
-
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -525,8 +519,8 @@ exports.addQualification_Stream = async (req, res) => {
       where: {
         college_id,
         qualification_name,
-        stream_name
-      }
+        stream_name,
+      },
     });
 
     if (existingStream) {
@@ -540,7 +534,7 @@ exports.addQualification_Stream = async (req, res) => {
     const createdStream = await MahadbtCollegeStream.create({
       college_id,
       qualification_name,
-      stream_name
+      stream_name,
     });
 
     return res.status(200).json({
@@ -574,18 +568,17 @@ exports.updateQualification_Stream = (req, res) => {
 
     const { college_id, qualification_name, stream_name } = req.body;
     // const body = req.body;
-    MahadbtCollegeStream
-      .update(req.body, {
-        where: {
-          id: req.body.college_id,
-          // institute_choice_code: req.body.institute_choice_code,
-          // institute_name: req.body.institute_name,
-          // institute_state: req.body.institute_state,
-          // institute_district: req.body.institute_district,
-          // institute_taluka: institute_taluka
-        },
-        // console.log("your body data", body);
-      })
+    MahadbtCollegeStream.update(req.body, {
+      where: {
+        id: req.body.college_id,
+        // institute_choice_code: req.body.institute_choice_code,
+        // institute_name: req.body.institute_name,
+        // institute_state: req.body.institute_state,
+        // institute_district: req.body.institute_district,
+        // institute_taluka: institute_taluka
+      },
+      // console.log("your body data", body);
+    })
       .then((data) => {
         if (data[0]) {
           return res.status(200).json({
@@ -615,7 +608,7 @@ exports.updateQualification_Stream = (req, res) => {
   }
 };
 
-// deleting the single  college qualification info by passing id in mahadbt_college_streams eg id = 3 
+// deleting the single  college qualification info by passing id in mahadbt_college_streams eg id = 3
 exports.deleteQualification_Stream = async (req, res) => {
   try {
     const { id } = req.body; // Assuming ID is passed in the request body
@@ -650,25 +643,22 @@ exports.deleteQualification_Stream = async (req, res) => {
 
 exports.getQualificationInfoByCollegeId = async (req, res) => {
   try {
-    const { college_id } = req.body; // Assuming college ID is passed in the request body
+    // const { college_id } = req.body; // Assuming college ID is passed in the request body
 
     // Fetch qualification streams by college ID
     const qualificationStreams = await MahadbtCollegeStream.findAll({
-      attributes: [
-        "college_id",
-        "qualification_name",
-        "stream_name",
-      ],
-      where: {
-        college_id: college_id,
-      },
+      attributes: ["college_id", "qualification_name", "stream_name"],
+      // where: {
+      //   college_id: college_id,
+      // },
     });
 
     // Check if any qualification streams were found
     if (qualificationStreams.length === 0) {
       return res.status(404).json({
         success: false,
-        message: "No qualification information found for the specified college ID",
+        message:
+          "No qualification information found for the specified college ID",
       });
     }
 
