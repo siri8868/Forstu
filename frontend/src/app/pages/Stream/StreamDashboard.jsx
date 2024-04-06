@@ -90,7 +90,6 @@ function StreamDashboard() {
       title: "Action",
       // key: 'action',
       render: (_, record) => {
-        console.log("reeeddd", record);
         return (
           <>
             {currentUser == record.name ? (
@@ -125,7 +124,7 @@ function StreamDashboard() {
                     </MenuItem>
                     <MenuItem py={"-0.3"}>
                       <ConformDeleteStream
-                        id={record.college_id}
+                        id={record.id}
                         getAllQualificationInfoFunction={
                           getAllQualificationInfoFunction
                         }
@@ -149,7 +148,7 @@ function StreamDashboard() {
   const getAllQualificationInfoFunction = async () => {
     const res = await getAllQualificationInfoApi();
     if (res.success) {
-      //   console.log("reeeeee", res.data);
+      // console.log("dddvvviii", res.data);
       setStreamList(res.data);
     } else {
       setStreamList([]);

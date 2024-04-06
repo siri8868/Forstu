@@ -33,7 +33,7 @@ function YearAndCourseStatus({ ApplicationStatus }) {
         }
       });
 
-      console.log("LOLOLOLOO", [pendingCount, submittedCount]);
+      // console.log("LOLOLOLOO", [pendingCount, submittedCount]);
       return [pendingCount, submittedCount];
 
       // return [pendingCount, submittedCount];

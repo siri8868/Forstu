@@ -10,12 +10,12 @@ function YearAndCourseApplicationFailedStatus() {
 
   const downloadCSVFileforYearandCoursewisePendingApplicationListFunction =
     () => {
-      console.log("djflkdsjfldsf");
+      // console.log("djflkdsjfldsf");
       // Call your API to fetch the CSV data
       downloadCSVFileforYearandCoursewisePendingApplicationListFunctionApi()
         .then((res) => {
           if (res.success) {
-            console.log(res.data);
+            // console.log(res.data);
             const csvData = res.data
               .map((obj) => {
                 // Convert each object to a string with comma-separated values

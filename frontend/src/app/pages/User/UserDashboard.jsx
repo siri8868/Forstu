@@ -185,12 +185,10 @@ export default function UserDashboard() {
 
   // downloadCSVFileOfUserListFunctionApi
   const downloadCSVFileOfUserListFunctionFunction = () => {
-    console.log("djflkdsjfldsf");
     // Call your API to fetch the CSV data
     downloadCSVFileOfUserListFunctionApi()
       .then((res) => {
         if (res.success) {
-          console.log(res.data);
           const csvData = res.data
             .map((obj) => {
               // Convert each object to a string with comma-separated values
