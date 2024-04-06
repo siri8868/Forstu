@@ -36,11 +36,6 @@ const AddUserForm = ({ getAllUsers, onClose }) => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("username", username);
-    console.log("email", email);
-    console.log("mobile", mobile);
-    console.log("ref_code", ref_code);
-    console.log("role", role);
 
     // Do something with the form data, such as submit it to a backend server
 

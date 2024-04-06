@@ -297,7 +297,7 @@ exports.getQualificationlevel = (req, res) => {
 // get Stream Data for addding the college
 exports.getStramlevel = (req, res) => {
   // res.send("Bhaiyajiiiiiii tesnion mat lo");
-  console.log("your reqq data for course");
+  // console.log("your reqq data for course");
   streamData
     .findAll({
       attributes: ["stream_name"],
@@ -504,7 +504,7 @@ exports.addQualification_Stream = async (req, res) => {
   try {
     const { college_id, qualification_name, stream_name } = req.body.data;
 
-    console.log(college_id, qualification_name, stream_name);
+    // console.log(college_id, qualification_name, stream_name);
     const errors = validationResult(req);
 
     if (!errors.isEmpty()) {
@@ -568,19 +568,17 @@ exports.updateQualification_Stream = (req, res) => {
 
     const { college_id, qualification_name, stream_name } = req.body;
     // const body = req.body;
-    MahadbtCollegeStream.update(req.body, {
+    const data = {
+      qualification_name,
+      stream_name,
+    };
+    MahadbtCollegeStream.update(data, {
       where: {
-        id: req.body.college_id,
-        // institute_choice_code: req.body.institute_choice_code,
-        // institute_name: req.body.institute_name,
-        // institute_state: req.body.institute_state,
-        // institute_district: req.body.institute_district,
-        // institute_taluka: institute_taluka
+        college_id: college_id,
       },
-      // console.log("your body data", body);
     })
       .then((data) => {
-        if (data[0]) {
+        if (data) {
           return res.status(200).json({
             success: true,
             message: "Qualification Info updated successfully",
@@ -647,7 +645,7 @@ exports.getQualificationInfoByCollegeId = async (req, res) => {
 
     // Fetch qualification streams by college ID
     const qualificationStreams = await MahadbtCollegeStream.findAll({
-      attributes: ["college_id", "qualification_name", "stream_name"],
+      attributes: ["id", "college_id", "qualification_name", "stream_name"],
       // where: {
       //   college_id: college_id,
       // },

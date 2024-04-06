@@ -12,11 +12,11 @@ dotenv.config();
 
 exports.getAllCoursesList = (req, res) => {
   // res.send("Bhaiyajiiiiiii tesnion mat lo");
-  console.log("your reqq data for course");
-  courseData.findAll()
+  courseData
+    .findAll()
     .then((data) => {
       // console.log("your data req", data)
-      // return 
+      // return
       data = JSON.stringify(data);
       data = JSON.parse(data);
       // console.log(data);
@@ -32,8 +32,7 @@ exports.getAllCoursesList = (req, res) => {
         error: error,
       });
     });
-}
-
+};
 
 const pass_encryptor = (plainPassword, salt) => {
   return createHmac("sha256", salt).update(plainPassword).digest("hex");

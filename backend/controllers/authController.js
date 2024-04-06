@@ -81,8 +81,8 @@ dotenv.config();
 exports.signup = (req, res) => {
   // console.log("Hello World");
   const { username, email, mobile, role, ref_code } = req.body;
-  console.log(username, email, mobile, role, ref_code);
-  console.log();
+  // console.log(username, email, mobile, role, ref_code);
+  // console.log();
   try {
     const { username, email, mobile, role, ref_code } = req.body;
     // console.log(username, email, mobile, role, ref_code);
@@ -90,7 +90,7 @@ exports.signup = (req, res) => {
       req.body.password,
       process.env.HASH_SECRET_KEY
     );
-    console.log(username, email, mobile, role, ref_code, hashPassword);
+    // console.log(username, email, mobile, role, ref_code, hashPassword);
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
       return res.status(400).json({
@@ -243,7 +243,7 @@ exports.isSignedIn = (req, res, next) => {
 
 // Function to verify a TOTP token
 const verifyTOTPToken = (secret, token) => {
-  console.log("secret", secret.base32);
+  // console.log("secret", secret.base32);
   return speakeasy.totp.verify({
     secret: secret.base32,
     encoding: "base32",
@@ -255,18 +255,18 @@ const verifyTOTPToken = (secret, token) => {
 };
 
 exports.verifyToken = (req, res, next) => {
-  console.log("reqDFDSFDSF", req.body);
+  // console.log("reqDFDSFDSF", req.body);
   req.idData = req.body.email;
 
   const { secret, otp, email } = req.body;
   const isTokenValid = verifyTOTPToken(secret, otp);
-  console.log("isTokenValid", isTokenValid);
+  // console.log("isTokenValid", isTokenValid);
 
   if (isTokenValid) {
     Mahadbtprofiles.findOne({ where: { email } })
       .then((data) => {
         data = data.toJSON();
-        console.log("dataaaaDJFDSK", data);
+        // console.log("dataaaaDJFDSK", data);
         // user.password = undefined;
         // main = {
         //   emailID: email,
